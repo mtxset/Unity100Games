@@ -1,0 +1,66 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "player1",
+            "id": "8fe86831-8f27-4d53-bd8a-de36fa7712dd",
+            "actions": [
+                {
+                    "name": "ActionButton",
+                    "type": "Button",
+                    "id": "c9344213-2a3a-44b6-ab0f-4bfaa26fc8a6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "30037012-6cf7-4d64-90e9-b93d3bd4b2e8",
+                    "path": "<HID::Microntek              USB Joystick          >/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Global",
+            "id": "4fb39401-72fe-4c4a-8780-9b54e54cd3ba",
+            "actions": [
+                {
+                    "name": "Add New Player",
+                    "type": "Button",
+                    "id": "3df11245-9cad-4a0a-ba83-88bc3e85b7ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4b98633c-a934-4651-94da-4eaf08b288d0",
+                    "path": "<Keyboard>/numpadPlus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Add New Player",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "TEST1",
+            "bindingGroup": "TEST1",
+            "devices": []
+        }
+    ]
+}

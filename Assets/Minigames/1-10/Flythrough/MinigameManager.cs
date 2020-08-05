@@ -1,0 +1,67 @@
+﻿using Assets.Interfaces;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Assets.Minigames.Flythrough
+{
+    public class MinigameManager : MonoBehaviour, IMinigameManager
+    {
+        public AudioSource SoundExplosion;
+        public AudioSource SoundDeath;
+        public AudioSource SoundScore;
+        public AudioSource SoundMove;
+        public AudioSource SoundFlying;
+
+        public int Score { get; set; } 
+        public bool GameOver { get; set; }
+        public ButtonEvents ButtonEvents { get; set; }
+        public PlayerToManagerCommunicationBus CommunicationBus { get; set; }
+        public Events Events { get; set; }
+        public GameObject GameOverPage { get; set; }
+        public Text ScoreText { get; set; }
+
+        public void HandleDeath()
+        {
+            this.GameOver = true;
+            this.GameOverPage.SetActive(true);
+            this.CommunicationBus.PlayerDied();
+        }
+
+        public void HandleScored(int points)
+        {
+            this.Score += points;
+            this.ScoreText.text = this.Score.ToString();
+            this.CommunicationBus.PlayerScored(points);
+        }
+
+        public void OnDisable()
+        {
+            this.UnsubscribeToEvents();
+        }
+
+        public void SubscribeToEvents()
+        {
+            this.Events.OnScored += HandleScored;
+            this.Events.OnDeath += HandleDeath;
+        }
+
+        public void UnsubscribeToEvents()
+        {
+            this.Events.OnScored -= HandleScored;
+            this.Events.OnDeath -= HandleDeath;
+        }
+
+        private void Awake()
+        {
+            this.Events = new Events();
+        }
+
+        private void Start()
+        {
+            this.ButtonEvents = GetComponentInParent<ButtonEvents>();
+            this.CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
+
+            this.SubscribeToEvents();
+        }
+    }
+}
