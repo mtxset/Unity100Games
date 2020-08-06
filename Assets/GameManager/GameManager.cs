@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +41,7 @@ namespace Assets.GameManager
         /// <summary>
         /// If 0 will random game, else will only launch game by index from <see cref="gameList"/>
         /// </summary>
-        private readonly int debugGame = 9; 
+        private readonly int debugGame = 10; 
         private const uint MAXPLAYERS = 9;
         private List<Minigame> gameList;
         private Dictionary<int, Player> playersData;
@@ -80,14 +82,13 @@ namespace Assets.GameManager
             return this.addFirstTimePlayer(gameObject);
         }
 
-        private IEnumerator countdown(int from, int to)
+        private async void countdown(int from, int to)
         {
             for (int i = from; i >= to; i--)
             {
                 this.TimerText.text = i.ToString();
-                yield return new WaitForSeconds(1);
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
-
             this.startTheGame();
         }
 
@@ -105,7 +106,12 @@ namespace Assets.GameManager
             this.TimerText.text = "";
             this.MainText.text = "Waiting for players..";
 
-            StartCoroutine(this.countdown(3, 1));
+            this.countdown(3, 1);
+            
+            this.initializeGameList();
+            this.initiateColors();
+            this.selectRandomGame();
+            Instance = this;
 
             this.playersData = new Dictionary<int, Player>();
 
@@ -120,12 +126,6 @@ namespace Assets.GameManager
                     GameStateData = new GameStateData()
                 });
             }
-
-
-            this.initializeGameList();
-            this.initiateColors();
-            this.selectRandomGame();
-            Instance = this;
         }
 
         private void selectRandomGame()
@@ -230,9 +230,10 @@ namespace Assets.GameManager
             return randomGame;
         }
 
-        private void intermissionStart()
+        private async void intermissionStart()
         {
             // check if any player has total score over x
+            await Task.Delay(TimeSpan.FromSeconds(2));
             // disable games for all players
             for (int i = 0; i < currentPlayerCount; i++)
             {

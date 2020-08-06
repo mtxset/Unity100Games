@@ -71,6 +71,12 @@ namespace Assets.GameManager
                 MinigamePrefab = Resources.Load("ColorJumper") as GameObject
             });
 
+            gameList.Add(new Minigame // 10
+            {
+                MinigameManagerType = typeof(Minigames.AAReplica.MinigameManager),
+                MinigamePrefab = Resources.Load("AAReplica") as GameObject
+            });
+
         }
     }
 }
