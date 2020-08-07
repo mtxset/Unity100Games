@@ -4,7 +4,7 @@ namespace Assets.Minigames.ColorJumper
 {
     class CameraFollow : MonoBehaviour
     {
-        public Transform Player;
+        public Transform Player = null;
 
         private void Update()
         {

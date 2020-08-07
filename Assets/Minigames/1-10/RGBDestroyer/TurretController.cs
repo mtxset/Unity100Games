@@ -8,11 +8,11 @@ namespace Assets.Minigames.RGBDestroyer
 {
     class TurretController : MonoBehaviour
     {
-        public GameObject TurretLeft;
-        public GameObject TurretCenter;
-        public GameObject TurretRight;
+        public GameObject TurretLeft = null;
+        public GameObject TurretCenter = null;
+        public GameObject TurretRight = null;
 
-        public GameObject LaserPrefab;
+        public GameObject LaserPrefab = null;
 
         public float LaserSpeed = 10f;
         public int OutlineWidth = 9;

@@ -39,4 +39,9 @@ public class PlayerControlBinds : MonoBehaviour
     {
         buttonEvents?.HorizontalButtonPressed(inputValue);
     }
+
+    private void OnVertical(InputValue inputValue)
+    {
+        buttonEvents?.VerticalButtonPressed(inputValue);
+    }
 }

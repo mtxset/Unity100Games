@@ -52,6 +52,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Vertical",
+                    "type": "PassThrough",
+                    "id": "42622bdb-d0cf-41ca-9767-af3a27caea67",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -178,8 +186,8 @@
                 },
                 {
                     "name": "negative",
-                    "id": "b7158b3f-50b7-47bc-928a-c54c2da12414",
-                    "path": "<Keyboard>/d",
+                    "id": "16c0dd40-3d75-42f0-8f96-d2d0ac0d163c",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -189,8 +197,8 @@
                 },
                 {
                     "name": "positive",
-                    "id": "16c0dd40-3d75-42f0-8f96-d2d0ac0d163c",
-                    "path": "<Keyboard>/a",
+                    "id": "b7158b3f-50b7-47bc-928a-c54c2da12414",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -228,6 +236,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis W, A",
+                    "id": "29509b65-f437-474b-988d-9d45e4687f55",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "5fd2acfc-7367-4d09-9d43-6b25b311e784",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "75529d3c-fc6b-4ed1-89a8-dacde85dadbe",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis Arrows",
+                    "id": "a3c159db-c856-4bbc-949a-f4e2ab7ccabe",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "af9969f4-86d6-44d0-87c1-4cb74b048c79",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "ee641db6-f617-44ef-8723-8d0787d9d5cf",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

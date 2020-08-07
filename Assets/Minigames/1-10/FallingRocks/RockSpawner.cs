@@ -12,7 +12,7 @@ namespace Assets.Minigames.FallingRocks
         [Range(0, 10)]
         public float FallingSpeed = 7.0f;
         public float SpawnRate = 1.0f;
-        public Camera CurrentCamera;
+        public Camera CurrentCamera = null;
         public float RotationAngle = 30f;
         public Vector2 SpawnSizeMinMax;
         public float IncreaseRateAfter = 2f;

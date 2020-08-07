@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +39,7 @@ namespace Assets.GameManager
         /// <summary>
         /// If 0 will random game, else will only launch game by index from <see cref="gameList"/>
         /// </summary>
-        private readonly int debugGame = 10; 
+        private readonly int debugGame = 11; 
         private const uint MAXPLAYERS = 9;
         private List<Minigame> gameList;
         private Dictionary<int, Player> playersData;

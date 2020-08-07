@@ -14,6 +14,12 @@ namespace Assets
         public event Action OnRightButtonPressed;
 
         public event Action<InputValue> OnHorizontalPressed;
+        public event Action<InputValue> OnVerticalPressed;
+
+        public void VerticalButtonPressed(InputValue inputValue)
+        {
+            this.OnVerticalPressed?.Invoke(inputValue);
+        }
 
         public void HorizontalButtonPressed(InputValue inputValue)
         {

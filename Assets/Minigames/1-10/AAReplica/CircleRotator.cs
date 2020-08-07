@@ -8,7 +8,7 @@ namespace Assets.Minigames.AAReplica
         public float IncreaseRateAfter = 2f;
         public float IncreaseRateBy = 10f;
         public float RotationDegreesPerSecond = 100f;
-        public Text SpeedText;
+        public Text SpeedText = null;
 
         private float difficultyTimer = 0;
 

@@ -7,7 +7,7 @@ namespace Assets.Minigames.RGBDestroyer
     class ColorSpawner : MonoBehaviour
     {
         public GameObject[] ColorPrefabs = null;
-        public Text SpeedText;
+        public Text SpeedText = null;
 
         public Transform[] SpawnPoints = null;
 

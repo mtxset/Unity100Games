@@ -9,7 +9,7 @@ namespace Assets.Minigames.FallingRocks
     class PlayerController : MonoBehaviour
     {
         public GameObject[] Lifes = null;
-        public GameObject ExolosionEffect;
+        public GameObject ExolosionEffect = null;
         public enum PlayerMovement
         {
             Idle = 0,
@@ -23,7 +23,7 @@ namespace Assets.Minigames.FallingRocks
         public float MovementSpeed = 0;
         public float MovementOffset = 0;
         public float DodgeTime = 0;
-        public Camera currentCamera;
+        public Camera currentCamera = null;
 
         private MinigameManager gameManager;
         private float screenOffsetTeleport;
@@ -79,7 +79,6 @@ namespace Assets.Minigames.FallingRocks
 
         private void HandleActionButtonPressed()
         {
-            throw new NotImplementedException();
         }
 
         private void HandleHorizontalPressed(InputValue inputValue)

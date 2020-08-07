@@ -5,13 +5,7 @@ namespace Assets.Minigames.RGBDestroyer
 {
     class Wall : MonoBehaviour
     {
-        private Gradient colorGradient;
-        public float GradientTraverseSpeed;
-
-        private void Start()
-        {
-            this.colorGradient = this.GetComponent<LineRenderer>().colorGradient;
-        }
+        public float GradientTraverseSpeed = 0;
 
         private void Update()
         {

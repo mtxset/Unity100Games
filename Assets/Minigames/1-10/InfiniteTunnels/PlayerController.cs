@@ -44,7 +44,6 @@ namespace Assets.Minigames.InfiniteTunnels
                     playerMovement = PlayerMovement.Right;
                     break;
             }
-
         }
 
         private void FixedUpdate()
