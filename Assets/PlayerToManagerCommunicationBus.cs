@@ -10,7 +10,7 @@ public class PlayerToManagerCommunicationBus : MonoBehaviour
     public event Action<int> OnPlayerDeath;
 
     /// <summary>
-    /// Minigame should start the game
+    /// Mini game should start the game
     /// </summary>
     public event Action OnIntermissionEnded;
 

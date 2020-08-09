@@ -21,7 +21,7 @@ namespace Minigames.ColorJumper
 
         private void setPlayerToRandomColor()
         {
-            var randomColorIndex = UnityEngine.Random.Range(0, this.gameManager.ColorList.Length);
+            var randomColorIndex = Random.Range(0, this.gameManager.ColorList.Length);
             this.spriteRenderer.color = this.gameManager.ColorList[randomColorIndex];
         }
 

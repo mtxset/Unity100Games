@@ -6,13 +6,13 @@ namespace Minigames.FallingRocks
 {
     internal class RockSpawner : MonoBehaviour
     {
-        public GameObject[] RockPrefabs = null;
-        public Text SpeedText = null;
+        public GameObject[] RockPrefabs;
+        public Text SpeedText;
 
         [Range(0, 10)]
         public float FallingSpeed = 7.0f;
         public float SpawnRate = 1.0f;
-        public Camera CurrentCamera = null;
+        public Camera CurrentCamera;
         public float RotationAngle = 30f;
         public Vector2 SpawnSizeMinMax;
         public float IncreaseRateAfter = 2f;
@@ -24,8 +24,8 @@ namespace Minigames.FallingRocks
         private List<GameObject> deadRocks;
         private Vector2 screenHalfSizeWorldUnits;
 
-        private float spawnTimer = 0;
-        private float difficultyTimer = 0;
+        private float spawnTimer;
+        private float difficultyTimer;
 
         private void Start()
         {

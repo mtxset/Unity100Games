@@ -5,12 +5,12 @@ namespace DefaultImplementations
 {
     public class EnemySpawnner
     {
-        private Transform[] spawnPoints;
-        private Transform[] directionsForEnemiesToGo;
-        private GameObject[] prefabsToSpawn;
-        private Transform setParentTo;
-        private List<GameObject> pool;
-        private float timePassed = 0;
+        private readonly Transform[] spawnPoints;
+        private readonly Transform[] directionsForEnemiesToGo;
+        private readonly GameObject[] prefabsToSpawn;
+        private readonly Transform setParentTo;
+        private readonly List<GameObject> pool;
+        private float timePassed;
 
         public float SpawnFrequencyInSeconds { get; set; }
         public float MovementSpeed { get; set; }

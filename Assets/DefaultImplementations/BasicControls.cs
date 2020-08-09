@@ -15,12 +15,12 @@ namespace DefaultImplementations
         public AxisState HorizontalState = AxisState.Idle;
         public AxisState VerticalState = AxisState.Idle;
 
-        public void HandleHorizontalStateChange(InputValue inputValue)
+        protected void HandleHorizontalStateChange(InputValue inputValue)
         {
             this.HorizontalState = (AxisState)inputValue.Get<float>();
         }
 
-        public void HandleVerticalStateChange(InputValue inputValue)
+        protected void HandleVerticalStateChange(InputValue inputValue)
         {
             this.VerticalState = (AxisState)inputValue.Get<float>();
         }

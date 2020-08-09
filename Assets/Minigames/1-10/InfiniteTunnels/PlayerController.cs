@@ -5,10 +5,11 @@ using UnityEngine.InputSystem;
 
 namespace Minigames.InfiniteTunnels
 {
-    class PlayerController : MonoBehaviour
+    internal class PlayerController : MonoBehaviour
     {
-        public GameObject[] Lifes = null;
-        public enum PlayerMovement
+        public GameObject[] Lifes;
+
+        private enum PlayerMovement
         {
             Idle = 0,
             Left = -1,
@@ -16,7 +17,7 @@ namespace Minigames.InfiniteTunnels
         }
 
         public float MovementSpeed = 600f;
-        public Transform CenterObject = null;
+        public Transform CenterObject;
 
         private MinigameManager gameManager;
         private PlayerMovement playerMovement = PlayerMovement.Idle;

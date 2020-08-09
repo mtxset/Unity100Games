@@ -6,7 +6,7 @@ namespace Utils
     public static class DifficutlyAdjuster
     {
         /// <summary>
-        /// Returns random values based on difficutly
+        /// Returns random values based on difficultly
         /// </summary>
         /// <param name="difficulty">0 - 1f</param>
         /// <param name="minMax">difficulty variables</param>
@@ -29,7 +29,7 @@ namespace Utils
             }
 
             // calculating difficulty for each vector
-            for (int i = 0; i < minMax.Count; i++)
+            for (var i = 0; i < minMax.Count; i++)
             {
                 if (minMax[i].x <= minMax[i].y)
                 {

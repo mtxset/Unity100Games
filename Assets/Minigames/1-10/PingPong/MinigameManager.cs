@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityInterfaces;
 
@@ -10,13 +9,13 @@ namespace Minigames.PingPong
         public GameObject GameOverPage;
         public Text ScoreText;
 
-        public int Score = 0;
+        public int Score;
 
         public Events Events;
         public ButtonEvents ButtonEvents;
         public PlayerToManagerCommunicationBus CommunicationBus;
 
-        public bool GameOver { get; set; } = false;
+        public bool GameOver { get; set; }
 
         private void Awake()
         {
@@ -37,12 +36,7 @@ namespace Minigames.PingPong
             this.Events.OnScored -= HandleScored;
             this.Events.OnDeath -= HandleDeath;
         }
-     
-        private void HandleCountdownFinished()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         private void HandleDeath()
         {
             this.GameOver = true;

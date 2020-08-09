@@ -6,9 +6,9 @@ namespace Minigames.DroneFly
 {
     public class SimpleParalaxing : MonoBehaviour
     {
-        class PoolObject
+        private class PoolObject
         {
-            public Transform Transform;
+            public readonly Transform Transform;
             public bool InUse;
             public PoolObject(Transform t)
             {
@@ -40,18 +40,18 @@ namespace Minigames.DroneFly
         private float targetApsect;
 
         public Text SpeedText;
-        public Camera currentCamera;
+        public Camera CurrentCamera;
         public GameObject Prefab;
         public int PoolSize;
         public float ShiftSpeed;
         public float SpawnRate;
-        public float accelerationRate;
+        public float AccelerationRate;
 
         public YSpawnRangeStruct YSpawnRange;
         public Vector3 DefaultSpawnPosition;
         public bool SpawnImediate;
         public Vector3 ImidiateSpawnPosition;
-        public Vector2 targetApsectRatio;
+        public Vector2 TargetApsectRatio;
 
         private MinigameManager gameManager;
 
@@ -69,10 +69,10 @@ namespace Minigames.DroneFly
 
         private void HandleGameConfirmed()
         {
-            for (int i = 0; i < poolObjectArray.Length; i++)
+            foreach (var poolObject in poolObjectArray)
             {
-                poolObjectArray[i].Dispose();
-                poolObjectArray[i].Transform.position = Vector3.one * 1000;
+                poolObject.Dispose();
+                poolObject.Transform.position = Vector3.one * 1000;
             }
 
             if (this.SpawnImediate)
@@ -101,16 +101,16 @@ namespace Minigames.DroneFly
 
         private void configure()
         {
-            this.targetApsect = this.targetApsectRatio.x / this.targetApsectRatio.y;
+            this.targetApsect = this.TargetApsectRatio.x / this.TargetApsectRatio.y;
             poolObjectArray = new PoolObject[this.PoolSize];
 
-            for (int i = 0; i < poolObjectArray.Length; i++)
+            for (var i = 0; i < poolObjectArray.Length; i++)
             {
-                GameObject gameObject = Instantiate(Prefab);
-                Transform transform = gameObject.transform;
-                transform.SetParent(this.transform);
-                transform.position = Vector3.one * 1000;
-                poolObjectArray[i] = new PoolObject(transform);
+                var newGameObject = Instantiate(Prefab);
+                var newTransform = newGameObject.transform;
+                newTransform.SetParent(this.transform);
+                newTransform.position = Vector3.one * 1000;
+                poolObjectArray[i] = new PoolObject(newTransform);
             }
 
             if (this.SpawnImediate)
@@ -121,47 +121,48 @@ namespace Minigames.DroneFly
 
         private void spawn()
         {
-            Transform transform = this.getPoolObject();
+            var poolObjectTransform = this.getPoolObject();
             if (transform == null)
             {
                 return; // increase pool size
             }
 
             var position = Vector3.zero;
-            position.x = (this.DefaultSpawnPosition.x * this.currentCamera.aspect) / this.targetApsect;
+            position.x = (this.DefaultSpawnPosition.x * this.CurrentCamera.aspect) / this.targetApsect;
             position.y = UnityEngine.Random.Range(YSpawnRange.Min, YSpawnRange.Max) + gameManager.transform.position.y;
-            transform.position = position;
+            poolObjectTransform.position = position;
         }
 
         private void spawnObjectImediate()
         {
-            Transform transform = this.getPoolObject();
-            if (transform == null)
+            var newTransform = this.getPoolObject();
+            if (newTransform == null)
             {
                 return; // increase pool size
             }
 
             var position = Vector3.zero;
-            position.x = (this.ImidiateSpawnPosition.x * this.currentCamera.aspect) / this.targetApsect;
+            position.x = (this.ImidiateSpawnPosition.x * this.CurrentCamera.aspect) / this.targetApsect;
             position.y = UnityEngine.Random.Range(YSpawnRange.Min, YSpawnRange.Max) + gameManager.transform.position.y;
-            transform.position = position;
+            newTransform.position = position;
 
             this.spawn();
         }
 
         private void shift()
         {
-            for (int i = 0; i < poolObjectArray.Length; i++)
+            foreach (var poolObject in poolObjectArray)
             {
-                poolObjectArray[i].Transform.position += -Vector3.right * this.ShiftSpeed * Time.deltaTime * this.currentAcceleration;
+                poolObject.Transform.position += 
+                    -Vector3.right * (this.ShiftSpeed * Time.deltaTime * this.currentAcceleration);
                 this.increaseAcceleration();
-                this.checkDisposeObject(poolObjectArray[i]);
+                this.checkDisposeObject(poolObject);
             }
         }
 
         private void increaseAcceleration()
         {
-            this.currentAcceleration += this.accelerationRate * Time.deltaTime;
+            this.currentAcceleration += this.AccelerationRate * Time.deltaTime;
             if (this.SpeedText != null)
             {
                 this.SpeedText.text = $"SPEED: {this.currentAcceleration}";
@@ -170,7 +171,7 @@ namespace Minigames.DroneFly
 
         private void checkDisposeObject(PoolObject poolObject)
         {
-            if (poolObject.Transform.position.x < (-this.DefaultSpawnPosition.x * this.currentCamera.aspect) / this.targetApsect)
+            if (poolObject.Transform.position.x < (-this.DefaultSpawnPosition.x * this.CurrentCamera.aspect) / this.targetApsect)
             {
                 poolObject.Dispose();
                 poolObject.Transform.position = Vector3.one * 1000;
@@ -179,13 +180,12 @@ namespace Minigames.DroneFly
 
         private Transform getPoolObject()
         {
-            for (int i = 0; i < poolObjectArray.Length; i++)
+            foreach (var poolObject in poolObjectArray)
             {
-                if (!poolObjectArray[i].InUse)
-                {
-                    poolObjectArray[i].Use();
-                    return poolObjectArray[i].Transform;
-                }
+                if (poolObject.InUse) continue;
+                
+                poolObject.Use();
+                return poolObject.Transform;
             }
 
             return null;

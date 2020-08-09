@@ -9,7 +9,7 @@ namespace Minigames.AAReplica
 {
     public class MinigameManager : MinigameManagerDefault
     {
-        public GameObject[] Lifes = null;
+        public GameObject[] Lifes;
         public GameObject PinPrefab;
         public Transform SpawnPoint;
         public float Cooldown = 1f;
@@ -25,6 +25,7 @@ namespace Minigames.AAReplica
 
         private GameObject currentEntity;
         private bool canShoot = true;
+        private static readonly int Hit = Animator.StringToHash("hit");
 
         public override void UnityStart()
         {
@@ -122,7 +123,7 @@ namespace Minigames.AAReplica
                 return;
             }
 
-            CameraAnimation.SetTrigger("hit");
+            CameraAnimation.SetTrigger(Hit);
             this.removeAllPins();
 
             var lastEntry = this.lifes.Last();
@@ -130,12 +131,13 @@ namespace Minigames.AAReplica
             this.lifes.Remove(lastEntry);
             this.SoundHit.Play();
 
-            if (this.lifes.Count == 0 || this.GameOver)
+            if (this.lifes.Count != 0 && !this.GameOver)
             {
-                this.SoundDeath.Play();
-                this.Events.EventDeath();
                 return;
             }
+            
+            this.SoundDeath.Play();
+            this.Events.EventDeath();
         }
     }
 }

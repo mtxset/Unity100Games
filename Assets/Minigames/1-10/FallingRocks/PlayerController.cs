@@ -5,33 +5,34 @@ using UnityEngine.InputSystem;
 
 namespace Minigames.FallingRocks
 {
-    class PlayerController : MonoBehaviour
+    internal class PlayerController : MonoBehaviour
     {
-        public GameObject[] Lifes = null;
-        public GameObject ExolosionEffect = null;
-        public enum PlayerMovement
+        public GameObject[] Lifes;
+        public GameObject ExolosionEffect;
+
+        private enum PlayerMovement
         {
             Idle = 0,
             Left = -1,
-            Right = 1,
-            Dodge = 2
+            Right = 1
         }
 
         private PlayerMovement playerMovement = PlayerMovement.Idle;
 
-        public float MovementSpeed = 0;
-        public float MovementOffset = 0;
-        public float DodgeTime = 0;
-        public Camera currentCamera = null;
+        public float MovementSpeed;
+        public float MovementOffset;
+        public Camera CurrentCamera;
 
         private MinigameManager gameManager;
         private float screenOffsetTeleport;
         private List<GameObject> lifes;
+        private Vector3 position;
 
         private void Start()
         {
+            this.position = this.transform.position;
             this.lifes = new List<GameObject>(this.Lifes);
-            this.screenOffsetTeleport = this.currentCamera.aspect * this.currentCamera.orthographicSize;
+            this.screenOffsetTeleport = this.CurrentCamera.aspect * this.CurrentCamera.orthographicSize;
             this.gameManager = this.GetComponentInParent<MinigameManager>();
             this.subscribeToEvents();
         }
@@ -47,20 +48,21 @@ namespace Minigames.FallingRocks
             {
                 return;
             }
-
-            this.transform.position = Vector2.MoveTowards(
+            
+            
+            this.position = Vector2.MoveTowards(
                     this.transform.position,
-                    new Vector2(this.transform.position.x + (this.MovementOffset * (int)this.playerMovement), this.transform.position.y),
+                    new Vector2(this.position.x + (this.MovementOffset * (int)this.playerMovement), this.position.y),
                     this.MovementSpeed * Time.deltaTime);
 
             var halfPlayerWidht = transform.localScale.x / 2f;
             if (this.transform.position.x < -this.screenOffsetTeleport + halfPlayerWidht)
             {
-                this.transform.position = new Vector2(this.screenOffsetTeleport + halfPlayerWidht, transform.position.y);
+                this.position = new Vector2(this.screenOffsetTeleport + halfPlayerWidht, transform.position.y);
             }
             else if (this.transform.position.x > this.screenOffsetTeleport + halfPlayerWidht)
             {
-                this.transform.position = new Vector2(-this.screenOffsetTeleport + halfPlayerWidht, transform.position.y);
+                this.position = new Vector2(-this.screenOffsetTeleport + halfPlayerWidht, transform.position.y);
             }
         }
 

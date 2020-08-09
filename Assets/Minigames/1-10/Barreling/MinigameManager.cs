@@ -12,7 +12,7 @@ namespace Minigames.Barreling
 
         private Barrel currentBarrel;
 
-        public int Score = 0;
+        public int Score;
 
         public Events Events;
 
@@ -22,7 +22,7 @@ namespace Minigames.Barreling
         [HideInInspector]
         public PlayerToManagerCommunicationBus CommunicationBus;
 
-        public bool GameOver { get; set; } = false;
+        public bool GameOver { get; set; }
 
         public GameObject GameOverPage;
         public Text ScoreText;

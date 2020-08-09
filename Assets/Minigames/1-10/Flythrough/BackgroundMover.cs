@@ -4,12 +4,12 @@ namespace Minigames.Flythrough
 {
     class BackgroundMover : MonoBehaviour
     {
-        public float Speed = 0;
+        public float Speed;
 
-        public float StartY = 0;
-        public float EndY = 0;
+        public float StartY;
+        public float EndY;
 
-        public Vector2 Direction = new Vector2();
+        public Vector2 Direction;
 
         private MinigameManager gameManager;
 
@@ -20,11 +20,12 @@ namespace Minigames.Flythrough
 
         private void Update()
         {
-            this.transform.Translate(this.Direction * this.Speed * Time.deltaTime);
+            this.transform.Translate(this.Direction * (this.Speed * Time.deltaTime));
 
             if (this.transform.position.y <= this.EndY + this.gameManager.transform.position.y)
             {
-                this.transform.position = new Vector2(transform.position.x, StartY + this.gameManager.transform.position.y);
+                var transform1 = transform;
+                transform1.position = new Vector2(transform1.position.x, StartY + this.gameManager.transform.position.y);
             }
         }
     }

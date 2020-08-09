@@ -5,20 +5,20 @@ namespace Minigames.PingPong
 {
     class Ball : MonoBehaviour
     {
-        public float MovementSpeed = 0;
-        public Text SpeedText = null;
+        public float MovementSpeed;
+        public Text SpeedText;
 
-        public AudioSource HitAudio = null;
-        public AudioSource ScoreAudio = null;
-        public AudioSource DieAudio = null;
-        public float AccelerationRate = 0;
-        public float SplitFrequencySeconds = 0;
+        public AudioSource HitAudio;
+        public AudioSource ScoreAudio;
+        public AudioSource DieAudio;
+        public float AccelerationRate;
+        public float SplitFrequencySeconds;
 
         private Rigidbody2D rigidbody2d;
         private MinigameManager gameManager;
         private float currentAcceleration = 1.0f;
-        private float t = 0.0f;
-        private float splitTimer = 0.0f;
+        private float t;
+        private float splitTimer;
 
         private void Start()
         {
@@ -46,9 +46,11 @@ namespace Minigames.PingPong
             t += Time.deltaTime;
             if (t > 2.0f)
             {
-                this.rigidbody2d.velocity = new Vector2(
-                    this.rigidbody2d.velocity.x * this.currentAcceleration,
-                    this.rigidbody2d.velocity.y * this.currentAcceleration);
+                var velocity = this.rigidbody2d.velocity;
+                velocity = new Vector2(
+                    velocity.x * this.currentAcceleration,
+                    velocity.y * this.currentAcceleration);
+                this.rigidbody2d.velocity = velocity;
 
                 this.currentAcceleration += this.AccelerationRate * Time.deltaTime;
                 if (this.SpeedText != null)

@@ -9,7 +9,7 @@ namespace Minigames.InfiniteTunnels
         /// </summary>
         /// <param name="gradient">Unity gradient</param>
         /// <param name="offset">Offset between 0-1, which controls speed of color traversion</param>
-        static public Gradient Next(Gradient gradient, float offset)
+        public static Gradient Next(Gradient gradient, float offset)
         {
             if (offset > 1 || offset < 0) offset = 0.01f;
 

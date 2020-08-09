@@ -28,7 +28,7 @@ namespace Minigames.Barreling
 
             this.transform.SetParent(this.gameManager.transform);
             this.canMove = false;
-            this.rigidbody2d.gravityScale = UnityEngine.Random.Range(2, 4);
+            this.rigidbody2d.gravityScale = Random.Range(2, 4);
         }
 
         private void Start()
@@ -39,7 +39,7 @@ namespace Minigames.Barreling
             this.rigidbody2d = this.GetComponent<Rigidbody2D>();
 
             this.rigidbody2d.gravityScale = 0;
-            if (UnityEngine.Random.Range(0, 2) > 0)
+            if (Random.Range(0, 2) > 0)
             {
                 this.BarrelMoveSpeed *= -1f;
             }

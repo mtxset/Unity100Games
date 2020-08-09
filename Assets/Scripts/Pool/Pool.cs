@@ -25,8 +25,8 @@ namespace Pool
     public class PoolArray
     {
         public GameObject prefabToPool;
-        public float defaultLifeTime = 0f;
-        public bool active = false;
+        public float defaultLifeTime;
+        public bool active;
         public Queue<PoolObject> pool = new Queue<PoolObject>();
 
         public PoolArray(GameObject prefab)

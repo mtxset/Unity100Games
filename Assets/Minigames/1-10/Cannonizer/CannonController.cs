@@ -53,13 +53,15 @@ namespace Minigames.Cannonizer
 
         private void Update()
         {
-            if (this.targetRotation != null && !gameManager.GameOver)
+            if (gameManager.GameOver)
             {
-                this.gameObject.transform.rotation = Quaternion.Lerp(
-                    this.transform.rotation,
-                    this.targetRotation,
-                    this.RotationSpeed * Time.deltaTime);
+                return;
             }
+            
+            this.gameObject.transform.rotation = Quaternion.Lerp(
+                this.transform.rotation,
+                this.targetRotation,
+                this.RotationSpeed * Time.deltaTime);
 
             if (Quaternion.Angle(this.transform.rotation, this.targetRotation) <= this.AngleApproximation && canFire)
             {

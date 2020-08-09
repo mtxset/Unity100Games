@@ -5,13 +5,13 @@ namespace Minigames.Flythrough
 {
     class ObstacleSpawner : MonoBehaviour
     {
-        public GameObject[] ObstaclesPrefab = null;
+        public GameObject[] ObstaclesPrefab;
 
         public float SpawnPeriod;
         public float ObstacleSpeed;
-        public Text SpeedText = null;
-        public float IncreaseObstacleSpeedBy = 0;
-        public float DecreaseSpawnPeriodBy = 0;
+        public Text SpeedText;
+        public float IncreaseObstacleSpeedBy;
+        public float DecreaseSpawnPeriodBy;
 
         private float time;
         private MinigameManager gameManager;

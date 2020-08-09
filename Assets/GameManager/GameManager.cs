@@ -39,11 +39,12 @@ namespace GameManager
         /// <summary>
         /// If 0 will random game, else will only launch game by index from <see cref="gameList"/>
         /// </summary>
-        private readonly int debugGame = 10; 
+        public int DebugGame = 10;
+        
         private const uint MAXPLAYERS = 9;
         private List<Minigame> gameList;
         private Dictionary<int, Player> playersData;
-        private int currentPlayerCount = 0;
+        private int currentPlayerCount;
         private Queue<Color> colors;
         private int currentRandomGame;
 
@@ -72,12 +73,12 @@ namespace GameManager
         /// <summary>
         /// Creates prefab for new player which will hold games and other components
         /// </summary>
-        /// <param name="gameObject">Reference to player's prefab</param>
+        /// <param name="newPlayerPrefab">Reference to player's prefab</param>
         /// <returns>button events reference</returns>
-        public ButtonEvents AddNewPlayer(GameObject gameObject)
+        public ButtonEvents AddNewPlayer(GameObject newPlayerPrefab)
         {
             this.MainText.text += "\nNew Player joined";
-            return this.addFirstTimePlayer(gameObject);
+            return this.addFirstTimePlayer(newPlayerPrefab);
         }
 
         private async void countdown(int from, int to)
@@ -128,9 +129,9 @@ namespace GameManager
 
         private void selectRandomGame()
         {
-            if (debugGame != -1)
+            if (DebugGame != -1)
             {
-                this.currentRandomGame = debugGame;
+                this.currentRandomGame = DebugGame;
             }
             else
             {

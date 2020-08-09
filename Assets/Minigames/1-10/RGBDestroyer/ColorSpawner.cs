@@ -5,18 +5,18 @@ namespace Minigames.RGBDestroyer
 {
     class ColorSpawner : MonoBehaviour
     {
-        public GameObject[] ColorPrefabs = null;
-        public Text SpeedText = null;
+        public GameObject[] ColorPrefabs;
+        public Text SpeedText;
 
-        public Transform[] SpawnPoints = null;
+        public Transform[] SpawnPoints;
 
         public float FallingSpeed = 7.0f;
         public float SpawnRate = 1.0f;
         public float IncreaseRateAfter = 2f;
         public float IncreaseRateBy = 0.1f;
 
-        private float spawnTimer = 0;
-        private float difficultyTimer = 0;
+        private float spawnTimer;
+        private float difficultyTimer;
 
         private MinigameManager gameManager;
 
@@ -24,7 +24,7 @@ namespace Minigames.RGBDestroyer
 
         private void Start()
         {
-            colors = new Color[]
+            colors = new[]
             {
                 Color.red, Color.green, Color.blue
             };

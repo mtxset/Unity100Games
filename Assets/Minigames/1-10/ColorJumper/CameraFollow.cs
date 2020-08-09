@@ -2,19 +2,19 @@
 
 namespace Minigames.ColorJumper
 {
-    class CameraFollow : MonoBehaviour
+    internal class CameraFollow : MonoBehaviour
     {
-        public Transform Player = null;
+        public Transform Player;
 
         private void Update()
         {
-            if (this.Player.position.y > this.transform.position.y)
-            {
-                this.transform.position = new Vector3(
-                    this.Player.position.x,
-                    this.Player.position.y,
-                    this.Player.position.z - 10.0f);
-            }
+            if (!(this.Player.position.y > this.transform.position.y)) return;
+            
+            var position = this.Player.position;
+            this.transform.position = new Vector3(
+                position.x,
+                position.y,
+                position.z - 10.0f);
         }
     }
 }

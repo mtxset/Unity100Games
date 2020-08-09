@@ -10,7 +10,7 @@ namespace Minigames.Barreling
         public float MoveInYBy = 2f;
         private MinigameManager gameManager;
 
-        private int moveCameraCount = 0;
+        private int moveCameraCount;
         private Vector3 targetPosition;
 
         private void Start()

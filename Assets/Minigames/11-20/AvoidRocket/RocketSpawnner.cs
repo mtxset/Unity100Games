@@ -29,8 +29,8 @@ namespace Minigames.AvoidRocket
         public float SpawnRocketPeriod = 5.0f;
 
         private float currentDifficulty = 0.1f;
-        private float spawnTimer = 0;
-        private float difficultyTimer = 0;
+        private float spawnTimer;
+        private float difficultyTimer;
 
         public void Start()
         {
@@ -41,7 +41,7 @@ namespace Minigames.AvoidRocket
             this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
         }
 
-        private void FixedUpdate()
+        private void FixedUpdate()    
         {
             if (this.gameManager.GameOver)
             {
@@ -67,10 +67,11 @@ namespace Minigames.AvoidRocket
                 var direction = (Vector2)this.Target.position - item.Rigidbody2D.position;
                 direction.Normalize();
 
-                float rotationAngle = Vector3.Cross(direction, item.RocketGameObject.transform.up).z;
+                var up = item.RocketGameObject.transform.up;
+                var rotationAngle = Vector3.Cross(direction, up).z;
 
                 item.Rigidbody2D.angularVelocity = -rotationAngle * item.RotationSpeed;
-                item.Rigidbody2D.velocity = item.RocketGameObject.transform.up * item.FlySpeed;
+                item.Rigidbody2D.velocity = up * item.FlySpeed;
             }
         }
 

@@ -4,20 +4,20 @@ using UnityEngine.UI;
 
 namespace Minigames.InfiniteTunnels
 {
-    class HexagonSpawnner : MonoBehaviour
+    internal class HexagonSpawnner : MonoBehaviour
     {
-        public GameObject HexagonPrefab = null;
+        public GameObject HexagonPrefab;
 
         public float SpawnRate = 1.0f;
         public float ShrinkSpeed = 3.0f;
         public int MaxScale = 100;
-        public float GradientTraverseSpeed = 0;
-        public Text SpeedText = null;
+        public float GradientTraverseSpeed;
+        public Text SpeedText;
         public float IncreaseRateAfter = 2f;
         public float IncreaseRateBy = 0.1f;
 
-        private float spawnTimer = 0;
-        private float difficultyTimer = 0;
+        private float spawnTimer;
+        private float difficultyTimer;
         private List<GameObject> hexagons;
         private List<GameObject> markedForRemove;
         private MinigameManager gameManager;

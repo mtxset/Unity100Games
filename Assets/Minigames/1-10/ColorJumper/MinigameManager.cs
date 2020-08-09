@@ -7,7 +7,7 @@ namespace Minigames.ColorJumper
 {
     public class MinigameManager : MinigameManagerDefault
     {
-        public GameObject[] Lifes = null;
+        public GameObject[] Lifes;
 
         [Tooltip("MAX 4 colors")]
         public Color[] ColorList;

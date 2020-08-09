@@ -20,31 +20,30 @@ namespace Minigames.ColorJumper
     }
     class CircleSpawner : MonoBehaviour
     {
-        public GameObject CirclePrefab = null;
-        public GameObject ColorSwitcherPrefab = null;
-        public Text SpeedText = null;
-        public Camera CurrentCamera = null;
+        public GameObject CirclePrefab;
+        public GameObject ColorSwitcherPrefab;
+        public Text SpeedText;
+        public Camera CurrentCamera;
 
         public float AfterCircleOffset = 2f;
         public float PrespawnYOffset = 10;
         public Vector2 SpawnSpaceInBetweenMinMax;
-        [SerializeField] public Vector2 SpawnSizeMinMax = new Vector2();
+        [SerializeField] public Vector2 SpawnSizeMinMax;
         public Vector2 RotationSpeedMinMax;
         public float IncreaseRateAfter = 2f;
         public float IncreaseRateBy = 0.1f;
 
         private MinigameManager gameManager;
 
-        private float difficultyTimer = 0;
-        private float screenHeight = 0;
-        [SerializeField]
-        private float currentDifficulty = 0.0f;
+        private float difficultyTimer;
+        private float screenHeight;
+        private float currentDifficulty;
 
         private List<CircleEntity> liveEntities;
         private List<CircleEntity> deadEntities;
         private List<Color> colorList;
 
-        private float lastSpawnY = 0;
+        private float lastSpawnY;
 
         private void Start()
         {

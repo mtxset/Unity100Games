@@ -5,20 +5,20 @@ using UnityEngine.InputSystem;
 
 namespace Minigames.RGBDestroyer
 {
-    class TurretController : MonoBehaviour
+    internal class TurretController : MonoBehaviour
     {
-        public GameObject TurretLeft = null;
-        public GameObject TurretCenter = null;
-        public GameObject TurretRight = null;
+        public GameObject TurretLeft;
+        public GameObject TurretCenter;
+        public GameObject TurretRight;
 
-        public GameObject LaserPrefab = null;
+        public GameObject LaserPrefab;
 
         public float LaserSpeed = 10f;
         public int OutlineWidth = 9;
         public Color OutlineColor = Color.green;
         public float TurretRotationSpeed = 10f;
 
-        public enum TurretControl
+        private enum TurretControl
         {
             Left = 0,
             Center = 1,
@@ -35,7 +35,7 @@ namespace Minigames.RGBDestroyer
 
         private List<SpriteOutline> turretOutlines;
         private List<GameObject> turrets;
-        private int currentColorIndex = 0;
+        private int currentColorIndex;
 
         // can set this to public and add more colors
         private List<Color> colorList;
@@ -88,18 +88,11 @@ namespace Minigames.RGBDestroyer
                 0, 0, 1 * this.TurretRotationSpeed * Time.deltaTime);
         }
 
-        private void outlineTurret(TurretControl turretControl)
+        private void outlineTurret(TurretControl newTurretControl)
         {
-            for (int i = 0; i < this.turretOutlines.Count; i++)
+            for (var i = 0; i < this.turretOutlines.Count; i++)
             {
-                if (i == (int)turretControl)
-                {
-                    turretOutlines[i].outlineSize = this.OutlineWidth;
-                }
-                else
-                {
-                    turretOutlines[i].outlineSize = 0;
-                }
+                turretOutlines[i].outlineSize = i == (int)newTurretControl ? this.OutlineWidth : 0;
             }
 
         }
@@ -149,31 +142,31 @@ namespace Minigames.RGBDestroyer
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="direction">1 forward, -1 back<param>
+        /// 1 forward, -1 back
         private void changeCurrentColor(int direction)
         {
-            if (direction == 1)
+            switch (direction)
             {
-                var nextColorIndex = this.currentColorIndex + 1;
-                if (nextColorIndex == this.colorList.Count)
+                case 1:
                 {
-                    this.currentColorIndex = 0;
+                    var nextColorIndex = this.currentColorIndex + 1;
+                    this.currentColorIndex = nextColorIndex == this.colorList.Count ? 0 : nextColorIndex;
+
+                    break;
                 }
-                else
+                case -1:
                 {
-                    this.currentColorIndex = nextColorIndex;
-                }
-            }
-            else if (direction == -1)
-            {
-                var previousColorIndex = this.currentColorIndex - 1;
-                if (previousColorIndex < 0)
-                {
-                    this.currentColorIndex = this.colorList.Count - 1;
-                }
-                else
-                {
-                    this.currentColorIndex = previousColorIndex;
+                    var previousColorIndex = this.currentColorIndex - 1;
+                    if (previousColorIndex < 0)
+                    {
+                        this.currentColorIndex = this.colorList.Count - 1;
+                    }
+                    else
+                    {
+                        this.currentColorIndex = previousColorIndex;
+                    }
+
+                    break;
                 }
             }
 

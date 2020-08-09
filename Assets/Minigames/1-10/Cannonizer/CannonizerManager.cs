@@ -10,15 +10,15 @@ namespace Minigames.Cannonizer
         public GameObject GameOverPage;
         public Text ScoreText;
 
-        public int Score = 0;
+        public int Score;
 
         public Events Events;
         public ButtonEvents ButtonEvents;
         public PlayerToManagerCommunicationBus CommunicationBus;
 
-        // used by objects to remove themeselves
+        // used by objects to remove themselves
         public EnemySpawnner EnemySpawnnerReference;
-        public bool GameOver { get; set; } = false;
+        public bool GameOver { get; set; }
 
         private void Awake()
         {

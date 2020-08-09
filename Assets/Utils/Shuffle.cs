@@ -5,15 +5,15 @@ namespace Utils
 {
     public static class Shuffle
     {
-        private static Random random = new Random();
+        private static readonly Random Random = new Random();
         public static void ShuffleList<T>(this IList<T> list)
         {
-            int n = list.Count;
+            var n = list.Count;
             while (n > 1)
             {
                 n--;
-                int k = random.Next(n + 1);
-                T value = list[k];
+                var k = Random.Next(n + 1);
+                var value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }

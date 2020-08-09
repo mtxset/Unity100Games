@@ -10,36 +10,36 @@ public class PlayerControlBinds : MonoBehaviour
     }
     private void OnActionButton()
     {
-        buttonEvents?.ActionButtonPressed();
+        if (buttonEvents != null) buttonEvents.ActionButtonPressed();
     }
 
     private void OnUp()
     {
-        buttonEvents?.UpButtonPressed();
+        if (buttonEvents != null) buttonEvents.UpButtonPressed();
     }
 
     private void OnDown()
     {
-        buttonEvents?.DownButtonPressed();
+        if (buttonEvents != null) buttonEvents.DownButtonPressed();
     }
 
     private void OnLeft()
     {
-        buttonEvents?.LeftButtonPressed();
+        if (buttonEvents != null) buttonEvents.LeftButtonPressed();
     }
 
     private void OnRight()
     {
-        buttonEvents?.RightButtonPressed();
+        if (buttonEvents != null) buttonEvents.RightButtonPressed();
     }
 
     private void OnHorizontal(InputValue inputValue)
     {
-        buttonEvents?.HorizontalButtonPressed(inputValue);
+        if (buttonEvents != null) buttonEvents.HorizontalButtonPressed(inputValue);
     }
 
     private void OnVertical(InputValue inputValue)
     {
-        buttonEvents?.VerticalButtonPressed(inputValue);
+        if (buttonEvents != null) buttonEvents.VerticalButtonPressed(inputValue);
     }
 }

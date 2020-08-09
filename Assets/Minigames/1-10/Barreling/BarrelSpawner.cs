@@ -12,8 +12,8 @@ namespace Minigames.Barreling
         public float IncreaseMovementSpeedBy;
 
         private MinigameManager gameManager;
-        private float timer = 0;
-        private float currentMovementSpeed = 0;
+        private float timer;
+        private float currentMovementSpeed;
 
         private void Start()
         {

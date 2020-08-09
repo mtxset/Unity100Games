@@ -11,11 +11,6 @@ namespace Minigames.RGBDestroyer
             this.gameManager = GetComponentInParent<MinigameManager>();
         }
 
-        private void Update()
-        {
-            
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             switch (collision.gameObject.tag)

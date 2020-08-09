@@ -20,6 +20,8 @@ namespace Minigames.Flythrough
         private Animator animator;
         private Vector2 targetPosition;
         private List<GameObject> lifes;
+        private static readonly int RightPressed = Animator.StringToHash("rightPressed");
+        private static readonly int LeftPressed = Animator.StringToHash("leftPressed");
 
         private void Start()
         {
@@ -55,10 +57,11 @@ namespace Minigames.Flythrough
             if (this.PlaneTransform.position.x > this.MaxRight)
                 return;
 
-            this.animator.SetTrigger("rightPressed");
+            this.animator.SetTrigger(RightPressed);
+            var position = this.PlaneTransform.position;
             this.targetPosition = new Vector2(
-                this.PlaneTransform.position.x + this.MoveByInX,
-                this.PlaneTransform.position.y);
+                position.x + this.MoveByInX,
+                position.y);
 
             this.gameManager.SoundMove.Play();
         }
@@ -68,10 +71,11 @@ namespace Minigames.Flythrough
             if (this.PlaneTransform.position.x < this.MaxLeft)
                 return;
 
-            this.animator.SetTrigger("leftPressed");
+            this.animator.SetTrigger(LeftPressed);
+            var position = this.PlaneTransform.position;
             this.targetPosition = new Vector2(
-                this.PlaneTransform.position.x - this.MoveByInX,
-                this.PlaneTransform.position.y);
+                position.x - this.MoveByInX,
+                position.y);
 
             this.gameManager.SoundMove.Play();
         }

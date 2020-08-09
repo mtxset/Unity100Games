@@ -11,7 +11,7 @@ namespace Minigames.DroneFly
 
         public AudioSource TapAudio;
         public AudioSource ScoreAudio;
-        public AudioSource dieAudio;
+        public AudioSource DieAudio;
 
         private Rigidbody2D rigidBody;
         private Quaternion downRotation;
@@ -84,7 +84,7 @@ namespace Minigames.DroneFly
                     this.ScoreAudio.Play();
                     break;
                 case "deadzone":
-                    this.dieAudio.Play();
+                    this.DieAudio.Play();
                     this.rigidBody.simulated = false;
                     this.gameManager.DroneEvents.EventDroneDeath();
                     break;

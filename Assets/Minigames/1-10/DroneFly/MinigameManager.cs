@@ -10,7 +10,7 @@ namespace Minigames.DroneFly
         public GameObject CountDownPage;
         public Text ScoreText;
 
-        public uint Score = 0;
+        public uint Score;
 
         public DroneEvents DroneEvents;
         public ButtonEvents ButtonEvents;

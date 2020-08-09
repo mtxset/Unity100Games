@@ -7,7 +7,7 @@ namespace Minigames.RGBDestroyer
 {
     public class MinigameManager : MinigameManagerDefault
     {
-        public GameObject[] Lifes = null;
+        public GameObject[] Lifes;
 
         public AudioSource SoundSpawn;
         public AudioSource SoundHit;

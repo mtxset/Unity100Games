@@ -6,34 +6,34 @@ namespace Minigames.Cannonizer
 {
     class SoldierSpawnner: MonoBehaviour
     {
-        public Transform[] SpawnPoints = null;
-        public Transform[] DirectionsForEnemiesToGo = null;
-        public GameObject[] PrefabsToSpawn = null;
-        public AudioSource SpeedIncreasedAudio = null;
-        public Text SpeedText = null;
+        public Transform[] SpawnPoints;
+        public Transform[] DirectionsForEnemiesToGo;
+        public GameObject[] PrefabsToSpawn;
+        public AudioSource SpeedIncreasedAudio;
+        public Text SpeedText;
         
-        public float IncreaseSpawnEachSeconds = 0;
-        public float DeacreseSpawnRate = 0;
-        public float SpawnFrequencyInSeconds = 0;
-        public float MovementSpeed = 0;
+        public float IncreaseSpawnEachSeconds;
+        public float DeacreseSpawnRate;
+        public float SpawnFrequencyInSeconds;
+        public float MovementSpeed;
         [Tooltip("Will not go below this threshold in seconds")]
-        public float LowestSpawnRateSeconds = 0;
+        public float LowestSpawnRateSeconds;
 
-        public Transform setParentTo;
+        public Transform SetParentTo;
 
         private EnemySpawnner enemySpawnner;
         private CannonizerManager gameManager;
-        private float timePassed = 0.0f;
+        private float timePassed;
         public void Start()
         {
             this.gameManager = this.GetComponentInParent<CannonizerManager>();
-            this.setParentTo = this.gameManager.transform;
+            this.SetParentTo = this.gameManager.transform;
 
             this.enemySpawnner = new EnemySpawnner(
                 this.SpawnPoints,
                 this.DirectionsForEnemiesToGo,
                 this.PrefabsToSpawn,
-                this.setParentTo,
+                this.SetParentTo,
                 this.SpawnFrequencyInSeconds,
                 this.MovementSpeed);
 

@@ -6,9 +6,9 @@ namespace GameManager
 {
     class IntermissionPage : MonoBehaviour
     {
-        public Text TextNextGame = null;
-        public Text CountdownText = null;
-        public Text PlayersScoreText = null;
+        public Text TextNextGame;
+        public Text CountdownText;
+        public Text PlayersScoreText;
         private void OnEnable()
         {
             this.TextNextGame.text = $"NEXT GAME: {GameManager.Instance.GetCurrentGameName()}";

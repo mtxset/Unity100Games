@@ -5,23 +5,21 @@ namespace Minigames.ZeFall
 {
     class PlayerController : MonoBehaviour
     {
-        public enum PlayerMovement
+        private enum PlayerMovement
         {
             Idle = 0,
             Left = -1,
             Right = 1,
-            Jump
         }
 
         private PlayerMovement playerMovement = PlayerMovement.Idle;
 
-        public float MovementSpeed = 0;
-        public float MovementOffset = 0;
-        public float JumpHeight = 0;
+        public float MovementSpeed;
+        public float MovementOffset;
+        public float JumpHeight;
 
         private MinigameManager gameManager;
         
-        [SerializeField]
         private bool playerOnGround;
 
         private void Start()
@@ -32,10 +30,12 @@ namespace Minigames.ZeFall
         }
         private void Update()
         {
-            this.transform.position = Vector2.MoveTowards(
-                    this.transform.position,
-                    new Vector2(this.transform.position.x + (this.MovementOffset * (int)this.playerMovement), this.transform.position.y),
+            var position = this.transform.position;
+            position = Vector2.MoveTowards(
+                    position,
+                    new Vector2(position.x + (this.MovementOffset * (int)this.playerMovement), position.y),
                     this.MovementSpeed * Time.deltaTime);
+            this.transform.position = position;
         }
 
         private void subscribeToEvents()
@@ -79,7 +79,7 @@ namespace Minigames.ZeFall
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            this.playerOnGround = collision.gameObject.CompareTag("ground") ? true : false;
+            this.playerOnGround = collision.gameObject.CompareTag("ground");
         }
     }
 }
