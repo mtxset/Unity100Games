@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Minigames.Barreling
+namespace Minigames.Barreling
 {
     public class Barrel : MonoBehaviour
     { 

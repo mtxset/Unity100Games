@@ -1,7 +1,7 @@
-﻿using Assets.Minigames.InfiniteTunnels;
+﻿using Minigames.InfiniteTunnels;
 using UnityEngine;
 
-namespace Assets.Minigames.RGBDestroyer
+namespace Minigames.RGBDestroyer
 {
     class Wall : MonoBehaviour
     {

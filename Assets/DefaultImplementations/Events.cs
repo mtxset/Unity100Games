@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.DefaultImplementations
+namespace DefaultImplementations
 {
     public class EventsDefault
     {

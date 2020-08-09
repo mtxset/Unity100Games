@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.InfiniteTunnels
+namespace Minigames.InfiniteTunnels
 {
     class HexagonSpawnner : MonoBehaviour
     {

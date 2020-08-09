@@ -1,6 +1,6 @@
-﻿using Assets.DefaultImplementations;
+﻿using DefaultImplementations;
 
-namespace Assets.Minigames.AvoidRocket
+namespace Minigames.AvoidRocket
 {
     public class MinigameManager : MinigameManagerDefault
     {       

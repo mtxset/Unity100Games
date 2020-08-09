@@ -1,8 +1,7 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.Flythrough
+namespace Minigames.Flythrough
 {
     class ObstacleSpawner : MonoBehaviour
     {

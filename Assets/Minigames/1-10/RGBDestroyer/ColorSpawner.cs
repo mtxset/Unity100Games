@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.RGBDestroyer
+namespace Minigames.RGBDestroyer
 {
     class ColorSpawner : MonoBehaviour
     {

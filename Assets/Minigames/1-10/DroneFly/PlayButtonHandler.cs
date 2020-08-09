@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.DroneFly
+namespace Minigames.DroneFly
 {
     public class PlayButtonHandler : MonoBehaviour
     {

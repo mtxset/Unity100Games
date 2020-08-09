@@ -1,8 +1,8 @@
-﻿using Assets.DefaultImplementations;
+﻿using DefaultImplementations;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.Cannonizer
+namespace Minigames.Cannonizer
 {
     class SoldierSpawnner: MonoBehaviour
     {

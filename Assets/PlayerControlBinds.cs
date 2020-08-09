@@ -1,6 +1,4 @@
-﻿using Assets;
-using Assets.GameManager;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerControlBinds : MonoBehaviour
@@ -8,7 +6,7 @@ public class PlayerControlBinds : MonoBehaviour
     private ButtonEvents buttonEvents;
     private void Start()
     {
-        this.buttonEvents = GameManager.Instance.AddNewPlayer(gameObject);
+        this.buttonEvents = GameManager.GameManager.Instance.AddNewPlayer(gameObject);
     }
     private void OnActionButton()
     {

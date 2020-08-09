@@ -1,9 +1,9 @@
-﻿using Assets.DefaultImplementations;
-using Assets.GameManager.UnityInterfaces;
+﻿using DefaultImplementations;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityInterfaces;
 
-namespace Assets.Minigames.Cannonizer
+namespace Minigames.Cannonizer
 {
     public class CannonizerManager : MonoBehaviour, IMinigameManagerOLD
     {

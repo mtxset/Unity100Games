@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Minigames.ZeFall
+namespace Minigames.ZeFall
 {
     class PlayerController : MonoBehaviour
     {

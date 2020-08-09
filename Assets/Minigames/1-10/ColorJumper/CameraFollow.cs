@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Minigames.ColorJumper
+namespace Minigames.ColorJumper
 {
     class CameraFollow : MonoBehaviour
     {

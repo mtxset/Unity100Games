@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Minigames.Flythrough
+namespace Minigames.Flythrough
 {
     class BackgroundMover : MonoBehaviour
     {

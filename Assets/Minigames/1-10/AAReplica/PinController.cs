@@ -1,13 +1,12 @@
-﻿using System.Runtime.CompilerServices;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Minigames.AAReplica
+namespace Minigames.AAReplica
 {
-    class PinController : MonoBehaviour
+    internal class PinController : MonoBehaviour
     {
         public float ShootSpeed = 50f;
 
-        private bool pinned = false;
+        private bool pinned;
         private Rigidbody2D rigidbody2d;
         private MinigameManager gameManager;
         private CircleCollider2D circleCollider;
@@ -27,7 +26,7 @@ namespace Assets.Minigames.AAReplica
             }
 
             this.rigidbody2d.MovePosition(
-                this.rigidbody2d.position + Vector2.up * this.ShootSpeed * Time.deltaTime);
+                this.rigidbody2d.position + Vector2.up * (this.ShootSpeed * Time.deltaTime));
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

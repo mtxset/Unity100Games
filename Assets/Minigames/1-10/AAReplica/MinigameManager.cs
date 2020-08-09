@@ -1,14 +1,11 @@
-﻿using Assets.DefaultImplementations;
-using Assets.Minigames.RGBDestroyer;
-using Assets.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DefaultImplementations;
 using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
 
-namespace Assets.Minigames.AAReplica
+namespace Minigames.AAReplica
 {
     public class MinigameManager : MinigameManagerDefault
     {

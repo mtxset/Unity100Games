@@ -1,10 +1,10 @@
-﻿using Assets.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+using Utils;
 
-namespace Assets.Minigames.ColorJumper
+namespace Minigames.ColorJumper
 {
     public class DifficultySetup
     {
@@ -28,7 +28,7 @@ namespace Assets.Minigames.ColorJumper
         public float AfterCircleOffset = 2f;
         public float PrespawnYOffset = 10;
         public Vector2 SpawnSpaceInBetweenMinMax;
-        public Vector2 SpawnSizeMinMax;
+        [SerializeField] public Vector2 SpawnSizeMinMax = new Vector2();
         public Vector2 RotationSpeedMinMax;
         public float IncreaseRateAfter = 2f;
         public float IncreaseRateBy = 0.1f;
@@ -165,7 +165,6 @@ namespace Assets.Minigames.ColorJumper
                 SpaceInBetween = unparsed[2]
             };
 
-            Debug.Log($"rotation: {unparsed[0]}, scale: {unparsed[1]}, space: {unparsed[2]}");
 
             return newDifficultySetup;
         }

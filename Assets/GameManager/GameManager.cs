@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.GameManager
+namespace GameManager
 {
     public class Minigame
     {
@@ -39,7 +39,7 @@ namespace Assets.GameManager
         /// <summary>
         /// If 0 will random game, else will only launch game by index from <see cref="gameList"/>
         /// </summary>
-        private readonly int debugGame = 11; 
+        private readonly int debugGame = 10; 
         private const uint MAXPLAYERS = 9;
         private List<Minigame> gameList;
         private Dictionary<int, Player> playersData;
@@ -128,17 +128,18 @@ namespace Assets.GameManager
 
         private void selectRandomGame()
         {
-            if (debugGame != 0)
+            if (debugGame != -1)
             {
                 this.currentRandomGame = debugGame;
             }
             else
             {
-                while (!this.gameList[this.currentRandomGame].Active)
+                do
                 {
                     var rand = new System.Random();
                     this.currentRandomGame = rand.Next(0, gameList.Count);
                 }
+                while (!this.gameList[this.currentRandomGame].Active);
             }
         }
 

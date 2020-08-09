@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.DefaultImplementations
+namespace DefaultImplementations
 {
     class BasicControls : MonoBehaviour
     {

@@ -1,8 +1,8 @@
-﻿using Assets.Interfaces;
+﻿using Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.ZeFall
+namespace Minigames.ZeFall
 {
     public class MinigameManager : MonoBehaviour, IMinigameManager
     {

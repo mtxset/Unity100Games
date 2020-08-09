@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
-namespace Assets.Interfaces
+﻿namespace Interfaces
 {
     public interface IMinigameManager
     {

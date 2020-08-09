@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assets.Utils
+namespace Utils
 {
     public static class Shuffle
     {

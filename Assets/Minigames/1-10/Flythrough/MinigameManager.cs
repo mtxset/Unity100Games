@@ -1,8 +1,8 @@
-﻿using Assets.Interfaces;
+﻿using Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.Flythrough
+namespace Minigames.Flythrough
 {
     public class MinigameManager : MonoBehaviour, IMinigameManager
     {
@@ -17,8 +17,8 @@ namespace Assets.Minigames.Flythrough
         public ButtonEvents ButtonEvents { get; set; }
         public PlayerToManagerCommunicationBus CommunicationBus { get; set; }
         public Events Events { get; set; }
-        public GameObject GameOverPage { get; set; }
-        public Text ScoreText { get; set; }
+        public GameObject GameOverPage;
+        public Text ScoreText;
 
         public void HandleDeath()
         {

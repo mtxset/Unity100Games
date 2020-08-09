@@ -1,4 +1,4 @@
-﻿namespace Assets.GameManager
+﻿namespace GameManager
 {
     public partial class GameManager
     {

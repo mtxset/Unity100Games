@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Minigames.ZeFall
+namespace Minigames.ZeFall
 {
     public class Events
     {

@@ -1,72 +1,76 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using UnityEngine;
+using UnityInterfaces;
 
-public class LifeTimeController
+namespace Pool
 {
-    public Dictionary<EntityType, List<PoolObject>> liveItems;
-
-    private List<PoolObject> addItemsLst = new List<PoolObject>();
-    private List<PoolObject> remItemsLst = new List<PoolObject>();
-
-    public LifeTimeController()
+    public class LifeTimeController
     {
-        liveItems = new Dictionary<EntityType, List<PoolObject>>();
+        public Dictionary<EntityType, List<PoolObject>> liveItems;
 
-        foreach (EntityType item in Enum.GetValues(typeof(EntityType)))
+        private List<PoolObject> addItemsLst = new List<PoolObject>();
+        private List<PoolObject> remItemsLst = new List<PoolObject>();
+
+        public LifeTimeController()
         {
-            liveItems.Add(item, new List<PoolObject>());
-        }
-    }
+            liveItems = new Dictionary<EntityType, List<PoolObject>>();
 
-    public void Update()
-    {
-        foreach (var item in addItemsLst)
-        {
-            addNewItem(item);
-        }
-
-        addItemsLst.Clear();
-
-        foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
-        {
-            foreach (var item in liveItems[type])
+            foreach (EntityType item in Enum.GetValues(typeof(EntityType)))
             {
-                if (!item.gameObject.activeSelf)
-                    continue;
-
-                if (item.dieAtTime < Time.realtimeSinceStartup)
-                {
-                    Pool.current.ReturnToPool(item);
-                }
+                liveItems.Add(item, new List<PoolObject>());
             }
         }
 
-        foreach (var item in remItemsLst)
+        public void Update()
         {
-            removeItem(item);
+            foreach (var item in addItemsLst)
+            {
+                addNewItem(item);
+            }
+
+            addItemsLst.Clear();
+
+            foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
+            {
+                foreach (var item in liveItems[type])
+                {
+                    if (!item.gameObject.activeSelf)
+                        continue;
+
+                    if (item.dieAtTime < Time.realtimeSinceStartup)
+                    {
+                        Pool.current.ReturnToPool(item);
+                    }
+                }
+            }
+
+            foreach (var item in remItemsLst)
+            {
+                removeItem(item);
+            }
+
+            remItemsLst.Clear();
         }
 
-        remItemsLst.Clear();
-    }
+        private void addNewItem(PoolObject obj)
+        {
+            liveItems[obj.entityRef.EntityType].Add(obj);
+        }
 
-    private void addNewItem(PoolObject obj)
-    {
-        liveItems[obj.entityRef.EntityType].Add(obj);
-    }
+        private void removeItem(PoolObject obj)
+        {
+            liveItems[obj.entityRef.EntityType].Remove(obj);
+        }
 
-    private void removeItem(PoolObject obj)
-    {
-        liveItems[obj.entityRef.EntityType].Remove(obj);
-    }
+        public void AddNewItem(PoolObject obj)
+        {
+            addItemsLst.Add(obj);
+        }
 
-    public void AddNewItem(PoolObject obj)
-    {
-        addItemsLst.Add(obj);
-    }
-
-    public void RemoveItem(PoolObject obj)
-    {
-        remItemsLst.Add(obj);
+        public void RemoveItem(PoolObject obj)
+        {
+            remItemsLst.Add(obj);
+        }
     }
 }

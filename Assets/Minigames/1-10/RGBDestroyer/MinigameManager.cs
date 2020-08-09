@@ -1,10 +1,9 @@
-﻿using Assets.DefaultImplementations;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using DefaultImplementations;
 using UnityEngine;
 
-namespace Assets.Minigames.RGBDestroyer
+namespace Minigames.RGBDestroyer
 {
     public class MinigameManager : MinigameManagerDefault
     {

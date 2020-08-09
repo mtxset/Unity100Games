@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Minigames.PingPong
+namespace Minigames.PingPong
 {
     public class Events
     {

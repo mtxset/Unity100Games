@@ -1,8 +1,8 @@
-﻿using Assets.GameManager.UnityInterfaces;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityInterfaces;
 
-namespace Assets.Minigames.Barreling
+namespace Minigames.Barreling
 {
     public class MinigameManager : MonoBehaviour, IMinigameManagerOLD
     {

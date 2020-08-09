@@ -1,7 +1,7 @@
-﻿using Assets.DefaultImplementations;
+﻿using DefaultImplementations;
 using UnityEngine;
 
-namespace Assets.Minigames.FallingRocks
+namespace Minigames.FallingRocks
 {
     public class MinigameManager : MinigameManagerDefault
     {

@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.AvoidRocket
+namespace Minigames.AvoidRocket
 {
-    class RocketMissile
+    internal class RocketMissile
     {
         public GameObject RocketGameObject;
         public Rigidbody2D Rigidbody2D;
@@ -14,7 +14,7 @@ namespace Assets.Minigames.AvoidRocket
     class RocketSpawnner : MonoBehaviour
     {
         public GameObject RocketPrefab;
-        public Transform[] spawnPoints;
+        [SerializeField] public Transform[] SpawnPoints;
         public Transform Target;
         public Text SpeedText;
 
@@ -28,9 +28,7 @@ namespace Assets.Minigames.AvoidRocket
         public float IncreaseRateBy = 0.1f;
         public float SpawnRocketPeriod = 5.0f;
 
-        [SerializeField]
         private float currentDifficulty = 0.1f;
-
         private float spawnTimer = 0;
         private float difficultyTimer = 0;
 
@@ -78,7 +76,7 @@ namespace Assets.Minigames.AvoidRocket
 
         private RocketMissile spawnNewMissile()
         {
-            var randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            var randomSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
 
             var newRocketMissile = new RocketMissile
             {

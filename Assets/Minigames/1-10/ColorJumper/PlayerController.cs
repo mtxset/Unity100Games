@@ -1,8 +1,6 @@
-﻿using System;
-using System.CodeDom;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Minigames.ColorJumper
+namespace Minigames.ColorJumper
 {
     class PlayerController : MonoBehaviour
     {

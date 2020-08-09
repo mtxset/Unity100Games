@@ -1,9 +1,9 @@
-﻿using Assets.DefaultImplementations;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using DefaultImplementations;
 using UnityEngine;
 
-namespace Assets.Minigames.ColorJumper
+namespace Minigames.ColorJumper
 {
     public class MinigameManager : MinigameManagerDefault
     {

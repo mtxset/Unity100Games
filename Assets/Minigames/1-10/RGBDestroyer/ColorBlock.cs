@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Minigames.RGBDestroyer
+namespace Minigames.RGBDestroyer
 {
     class ColorBlock : MonoBehaviour
     {

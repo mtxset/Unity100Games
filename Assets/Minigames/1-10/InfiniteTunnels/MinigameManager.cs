@@ -1,7 +1,7 @@
-﻿using Assets.DefaultImplementations;
+﻿using DefaultImplementations;
 using UnityEngine;
 
-namespace Assets.Minigames.InfiniteTunnels
+namespace Minigames.InfiniteTunnels
 {
     public class MinigameManager : MinigameManagerDefault
     {

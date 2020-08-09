@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Utils
+namespace Utils
 {
     public static class DifficutlyAdjuster
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Minigames.Cannonizer
+namespace Minigames.Cannonizer
 {
     public class Events
     {

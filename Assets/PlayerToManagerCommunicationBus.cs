@@ -1,34 +1,31 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets
+public class PlayerToManagerCommunicationBus : MonoBehaviour
 {
-    public class PlayerToManagerCommunicationBus : MonoBehaviour
+    public int PlayerId;
+    public Color PlayerColor;
+
+    public event Action<int, int> OnPlayerScored;
+    public event Action<int> OnPlayerDeath;
+
+    /// <summary>
+    /// Minigame should start the game
+    /// </summary>
+    public event Action OnIntermissionEnded;
+
+    public void IntermissionEnded()
     {
-        public int PlayerId;
-        public Color PlayerColor;
+        this.OnIntermissionEnded?.Invoke();
+    }
 
-        public event Action<int, int> OnPlayerScored;
-        public event Action<int> OnPlayerDeath;
+    public void PlayerScored(int points)
+    {
+        this.OnPlayerScored?.Invoke(this.PlayerId, points);
+    }
 
-        /// <summary>
-        /// Minigame should start the game
-        /// </summary>
-        public event Action OnIntermissionEnded;
-
-        public void IntermissionEnded()
-        {
-            this.OnIntermissionEnded?.Invoke();
-        }
-
-        public void PlayerScored(int points)
-        {
-            this.OnPlayerScored?.Invoke(this.PlayerId, points);
-        }
-
-        public void PlayerDied()
-        {
-            this.OnPlayerDeath?.Invoke(this.PlayerId);
-        }
+    public void PlayerDied()
+    {
+        this.OnPlayerDeath?.Invoke(this.PlayerId);
     }
 }

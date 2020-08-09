@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.Barreling
+namespace Minigames.Barreling
 {
     public class BarrelSpawner : MonoBehaviour
     {

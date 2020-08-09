@@ -1,10 +1,9 @@
-﻿using Assets.Shaders;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Shaders;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Minigames.RGBDestroyer
+namespace Minigames.RGBDestroyer
 {
     class TurretController : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.DroneFly
+namespace Minigames.DroneFly
 {
     [RequireComponent(typeof(Text))]
     public class ScoreText : MonoBehaviour

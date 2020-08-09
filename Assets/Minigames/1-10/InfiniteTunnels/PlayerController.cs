@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Minigames.InfiniteTunnels
+namespace Minigames.InfiniteTunnels
 {
     class PlayerController : MonoBehaviour
     {
@@ -28,6 +28,11 @@ namespace Assets.Minigames.InfiniteTunnels
             this.gameManager = this.GetComponentInParent<MinigameManager>();
 
             this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChanged;
         }
 
         private void HandleHorizontalStateChanged(InputValue inputValue)

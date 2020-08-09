@@ -1,9 +1,9 @@
-﻿using Assets.GameManager.UnityInterfaces;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityInterfaces;
 
-namespace Assets.Minigames.PingPong
+namespace Minigames.PingPong
 {
     public class MinigameManager : MonoBehaviour, IMinigameManagerOLD
     {

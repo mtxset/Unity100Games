@@ -1,17 +1,14 @@
-﻿using Assets.Interfaces;
+﻿using Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.GameManager
+public class TextInterface2 : MonoBehaviour
 {
-    public class TextInterface2 : MonoBehaviour
-    {
-        public Text TextField;
+    public Text TextField;
 
-        public void OnEnable()
-        {
-            var comp = this.GetComponentInParent<IMinigameManager>();
-            this.TextField.text = $"SCORE: {comp.Score}";
-        }
+    public void OnEnable()
+    {
+        var comp = this.GetComponentInParent<IMinigameManager>();
+        this.TextField.text = $"SCORE: {comp.Score}";
     }
 }

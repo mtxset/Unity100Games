@@ -1,4 +1,4 @@
-﻿namespace Assets.GameManager.UnityInterfaces
+﻿namespace UnityInterfaces
 {
     public interface IMinigameManagerOLD
     {

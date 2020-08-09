@@ -1,8 +1,8 @@
-﻿using Assets.Interfaces;
+﻿using Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.DefaultImplementations
+namespace DefaultImplementations
 {
     public class MinigameManagerDefault : MonoBehaviour, IMinigameManager
     {

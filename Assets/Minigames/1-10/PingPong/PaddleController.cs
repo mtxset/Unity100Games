@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Minigames.PingPong
+namespace Minigames.PingPong
 {
     public class PaddleController : MonoBehaviour
     {

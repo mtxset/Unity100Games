@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Minigames.Flythrough
+namespace Minigames.Flythrough
 {
     public class Events
     {

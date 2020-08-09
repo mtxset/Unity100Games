@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Minigames.InfiniteTunnels
+namespace Minigames.InfiniteTunnels
 {
     public class GradientRainbow
     {

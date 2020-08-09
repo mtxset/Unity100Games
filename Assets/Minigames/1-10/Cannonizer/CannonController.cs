@@ -1,8 +1,8 @@
-﻿using Assets.Shaders;
-using System.Collections;
+﻿using System.Collections;
+using Shaders;
 using UnityEngine;
 
-namespace Assets.Minigames.Cannonizer
+namespace Minigames.Cannonizer
 {
     public class CannonController: MonoBehaviour
     {

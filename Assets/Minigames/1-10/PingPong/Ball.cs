@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.PingPong
+namespace Minigames.PingPong
 {
     class Ball : MonoBehaviour
     {

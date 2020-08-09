@@ -1,7 +1,7 @@
-﻿using Assets.DefaultImplementations;
+﻿using DefaultImplementations;
 using UnityEngine;
 
-namespace Assets.Minigames.AvoidRocket
+namespace Minigames.AvoidRocket
 {
     class SpaceShipController : BasicControls
     {

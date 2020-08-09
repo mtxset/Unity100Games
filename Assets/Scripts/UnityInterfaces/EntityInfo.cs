@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using Pool;
+using UnityEngine;
 
-public abstract class EntityInfo : MonoBehaviour
+namespace UnityInterfaces
 {
-    public Transform Target { get; set; }
-    public PoolObject PoolObjectReference { get; set; }
+    public abstract class EntityInfo : MonoBehaviour
+    {
+        public Transform Target { get; set; }
+        public PoolObject PoolObjectReference { get; set; }
+    }
 }

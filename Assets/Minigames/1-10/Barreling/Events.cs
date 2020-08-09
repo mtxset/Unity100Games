@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Minigames.Barreling
+namespace Minigames.Barreling
 {
     public class Events
     {

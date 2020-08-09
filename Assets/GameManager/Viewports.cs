@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.GameManager
+namespace GameManager
 {
     public class Viewports
     {

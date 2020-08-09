@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.GameManager
+namespace GameManager
 {
     public partial class GameManager
     {
@@ -80,7 +79,8 @@ namespace Assets.GameManager
                 new Minigame // 11
                 {
                     MinigameManagerType = typeof(Minigames.AvoidRocket.MinigameManager),
-                    MinigamePrefab = Resources.Load("AvoidRocket") as GameObject
+                    MinigamePrefab = Resources.Load("AvoidRocket") as GameObject,
+                    Active = false
                 }
             };
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.GameManager
+namespace GameManager
 {
     class IntermissionPage : MonoBehaviour
     {
@@ -33,7 +33,7 @@ namespace Assets.GameManager
                 yield return new WaitForSeconds(1);
             }
 
-            Assets.GameManager.GameManager.Instance.IntermissionDone();
+            GameManager.Instance.IntermissionDone();
         }
     }
 }

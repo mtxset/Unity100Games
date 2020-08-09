@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Shaders
+namespace Shaders
 {
     [ExecuteInEditMode]
     public class SpriteOutline : MonoBehaviour

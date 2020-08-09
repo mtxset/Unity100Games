@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Minigames.DroneFly
+namespace Minigames.DroneFly
 {
     public class DroneEvents
     {

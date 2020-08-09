@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Minigames.DroneFly
+namespace Minigames.DroneFly
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class TapController : MonoBehaviour

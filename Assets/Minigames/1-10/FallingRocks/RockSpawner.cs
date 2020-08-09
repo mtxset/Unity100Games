@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Minigames.FallingRocks
+namespace Minigames.FallingRocks
 {
-    class RockSpawner : MonoBehaviour
+    internal class RockSpawner : MonoBehaviour
     {
         public GameObject[] RockPrefabs = null;
         public Text SpeedText = null;
@@ -29,9 +29,10 @@ namespace Assets.Minigames.FallingRocks
 
         private void Start()
         {
+            float orthographicSize;
             this.screenHalfSizeWorldUnits = new Vector2(
-                this.CurrentCamera.aspect * this.CurrentCamera.orthographicSize,
-                this.CurrentCamera.orthographicSize);
+                this.CurrentCamera.aspect * (orthographicSize = this.CurrentCamera.orthographicSize),
+                orthographicSize);
 
             this.gameManager = this.GetComponentInParent<MinigameManager>();
             this.liveRocks = new List<GameObject>();
@@ -65,7 +66,7 @@ namespace Assets.Minigames.FallingRocks
 
             foreach (var rock in liveRocks)
             {
-                rock.transform.Translate(Vector2.down * this.FallingSpeed * Time.deltaTime);
+                rock.transform.Translate(Vector2.down * (this.FallingSpeed * Time.deltaTime));
                 if (rock.transform.position.y <=
                     -this.screenHalfSizeWorldUnits.y - rock.transform.localScale.y)
                 {
