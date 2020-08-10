@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Minigames.AvoidRocket
 {
@@ -11,7 +13,7 @@ namespace Minigames.AvoidRocket
         public float RotationSpeed;
         public float FlySpeed; 
     }
-    class RocketSpawnner : MonoBehaviour
+    internal class RocketSpawnner : MonoBehaviour
     {
         public GameObject RocketPrefab;
         [SerializeField] public Transform[] SpawnPoints;
@@ -22,6 +24,7 @@ namespace Minigames.AvoidRocket
         public Vector2 FlySpeedMinMax;
 
         private List<RocketMissile> liveEntities;
+        private List<RocketMissile> deadEntities;
         private MinigameManager gameManager;
 
         public float IncreaseRateAfter = 2f;
@@ -36,9 +39,22 @@ namespace Minigames.AvoidRocket
         {
             this.gameManager = this.GetComponentInParent<MinigameManager>();
             this.liveEntities = new List<RocketMissile>();
+            this.deadEntities = new List<RocketMissile>();
 
             this.spawnTimer = this.IncreaseRateAfter;
             this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
+
+            this.gameManager.Events.OnHit += HandleHit;
+        }
+
+        private void OnDisable()
+        {
+            this.gameManager.Events.OnHit -= HandleHit;
+        }
+
+        private void HandleHit()
+        {
+            deadEntities.AddRange(liveEntities);
         }
 
         private void FixedUpdate()    
@@ -54,6 +70,13 @@ namespace Minigames.AvoidRocket
                 this.spawnTimer = 0;
             }
 
+            this.checkDifficulty();
+
+            this.rocketLifecycle();
+        }
+
+        private void checkDifficulty()
+        {
             if ((this.difficultyTimer += Time.deltaTime) >= this.IncreaseRateAfter &&
                 this.currentDifficulty < 1.0f)
             {
@@ -61,10 +84,13 @@ namespace Minigames.AvoidRocket
                 this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
                 this.difficultyTimer = 0;
             }
+        }
 
+        private void rocketLifecycle()
+        {
             foreach (var item in liveEntities)
             {
-                var direction = (Vector2)this.Target.position - item.Rigidbody2D.position;
+                var direction = (Vector2) this.Target.position - item.Rigidbody2D.position;
                 direction.Normalize();
 
                 var up = item.RocketGameObject.transform.up;
@@ -73,6 +99,14 @@ namespace Minigames.AvoidRocket
                 item.Rigidbody2D.angularVelocity = -rotationAngle * item.RotationSpeed;
                 item.Rigidbody2D.velocity = up * item.FlySpeed;
             }
+            
+            foreach (var item in deadEntities)
+            {
+                this.liveEntities.Remove(item);
+                Destroy(item.RocketGameObject);
+            }
+
+            this.deadEntities.Clear();
         }
 
         private RocketMissile spawnNewMissile()

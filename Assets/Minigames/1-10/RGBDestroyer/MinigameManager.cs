@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DefaultImplementations;
+using Components.MonoBehaviours;
 using UnityEngine;
 
 namespace Minigames.RGBDestroyer
@@ -16,20 +16,20 @@ namespace Minigames.RGBDestroyer
 
         private List<GameObject> lifes;
 
-        public override void UnityStart()
+        protected override void UnityStart()
         {
             base.UnityStart();
 
             this.lifes = new List<GameObject>(this.Lifes);
         }
 
-        public override void SubscribeToEvents()
+        protected override void SubscribeToEvents()
         {
             base.SubscribeToEvents();
             this.Events.OnHit += HandleHit;
         }
 
-        public override void UnsubscribeToEvents()
+        protected override void UnsubscribeToEvents()
         {
             base.UnsubscribeToEvents();
             this.Events.OnHit -= HandleHit;

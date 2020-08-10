@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace DefaultImplementations
+namespace Components.MonoBehaviours
 {
-    class BasicControls : MonoBehaviour
+    public class BasicControls : MonoBehaviour
     {
         public enum AxisState
         {
@@ -11,7 +11,7 @@ namespace DefaultImplementations
             Negative = -1,
             Positive = 1
         }
-
+        
         public AxisState HorizontalState = AxisState.Idle;
         public AxisState VerticalState = AxisState.Idle;
 

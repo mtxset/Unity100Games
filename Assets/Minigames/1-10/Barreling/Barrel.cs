@@ -70,7 +70,6 @@ namespace Minigames.Barreling
         private void landed()
         {
             this.ignoreCollision = true;
-            // this.ignoreTrigger = true;
 
             this.gameManager.Events.EventScored(this.PointPerScore);
             this.gameManager.Events.EventLanded();
@@ -92,14 +91,9 @@ namespace Minigames.Barreling
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-/*            if (this.ignoreTrigger)
-            {
-                return;
-            }*/
-
             if (collision.gameObject.CompareTag("deadzone"))
             {
-                this.gameManager.Events.EventDeath();
+                this.gameManager.Events.EventDeath(this.gameObject);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Minigames.Barreling
@@ -14,9 +15,11 @@ namespace Minigames.Barreling
         private MinigameManager gameManager;
         private float timer;
         private float currentMovementSpeed;
+        private List<GameObject> barrels;
 
         private void Start()
         {
+            this.barrels = new List<GameObject>();
             this.gameManager = this.GetComponentInParent<MinigameManager>();
             this.subscribetToEvents();
             this.spawnBarrel();
@@ -47,8 +50,11 @@ namespace Minigames.Barreling
                 return;
             }
 
-            var barrel = Instantiate(this.BarrelPrefab, this.transform).GetComponent<Barrel>();
+            var barrelObject = Instantiate(this.BarrelPrefab, this.transform);
+            this.barrels.Add(barrelObject);
 
+            var barrel = barrelObject.GetComponent<Barrel>();
+            
             this.gameManager.SetCurrentBarrel(barrel);
             barrel.AccelerateBarrelMovement(this.currentMovementSpeed);
         }
@@ -56,20 +62,25 @@ namespace Minigames.Barreling
         private void subscribetToEvents()
         {
             this.gameManager.Events.OnLanded += HandleLanded;
+            this.gameManager.Events.OnDeath += HandleDeath;
         }
 
         private void unsubscribeToEvents()
         {
             this.gameManager.Events.OnLanded -= HandleLanded;
+            this.gameManager.Events.OnDeath -= HandleDeath;
+        }
+
+        private void HandleDeath(GameObject obj)
+        {
+            foreach (var item in this.barrels)
+            {
+                item.GetComponent<Rigidbody2D>().simulated = false;
+            }
         }
 
         private void HandleLanded()
         {
-            if (this.gameManager.GameOver)
-            {
-                return;
-            }
-
             this.spawnBarrel();
         }
 

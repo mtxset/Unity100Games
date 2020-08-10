@@ -83,7 +83,7 @@ namespace GameManager
 
         private async void countdown(int from, int to)
         {
-            for (int i = from; i >= to; i--)
+            for (var i = from; i >= to; i--)
             {
                 this.TimerText.text = i.ToString();
                 await Task.Delay(TimeSpan.FromSeconds(1));
@@ -94,7 +94,7 @@ namespace GameManager
         private void startTheGame()
         {
             this.InitialPage.SetActive(false);
-            for (int i = 0; i < this.currentPlayerCount; i++)
+            for (var i = 0; i < this.currentPlayerCount; i++)
             {
                 this.playersData[i].CurrentGamePrefab.SetActive(true);
             }
@@ -114,7 +114,7 @@ namespace GameManager
 
             this.playersData = new Dictionary<int, Player>();
 
-            for (int i = 0; i < MAXPLAYERS; i++)
+            for (var i = 0; i < MAXPLAYERS; i++)
             {
                 this.playersData.Add(i, new Player()
                 {
@@ -163,7 +163,7 @@ namespace GameManager
             // adding reference to playersPrefab to game manager's data
             playersData[currentPlayerCount].PlayersPrefabReference = playerPrefab;
 
-            // Creating a minigame game
+            // Creating a mini game
             var randomGame = this.createNewMinigame();
 
             // set new game as player instance's child
@@ -172,7 +172,7 @@ namespace GameManager
             // adding button events to player's prefab
             var buttonEventsReference = playerPrefab.AddComponent<ButtonEvents>();
 
-            // adding interface for communication between minigame and singleton gamemanager
+            // adding interface for communication between mini game and singleton game manager
             var communicationBusReference = playerPrefab.AddComponent<PlayerToManagerCommunicationBus>();
             communicationBusReference.PlayerId = currentPlayerCount;
             var color = this.colors.Dequeue();
@@ -187,7 +187,7 @@ namespace GameManager
             playerPrefab.transform.position = new Vector3(0, -300 * currentPlayerCount, -10);
             randomGame.transform.position = playerPrefab.transform.position;
 
-            // adding reference to minigame manager
+            // adding reference to mini game manager
             var comp = randomGame.GetComponentInChildren(gameList[this.currentRandomGame].MinigameManagerType);
             playersData[currentPlayerCount].InjectionInstance
                 .Add(gameList[this.currentRandomGame].MinigameManagerType, comp);
@@ -235,7 +235,7 @@ namespace GameManager
             // check if any player has total score over x
             await Task.Delay(TimeSpan.FromSeconds(2));
             // disable games for all players
-            for (int i = 0; i < currentPlayerCount; i++)
+            for (var i = 0; i < currentPlayerCount; i++)
             {
                 Destroy(playersData[i].CurrentGamePrefab);
             }
@@ -247,7 +247,7 @@ namespace GameManager
         private void setNewGameForEveryPlayer()
         {
             // create new game for each player
-            for (int i = 0; i < currentPlayerCount; i++)
+            for (var i = 0; i < currentPlayerCount; i++)
             {
                 var randomGame = this.createNewMinigame();
                 randomGame.transform.SetParent(playersData[i].PlayersPrefabReference.transform);
@@ -291,7 +291,7 @@ namespace GameManager
         /// <returns>true if all player have died</returns>
         private bool checkIfAllDied()
         {
-            for (int i = 0; i < this.currentPlayerCount; i++)
+            for (var i = 0; i < this.currentPlayerCount; i++)
             {
                 if (playersData[i].GameStateData.Alive)
                     return false;

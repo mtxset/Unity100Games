@@ -76,7 +76,7 @@ namespace Minigames.Barreling
             this.Events.OnDeath -= HandleDeath;
         }
 
-        private void HandleDeath()
+        private void HandleDeath(GameObject obj)
         {
             this.GameOver = true;
             this.GameOverPage.SetActive(true);

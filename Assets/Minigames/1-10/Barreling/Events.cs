@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Minigames.Barreling
 {
@@ -7,13 +8,13 @@ namespace Minigames.Barreling
         public event Action OnLanded;
         public void EventLanded() { OnLanded?.Invoke(); }
 
-        public event Action OnDeath;
+        public event Action<GameObject> OnDeath;
         /// <summary>
         /// Fires when drone dies (collides with anything tagged 'deadzone')
         /// </summary>
-        public void EventDeath()
+        public void EventDeath(GameObject barrelToShow)
         {
-            OnDeath?.Invoke();
+            OnDeath?.Invoke(barrelToShow);
         }
 
         public event Action OnCountdownFinished;

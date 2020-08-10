@@ -56,11 +56,12 @@ namespace Minigames.ColorJumper
 
             this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
 
-            this.lastSpawnY = this.SpawnSpaceInBetweenMinMax.y;
+            this.lastSpawnY = this.gameManager.transform.position.y + this.SpawnSpaceInBetweenMinMax.y;
         }
 
         private void Update()
         {
+
             if (this.gameManager.GameOver)
             {
                 return;
@@ -71,23 +72,28 @@ namespace Minigames.ColorJumper
                 this.difficultyTimer += Time.deltaTime;
             }
 
-            if (this.difficultyTimer >= this.IncreaseRateAfter)
-            {
-                this.currentDifficulty += this.IncreaseRateBy;
-                this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
-                this.difficultyTimer = 0;
-            }
+            checkDifficulty();
 
+            checkIfSpawnNew();
+
+            checkWhetherOutOffScreen();
+        }
+
+        private void checkIfSpawnNew()
+        {
             if (this.lastSpawnY < this.CurrentCamera.transform.position.y + this.PrespawnYOffset)
             {
                 this.liveEntities.Add(this.spawnCirclePair());
             }
+        }
 
+        private void checkWhetherOutOffScreen()
+        {
             foreach (var item in liveEntities)
             {
                 item.CircleGameObject.transform.Rotate(0, 0, item.RotationSpeed * Time.deltaTime);
 
-                if (this.CurrentCamera.transform.position.y - this.screenHeight * 1.5f> 
+                if (this.CurrentCamera.transform.position.y - this.screenHeight * 1.5f >
                     item.CircleGameObject.transform.position.y)
                 {
                     this.deadEntities.Add(item);
@@ -103,6 +109,17 @@ namespace Minigames.ColorJumper
             this.deadEntities.Clear();
         }
 
+        private void checkDifficulty()
+        {
+            if (!(this.difficultyTimer >= this.IncreaseRateAfter))
+            {
+                return;
+            }
+            
+            this.currentDifficulty += this.IncreaseRateBy;
+            this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
+            this.difficultyTimer = 0;
+        }
         private CircleEntity spawnCirclePair()
         {
             var newEntity = new CircleEntity

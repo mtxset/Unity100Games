@@ -338,7 +338,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e0354fc07364b3e47b01bcefbc2e23c8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.673
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -783,7 +783,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 822fa6dc5843f5947b809d51992eb93a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.497
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1104,8 +1104,7 @@ MonoBehaviour:
   ExolosionEffect: {fileID: 3096470683735664557, guid: 14a8020c8a881e0449ecc5e88cca041a, type: 3}
   MovementSpeed: 10
   MovementOffset: 0.1
-  DodgeTime: 1
-  currentCamera: {fileID: 1039832836922874627}
+  CurrentCamera: {fileID: 1039832836922874627}
 --- !u!61 &1718433316
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1350,8 +1349,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1665360459
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac826c06d726d56419634562bd7ec781, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1432,8 +1431,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1665360459
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac826c06d726d56419634562bd7ec781, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1607,8 +1606,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1665360459
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac826c06d726d56419634562bd7ec781, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

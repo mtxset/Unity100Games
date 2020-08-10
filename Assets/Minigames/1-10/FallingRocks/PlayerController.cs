@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,19 +11,12 @@ namespace Minigames.FallingRocks
         public GameObject[] Lifes;
         public GameObject ExolosionEffect;
 
-        private enum PlayerMovement
-        {
-            Idle = 0,
-            Left = -1,
-            Right = 1
-        }
-
-        private PlayerMovement playerMovement = PlayerMovement.Idle;
 
         public float MovementSpeed;
         public float MovementOffset;
         public Camera CurrentCamera;
 
+        private float playerMovement;
         private MinigameManager gameManager;
         private float screenOffsetTeleport;
         private List<GameObject> lifes;
@@ -48,13 +42,17 @@ namespace Minigames.FallingRocks
             {
                 return;
             }
-            
-            
-            this.position = Vector2.MoveTowards(
-                    this.transform.position,
-                    new Vector2(this.position.x + (this.MovementOffset * (int)this.playerMovement), this.position.y),
-                    this.MovementSpeed * Time.deltaTime);
+            this.movePlayer();
+            //this.teleportIfBeyondBounds();
+        }
 
+        private void FixedUpdate()
+        {
+            // this.movePlayer();
+        }
+
+        private void teleportIfBeyondBounds()
+        {
             var halfPlayerWidht = transform.localScale.x / 2f;
             if (this.transform.position.x < -this.screenOffsetTeleport + halfPlayerWidht)
             {
@@ -66,36 +64,29 @@ namespace Minigames.FallingRocks
             }
         }
 
+        private void movePlayer()
+        {
+            this.position = Vector2.MoveTowards(
+                this.transform.position,
+                new Vector2(this.position.x + (this.MovementOffset * (int) this.playerMovement), this.position.y),
+                this.MovementSpeed * Time.deltaTime);
+
+            this.transform.position = this.position;
+        }
+
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
             this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalPressed;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
             this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalPressed;
         }
-
-        private void HandleActionButtonPressed()
-        {
-        }
-
+        
         private void HandleHorizontalPressed(InputValue inputValue)
         {
-            switch (inputValue.Get<float>())
-            {
-                case -1:
-                    playerMovement = PlayerMovement.Left;
-                    break;
-                case 0:
-                    playerMovement = PlayerMovement.Idle;
-                    break;
-                case 1:
-                    playerMovement = PlayerMovement.Right;
-                    break;
-            }
+            this.playerMovement = inputValue.Get<float>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DefaultImplementations;
+﻿using Components;
+using Components.MonoBehaviours;
 using UnityEngine;
 
 namespace Minigames.ColorJumper
@@ -17,22 +16,22 @@ namespace Minigames.ColorJumper
         public AudioSource SoundDeath;
         public AudioSource SoundScored;
 
-        private List<GameObject> lifes;
+        private PlayerLifes playerLifes;
 
-        public override void UnityStart()
+        protected override void UnityStart()
         {
             base.UnityStart();
 
-            this.lifes = new List<GameObject>(this.Lifes);
+            this.playerLifes = new PlayerLifes(this.Lifes);
         }
 
-        public override void SubscribeToEvents()
+        protected override void SubscribeToEvents()
         {
             base.SubscribeToEvents();
             this.Events.OnHit += HandleHit;
         }
 
-        public override void UnsubscribeToEvents()
+        protected override void UnsubscribeToEvents()
         {
             base.UnsubscribeToEvents();
             this.Events.OnHit -= HandleHit;
@@ -40,12 +39,9 @@ namespace Minigames.ColorJumper
 
         private void HandleHit()
         {
-            var lastEntry = this.lifes.Last();
-            Destroy(lastEntry);
-            this.lifes.Remove(lastEntry);
             this.SoundHit.Play();
 
-            if (this.lifes.Count == 0)
+            if (this.playerLifes.LoseLife())
             {
                 this.SoundDeath.Play();
                 this.Events.EventDeath();

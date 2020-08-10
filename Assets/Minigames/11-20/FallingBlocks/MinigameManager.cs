@@ -1,6 +1,6 @@
 ﻿using Components.MonoBehaviours;
 
-namespace Minigames.AvoidRocket
+namespace Minigames.FallingBlocks
 {
     public class MinigameManager : MinigameManagerDefault
     {

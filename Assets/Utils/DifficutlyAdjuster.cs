@@ -12,11 +12,12 @@ namespace Utils
         /// <param name="minMax">difficulty variables</param>
         public static float[] SpreadDifficulty(float difficulty, List<Vector2> minMax)
         {
+            difficulty = Mathf.Clamp(difficulty, 0, 1);
             var difficultyDistributions = new float[minMax.Count];
             var difficultySettings = new float[minMax.Count];
 
             // calculating difficulty percentage for each vector
-            for (int i = 0; i < minMax.Count; i++)
+            for (var i = 0; i < minMax.Count; i++)
             {
                 if (i == minMax.Count - 1)
                 {

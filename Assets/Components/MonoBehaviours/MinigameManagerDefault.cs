@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DefaultImplementations
+namespace Components.MonoBehaviours
 {
     public class MinigameManagerDefault : MonoBehaviour, IMinigameManager
     {
@@ -16,10 +16,10 @@ namespace DefaultImplementations
 
         public EventsDefault Events { get; private set; }
 
-        public virtual void UnityStart() { }
-        public virtual void UnityAwake() { }
+        protected virtual void UnityStart() { }
+        protected virtual void UnityAwake() { }
 
-        public virtual void UnityOnDisable() { }
+        protected virtual void UnityOnDisable() { }
 
         private void Awake()
         {
@@ -56,13 +56,13 @@ namespace DefaultImplementations
             this.UnityOnDisable();
         }
 
-        public virtual void SubscribeToEvents()
+        protected virtual void SubscribeToEvents()
         {
             this.Events.OnDeath += this.HandleDeath;
             this.Events.OnScored += this.HandleScored;
         }
 
-        public virtual void UnsubscribeToEvents()
+        protected virtual void UnsubscribeToEvents()
         {
             this.Events.OnDeath -= this.HandleDeath;
             this.Events.OnScored -= this.HandleScored;

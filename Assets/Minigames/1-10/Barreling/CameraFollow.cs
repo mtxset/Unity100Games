@@ -12,9 +12,11 @@ namespace Minigames.Barreling
 
         private int moveCameraCount;
         private Vector3 targetPosition;
+        private Camera currentCamera;
 
         private void Start()
         {
+            this.currentCamera = this.GetComponent<Camera>();
             this.targetPosition = this.transform.position;
             this.gameManager = this.GetComponentInParent<MinigameManager>();
             this.subscribetToEvents();
@@ -23,11 +25,32 @@ namespace Minigames.Barreling
         private void subscribetToEvents()
         {
             this.gameManager.Events.OnLanded += HandleLanded;
+            this.gameManager.Events.OnDeath += HandleDeath;
         }
 
         private void unsubscribeToEvents()
         {
             this.gameManager.Events.OnLanded -= HandleLanded;
+            this.gameManager.Events.OnDeath -= HandleDeath;
+        }
+
+        private void HandleDeath(GameObject barrel)
+        {
+            /*
+             * If the x and y coordinates values of the result vector are between 0 and 1 and the z value is
+             * superior to 0, it means the center of object is seen by camera.
+             */
+            var viewPosition = this.currentCamera.WorldToViewportPoint(barrel.transform.position);
+            while (!
+                (viewPosition.x >= 0 && 
+                viewPosition.x <= 1 && 
+                viewPosition.y >= 0 && 
+                viewPosition.y <= 1 && 
+                viewPosition.z > 0))
+            {
+                viewPosition = this.currentCamera.WorldToViewportPoint(barrel.transform.position);
+                this.currentCamera.orthographicSize += 1.0f;
+            }
         }
 
         private void HandleLanded()
@@ -38,12 +61,14 @@ namespace Minigames.Barreling
             }
 
             this.moveCameraCount++;
-            if (this.moveCameraCount == this.BoxLandedThreshold)
+            if (this.moveCameraCount != this.BoxLandedThreshold)
             {
-                this.moveCameraCount = 0;
-                this.targetPosition = this.transform.position;
-                targetPosition.y += this.MoveInYBy;
+                return;
             }
+            
+            this.moveCameraCount = 0;
+            this.targetPosition = this.transform.position;
+            targetPosition.y += this.MoveInYBy;
 
         }
 

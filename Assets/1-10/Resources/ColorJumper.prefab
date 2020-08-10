@@ -1044,6 +1044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e2f45e5356fcee4b8a4026969f8a36d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentCamera: {fileID: 3247163944365035759}
   JumpHeight: 7
 --- !u!1 &3247163945527866806
 GameObject:
@@ -1300,7 +1301,6 @@ MonoBehaviour:
   RotationSpeedMinMax: {x: 100, y: 250}
   IncreaseRateAfter: 2
   IncreaseRateBy: 0.01
-  currentDifficulty: 0
 --- !u!1 &5307841755278643147
 GameObject:
   m_ObjectHideFlags: 0

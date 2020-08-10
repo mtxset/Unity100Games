@@ -64,11 +64,18 @@ namespace Minigames.FallingRocks
                 this.spawnTimer = 0;
             }
 
+            rockLifecycle();
+        }
+
+        private void rockLifecycle()
+        {
             foreach (var rock in liveRocks)
             {
                 rock.transform.Translate(Vector2.down * (this.FallingSpeed * Time.deltaTime));
                 if (rock.transform.position.y <=
-                    -this.screenHalfSizeWorldUnits.y - rock.transform.localScale.y)
+                    - this.screenHalfSizeWorldUnits.y 
+                    - rock.transform.localScale.y 
+                    + this.gameManager.transform.position.y)
                 {
                     this.deadRocks.Add(rock);
                 }
@@ -76,7 +83,7 @@ namespace Minigames.FallingRocks
 
             foreach (var rock in deadRocks)
             {
-                this.gameManager.Events.EventScored(1);
+                this.gameManager.Events.EventScored();
                 this.gameManager.SoundScored.Play();
                 this.liveRocks.Remove(rock);
                 Destroy(rock);
@@ -99,7 +106,9 @@ namespace Minigames.FallingRocks
 
             var spawnPosition = new Vector2(
                 Random.Range(-this.screenHalfSizeWorldUnits.x, this.screenHalfSizeWorldUnits.x),
-                this.screenHalfSizeWorldUnits.y + newRock.transform.localScale.y);
+                this.screenHalfSizeWorldUnits.y 
+                    + newRock.transform.localScale.y 
+                    + this.gameManager.transform.position.y);
             newRock.transform.position = spawnPosition;
             this.gameManager.SoundSpawnRock.Play();
 

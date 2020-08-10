@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DefaultImplementations
+namespace Components
 {
     public class EventsDefault
     {
@@ -32,7 +32,7 @@ namespace DefaultImplementations
         /// <summary>
         /// Fires when drone flies past obstacles
         /// </summary>
-        public void EventScored(int points)
+        public void EventScored(int points = 1)
         {
             OnScored?.Invoke(points);
         }

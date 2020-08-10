@@ -1,4 +1,5 @@
-﻿using DefaultImplementations;
+﻿using Components;
+using Components.MonoBehaviours;
 using UnityEngine;
 
 namespace Minigames.InfiniteTunnels
