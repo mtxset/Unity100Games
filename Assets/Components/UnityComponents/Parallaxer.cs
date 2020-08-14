@@ -1,0 +1,179 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace Components.UnityComponents
+{
+    public struct VectorAxis
+    {
+        public int Selected;
+        public int Unselected;
+        public int Direction;
+    }
+    public class Parallaxer: MonoBehaviour
+    {
+        public enum Direction
+        {
+                FromRightToLeft, FromLeftToRight, Vertical1, Vertical2
+        }
+        
+        public GameObject ObjectToParallax;
+        public Direction SelectMovementPostion;
+        public float ParallaxSpeed;
+        public Camera CurrentCamera;
+        
+        private Vector2 parallaxObjectSize;
+        private Vector2 screenHalfSizeWorldUnits;
+        //private MinigameManagerDefault gameManager;
+        private Vector2 gameManagerOffset;
+        private List<GameObject> parallaxObjectList;
+        private GameObject currentLastParallaxObject;
+
+        private void Start()
+        {
+            this.parallaxObjectList = new List<GameObject>();
+            // this.gameManager = this.GetComponentInParent<MinigameManagerDefault>();
+            this.gameManagerOffset = Vector2.zero;
+
+            float orthographicSize;
+            this.screenHalfSizeWorldUnits = new Vector2(
+                this.CurrentCamera.aspect * (orthographicSize = this.CurrentCamera.orthographicSize),
+                orthographicSize);
+            
+            this.parallaxObjectSize = new Vector2(
+                this.ObjectToParallax.GetComponent<SpriteRenderer>().bounds.size.x,
+                this.ObjectToParallax.GetComponent<SpriteRenderer>().bounds.size.y);
+            
+            this.preInitiateObjects();
+        }
+
+        private void preInitiateObjects()
+        {
+            var axis = this.getCurrentAxis();
+            
+            var amountOfParallaxObjects = Mathf.Ceil(
+                (this.screenHalfSizeWorldUnits[axis.Selected] * 2 + this.parallaxObjectSize[axis.Selected] * 3) /
+                this.parallaxObjectSize[axis.Selected]);
+                
+            var lastAxisPosition = this.calculateLastPosition()[axis.Selected];
+            for (var i = 0; i < amountOfParallaxObjects; i++)
+            {
+                var newParallaxObject = Instantiate(this.ObjectToParallax, this.transform);
+                newParallaxObject.transform.position = new Vector2
+                    {
+                        [axis.Selected] = lastAxisPosition,
+                        [axis.Unselected] = this.transform.position[axis.Unselected]
+                    };
+                lastAxisPosition += this.parallaxObjectSize[axis.Selected] * -axis.Direction;
+                this.parallaxObjectList.Add(newParallaxObject);
+            }
+
+            this.currentLastParallaxObject = this.parallaxObjectList.Last();
+        }
+
+        private VectorAxis getCurrentAxis()
+        {
+            var axis = new VectorAxis();
+            if (this.SelectMovementPostion == Direction.FromRightToLeft ||
+                this.SelectMovementPostion == Direction.FromLeftToRight)
+            {
+                axis.Selected = 0;
+                axis.Unselected = 1;
+            }
+            else
+            {
+                axis.Selected = 1;
+                axis.Unselected = 0;
+            }
+            
+            // From positive to negative 
+            if (this.SelectMovementPostion == Direction.FromLeftToRight ||
+                this.SelectMovementPostion == Direction.Vertical1)
+            {
+                axis.Direction = 1;
+            }
+            else
+            {
+                axis.Direction = -1;
+            }
+            
+            return axis;
+        }
+        
+        private void sendObjectToEndOfQueue(GameObject parallaxObject)
+        {
+            var axis = this.getCurrentAxis();
+            
+            var lastPosition = new Vector2
+            {
+                [axis.Selected] = currentLastParallaxObject.transform.position[axis.Selected] +
+                    (this.parallaxObjectSize[axis.Selected] *
+                     -axis.Direction),
+                [axis.Unselected] = this.transform.position[axis.Unselected]
+            };
+
+            parallaxObject.transform.position = lastPosition;
+            this.currentLastParallaxObject = parallaxObject;
+        }
+
+        private Vector2 calculateLastPosition()
+        {
+            var axis = this.getCurrentAxis();
+            
+            var lastPosition = new Vector2
+            {
+                [axis.Selected] = this.gameManagerOffset[axis.Selected] +
+                    (this.screenHalfSizeWorldUnits[axis.Selected] -
+                     this.parallaxObjectSize.x / 2) *
+                    axis.Direction,
+                [axis.Unselected] = this.transform.position[axis.Unselected]
+            };
+            
+            return lastPosition;                                            
+        }
+
+        private void parallaxCycle()
+        {
+            var axis = this.getCurrentAxis();
+            
+            foreach (var item in this.parallaxObjectList)
+            {
+                var currentPosition = item.transform.position;
+                item.transform.position = new Vector2 
+                {
+                    [axis.Selected] = currentPosition[axis.Selected] + this.ParallaxSpeed * Time.deltaTime * axis.Direction,
+                    [axis.Unselected] = currentPosition[axis.Unselected]
+                };
+
+                switch (SelectMovementPostion)
+                {
+                    // From positive to negative
+                    default:
+                    case Direction.Vertical1:
+                    case Direction.FromLeftToRight: 
+                        if (item.transform.position[axis.Selected] >
+                            (screenHalfSizeWorldUnits[axis.Selected] + 
+                             parallaxObjectSize[axis.Selected]) * axis.Direction)
+                        {
+                            sendObjectToEndOfQueue(item);
+                        }
+                        break;
+                    // From negative to positive
+                    case Direction.Vertical2:
+                    case Direction.FromRightToLeft:
+                        if (item.transform.position[axis.Selected] <
+                            (screenHalfSizeWorldUnits[axis.Selected] + 
+                             parallaxObjectSize[axis.Selected]) * axis.Direction)
+                        {
+                            sendObjectToEndOfQueue(item);
+                        }
+                        break;
+                }
+            }
+        }
+        private void Update()
+        {
+            this.parallaxCycle();
+        }
+    }
+}

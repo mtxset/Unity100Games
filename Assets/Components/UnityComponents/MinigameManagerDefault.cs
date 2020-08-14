@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Components.MonoBehaviours
+namespace Components.UnityComponents
 {
     public class MinigameManagerDefault : MonoBehaviour, IMinigameManager
     {

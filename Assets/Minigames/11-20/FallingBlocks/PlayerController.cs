@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Components.MonoBehaviours;
+using Components.UnityComponents;
 using UnityEngine;
 
 namespace Minigames.FallingBlocks

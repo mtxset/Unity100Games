@@ -7,18 +7,18 @@ namespace Pool
 {
     public class LifeTimeController
     {
-        public Dictionary<EntityType, List<PoolObject>> liveItems;
+        public readonly Dictionary<EntityType, List<PoolObject>> LiveItems;
 
-        private List<PoolObject> addItemsLst = new List<PoolObject>();
-        private List<PoolObject> remItemsLst = new List<PoolObject>();
+        private readonly List<PoolObject> addItemsLst = new List<PoolObject>();
+        private readonly List<PoolObject> remItemsLst = new List<PoolObject>();
 
         public LifeTimeController()
         {
-            liveItems = new Dictionary<EntityType, List<PoolObject>>();
+            LiveItems = new Dictionary<EntityType, List<PoolObject>>();
 
             foreach (EntityType item in Enum.GetValues(typeof(EntityType)))
             {
-                liveItems.Add(item, new List<PoolObject>());
+                LiveItems.Add(item, new List<PoolObject>());
             }
         }
 
@@ -33,14 +33,14 @@ namespace Pool
 
             foreach (EntityType type in Enum.GetValues(typeof(EntityType)))
             {
-                foreach (var item in liveItems[type])
+                foreach (var item in LiveItems[type])
                 {
-                    if (!item.gameObject.activeSelf)
+                    if (!item.GameObject.activeSelf)
                         continue;
 
-                    if (item.dieAtTime < Time.realtimeSinceStartup)
+                    if (item.DieAtTime < Time.realtimeSinceStartup)
                     {
-                        Pool.current.ReturnToPool(item);
+                        Pool.Current.ReturnToPool(item);
                     }
                 }
             }
@@ -55,12 +55,12 @@ namespace Pool
 
         private void addNewItem(PoolObject obj)
         {
-            liveItems[obj.entityRef.EntityType].Add(obj);
+            LiveItems[obj.EntityRef.EntityType].Add(obj);
         }
 
         private void removeItem(PoolObject obj)
         {
-            liveItems[obj.entityRef.EntityType].Remove(obj);
+            LiveItems[obj.EntityRef.EntityType].Remove(obj);
         }
 
         public void AddNewItem(PoolObject obj)

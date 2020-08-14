@@ -1,4 +1,4 @@
-﻿using Components.MonoBehaviours;
+﻿using Components.UnityComponents;
 using UnityEngine;
 
 namespace Minigames.AvoidRocket

@@ -1,7 +1,6 @@
-﻿using Pool;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UnityInterfaces
+namespace Pool
 {
     public abstract class EntityInfo : MonoBehaviour
     {

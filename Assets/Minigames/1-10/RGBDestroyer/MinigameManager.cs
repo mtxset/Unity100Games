@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Components.MonoBehaviours;
+using Components.UnityComponents;
 using UnityEngine;
 
 namespace Minigames.RGBDestroyer

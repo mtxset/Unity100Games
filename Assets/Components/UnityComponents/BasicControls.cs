@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Components.MonoBehaviours
+namespace Components.UnityComponents
 {
     public class BasicControls : MonoBehaviour
     {

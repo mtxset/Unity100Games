@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Components.MonoBehaviours;
+using Components.UnityComponents;
 using UnityEngine;
 
 namespace Minigames.AAReplica

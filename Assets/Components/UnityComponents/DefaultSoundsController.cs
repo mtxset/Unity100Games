@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Components.MonoBehaviours
+namespace Components.UnityComponents
 {
     public class DefaultSoundsController : MonoBehaviour
     {

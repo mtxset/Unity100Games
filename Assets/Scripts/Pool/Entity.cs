@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UnityInterfaces
+namespace Pool
 {
     public enum EntityType
     {

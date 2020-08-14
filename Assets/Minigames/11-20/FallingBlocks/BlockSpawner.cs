@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -66,7 +65,7 @@ namespace Minigames.FallingBlocks
             if ((spawnTimer += Time.deltaTime) >= this.SpawnRate)
             {
                 this.spawnNewBlocks();
-                this.gameManager.Events.EventScored(1);
+                this.gameManager.Events.EventScored();
                 this.spawnTimer = 0;
             }
             

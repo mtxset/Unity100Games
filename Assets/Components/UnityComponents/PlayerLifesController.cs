@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Components.MonoBehaviours
+namespace Components.UnityComponents
 {
     public class PlayerLifesController : MonoBehaviour
     {
