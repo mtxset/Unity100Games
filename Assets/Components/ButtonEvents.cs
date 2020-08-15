@@ -12,7 +12,8 @@ namespace Components
         public event Action OnDownButtonPressed;
         public event Action OnLeftButtonPressed;
         public event Action OnRightButtonPressed;
-
+        
+        public event Action<InputValue> OnActionButtonStateChanged;
         public event Action<InputValue> OnHorizontalPressed;
         public event Action<InputValue> OnVerticalPressed;
 
@@ -49,6 +50,11 @@ namespace Components
         public void RightButtonPressed()
         {
             OnRightButtonPressed?.Invoke();
+        }
+
+        public void ActionButtonStateChanged(InputValue inputValue)
+        {
+            OnActionButtonStateChanged?.Invoke(inputValue);
         }
     }
 }

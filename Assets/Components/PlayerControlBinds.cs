@@ -44,5 +44,10 @@ namespace Components
         {
             if (buttonEvents != null) buttonEvents.VerticalButtonPressed(inputValue);
         }
+
+        private void OnActionButtonState(InputValue inputValue)
+        {
+            if (buttonEvents != null) buttonEvents.ActionButtonStateChanged(inputValue);
+        }
     }
 }

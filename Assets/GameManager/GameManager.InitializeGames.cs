@@ -87,7 +87,13 @@ namespace GameManager
                 {
                     MinigamePrefab = Resources.Load("FallingBlocks") as GameObject,
                     MinigameManagerType = typeof(Minigames.FallingBlocks.MinigameManager)
-                }
+                },               
+                
+                new Minigame // 13
+                {
+                    MinigamePrefab = Resources.Load("TrainRunner") as GameObject,
+                    MinigameManagerType = typeof(Minigames.TrainRunner.MinigameManager)
+                },
             };
 
         }

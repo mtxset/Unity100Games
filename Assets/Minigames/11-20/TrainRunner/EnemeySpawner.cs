@@ -2,7 +2,7 @@
 
 namespace Minigames.TrainRunner
 {
-    public class BarrelSpawner : MonoBehaviour
+    public class EnemeySpawner : MonoBehaviour
     {
         public GameObject BarrelPrefab;
         public float SpawnDistance = 5f;
@@ -18,12 +18,14 @@ namespace Minigames.TrainRunner
             }
         }
 
-        private void spawnBarrel()
+        private GameObject spawnBarrel()
         {
             var randomX = Random.Range(-this.SpawnDistance, this.SpawnDistance);
             var barrel = Instantiate(this.BarrelPrefab, this.transform);
             barrel.transform.position = new Vector3(
                 randomX, this.transform.position.y);
+
+            return barrel;
         }
     }
 }
