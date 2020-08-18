@@ -7,8 +7,6 @@ namespace Minigames.TrainRunner
     {
         [HideInInspector]
         public SlowMotionEvents SlowMotionEvents;
-        public float Slowness;
-        public float SlownessPointReachingSpeed;
 
         protected override void UnityStart()
         {

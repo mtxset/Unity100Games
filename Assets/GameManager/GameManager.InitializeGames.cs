@@ -92,7 +92,14 @@ namespace GameManager
                 new Minigame // 13
                 {
                     MinigamePrefab = Resources.Load("TrainRunner") as GameObject,
-                    MinigameManagerType = typeof(Minigames.TrainRunner.MinigameManager)
+                    MinigameManagerType = typeof(Minigames.TrainRunner.MinigameManager),
+                    Active = false
+                },
+                
+                new Minigame // 14
+                {
+                    MinigamePrefab = Resources.Load("Frogger") as GameObject,
+                    MinigameManagerType = typeof(Minigames.Frogger.MinigameManager),
                 },
             };
 

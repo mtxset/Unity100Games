@@ -2,29 +2,32 @@
 
 namespace Minigames.TrainRunner
 {
-    public class EnemeySpawner : MonoBehaviour
+    public class EnemeySpawner
     {
-        public GameObject BarrelPrefab;
-        public float SpawnDistance = 5f;
-        public float SpawnAfter = 2f; 
-            
-        private float timer;
-        private void Update()
+        private readonly GameObject barrelPrefab;
+        private readonly Transform parent;
+        private readonly Transform spawnYPosition;
+        private readonly float spawnDistance;
+        
+        public EnemeySpawner(
+            GameObject enemyPrefab,
+            Transform setParentTo,
+            Transform spawnYPosition,
+            float spawnDistance)
         {
-            if ((this.timer += Time.deltaTime) >= this.SpawnAfter)
-            {
-                this.spawnBarrel();
-                this.timer = 0;
-            }
+            this.barrelPrefab = enemyPrefab;
+            this.parent = setParentTo;
+            this.spawnDistance = spawnDistance;
+            this.spawnYPosition = spawnYPosition;
         }
-
-        private GameObject spawnBarrel()
+        
+        public GameObject SpawnBarrel()
         {
-            var randomX = Random.Range(-this.SpawnDistance, this.SpawnDistance);
-            var barrel = Instantiate(this.BarrelPrefab, this.transform);
+            var randomX = Random.Range(-this.spawnDistance, this.spawnDistance);
+            var barrel = Object.Instantiate(this.barrelPrefab, this.parent);
             barrel.transform.position = new Vector3(
-                randomX, this.transform.position.y);
-
+                randomX, this.spawnYPosition.position.y);
+            
             return barrel;
         }
     }
