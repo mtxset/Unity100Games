@@ -4,6 +4,5 @@ namespace Minigames.Frogger
 {
     public class MinigameManager : MinigameManagerDefault
     {
-        
     }
 }

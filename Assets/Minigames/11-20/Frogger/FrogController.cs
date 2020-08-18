@@ -5,12 +5,21 @@ namespace Minigames.Frogger
 {
     public class FrogController : MonoBehaviour
     {
+        public AudioSource SoundJump;
+        public Camera CurrentCamera;
+        
         private MinigameManager gameManager;
         private Rigidbody2D rigidbody2d;
         private Vector2 initialPosition;
+        private Vector2 screenHalfSizeWorldUnits;
 
         private void Start()
         {
+            float orthographicSize;
+            this.screenHalfSizeWorldUnits = new Vector2(
+                CurrentCamera.aspect * (orthographicSize = CurrentCamera.orthographicSize),
+                orthographicSize);
+            
             this.gameManager = this.GetComponentInParent<MinigameManager>();
             this.rigidbody2d = this.GetComponent<Rigidbody2D>();
             this.initialPosition = this.transform.position;
@@ -39,17 +48,43 @@ namespace Minigames.Frogger
 
         private void HandleUpButtonPressed()
         {
-            this.rigidbody2d.MovePosition(rigidbody2d.position + Vector2.up);
+            this.moveFrog(Vector2.up);
         }
 
         private void HandleRightButtonPressed()
         {
-            this.rigidbody2d.MovePosition(rigidbody2d.position + Vector2.right);
+            this.moveFrog(Vector2.right);
         }
 
         private void HandleLeftButtonPressed()
         {
-            this.rigidbody2d.MovePosition(rigidbody2d.position + Vector2.left);
+            this.moveFrog(Vector2.left);
+        }
+
+        private void moveFrog(Vector2 direction)
+        {
+            if (this.gameManager.GameOver)
+            {
+                return;
+            }
+            
+            Vector2 newPosition;
+            if (direction == Vector2.up)
+            {
+                newPosition = rigidbody2d.position + Vector2.up;
+            }
+            else
+            {
+                var offsetX = Mathf.Clamp(
+                    this.rigidbody2d.position.x + direction.x,
+                    -this.screenHalfSizeWorldUnits.x + this.transform.localScale.x,
+                    this.screenHalfSizeWorldUnits.x - this.transform.localScale.x);
+
+                newPosition = new Vector2(offsetX, rigidbody2d.position.y);
+            }
+            
+            this.SoundJump.Play();
+            this.rigidbody2d.MovePosition(newPosition);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
