@@ -172,7 +172,7 @@ namespace Minigames.ColorJumper
                 new Vector2(this.SpawnSpaceInBetweenMinMax.y, this.SpawnSpaceInBetweenMinMax.x)
             };
 
-            var unparsed = DifficutlyAdjuster.SpreadDifficulty(this.currentDifficulty, vectorList);
+            var unparsed = DifficultyAdjuster.SpreadDifficulty(this.currentDifficulty, vectorList);
 
             var newDifficultySetup = new DifficultySetup
             {

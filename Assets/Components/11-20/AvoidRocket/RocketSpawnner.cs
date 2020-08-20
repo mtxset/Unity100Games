@@ -123,7 +123,7 @@ namespace Minigames.AvoidRocket
 
             newRocketMissile.Rigidbody2D = newRocketMissile.RocketGameObject.GetComponent<Rigidbody2D>();
 
-            var difficulty = Utils.DifficutlyAdjuster.SpreadDifficulty(
+            var difficulty = Utils.DifficultyAdjuster.SpreadDifficulty(
                 this.currentDifficulty,
                 new List<Vector2>
                 {

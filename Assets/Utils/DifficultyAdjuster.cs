@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Utils
 {
-    public static class DifficutlyAdjuster
+    public static class DifficultyAdjuster
     {
         /// <summary>
         /// Returns random values based on difficultly

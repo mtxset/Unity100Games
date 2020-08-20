@@ -119,9 +119,9 @@ namespace Minigames.Cannonizer
             StartCoroutine(CannonCooldown());
         }
 
-        IEnumerator CannonCooldown()
+        private IEnumerator CannonCooldown()
         {
-            for (int i = this.ShootCooldown; i > 0; i--)
+            for (var i = this.ShootCooldown; i > 0; i--)
             {
                 yield return new WaitForSeconds(1);
             }
