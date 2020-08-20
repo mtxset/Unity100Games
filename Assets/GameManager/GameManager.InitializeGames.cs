@@ -112,6 +112,12 @@ namespace GameManager
                 {
                     MinigamePrefab = Resources.Load("MissTheTarget") as GameObject,
                     MinigameManagerType = typeof(Minigames.MissTheTarget.MinigameManager),
+                },
+                
+                new Minigame() // 17
+                {
+                    MinigamePrefab = Resources.Load("CatchApple") as GameObject,
+                    MinigameManagerType = typeof(Minigames.CatchApple.MinigameManager),
                 }
             };
 
