@@ -27,7 +27,6 @@ namespace Components
         private Vector2 parallaxObjectSize;
         private Vector2 screenHalfSizeWorldUnits;
         private MinigameManagerDefault gameManager;
-        private Vector2 gameManagerOffset;
         private readonly List<GameObject> parallaxObjectList;
         private GameObject currentLastParallaxObject;
 
@@ -36,13 +35,11 @@ namespace Components
             Direction selectMovementPostion,
             float parallaxSpeed,
             Camera currentCamera,
-            Vector2 gameManagerOffset,
             Transform setParentTo)
         {
             this.objectToParallax = objectToParallax;
             this.selectMovementPostion = selectMovementPostion;
             this.ParallaxSpeed = parallaxSpeed;
-            this.gameManagerOffset = gameManagerOffset;
             this.setParentTo = setParentTo;
 
             this.parallaxObjectList = new List<GameObject>();
@@ -133,7 +130,7 @@ namespace Components
             
             var lastPosition = new Vector2
             {
-                [axis.Selected] = this.gameManagerOffset[axis.Selected] +
+                [axis.Selected] =
                     (this.screenHalfSizeWorldUnits[axis.Selected] -
                      this.parallaxObjectSize.x / 2) *
                     axis.Direction,

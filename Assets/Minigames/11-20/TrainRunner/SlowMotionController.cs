@@ -38,7 +38,6 @@ namespace Minigames.TrainRunner
                 this.SelectMovementPostion,
                 this.ParallaxSpeedMinMax.y,
                 this.CurrentCamera,
-                this.gameManager.transform.position,
                 this.transform);
             
             this.enemyList = new List<GameObject>();
