@@ -29,18 +29,21 @@ namespace Components
         private MinigameManagerDefault gameManager;
         private readonly List<GameObject> parallaxObjectList;
         private GameObject currentLastParallaxObject;
+        private Vector2 gameManagerOffset;
 
         public Parallaxer(
             GameObject objectToParallax,
             Direction selectMovementPostion,
             float parallaxSpeed,
             Camera currentCamera,
+            Vector2 gameManagerOffset,
             Transform setParentTo)
         {
             this.objectToParallax = objectToParallax;
             this.selectMovementPostion = selectMovementPostion;
             this.ParallaxSpeed = parallaxSpeed;
             this.setParentTo = setParentTo;
+            this.gameManagerOffset = gameManagerOffset;
 
             this.parallaxObjectList = new List<GameObject>();
 
@@ -95,7 +98,6 @@ namespace Components
                 axis.Unselected = 0;
             }
             
-            // From positive to negative 
             if (this.selectMovementPostion == Direction.FromLeftToRight ||
                 this.selectMovementPostion == Direction.Vertical1)
             {
@@ -133,7 +135,7 @@ namespace Components
                 [axis.Selected] =
                     (this.screenHalfSizeWorldUnits[axis.Selected] -
                      this.parallaxObjectSize.x / 2) *
-                    axis.Direction,
+                    axis.Direction + this.gameManagerOffset[axis.Selected],
                 [axis.Unselected] = this.setParentTo.position[axis.Unselected]
             };
             
@@ -146,23 +148,23 @@ namespace Components
             
             foreach (var item in this.parallaxObjectList)
             {
+                var positionWithOffset = 
+                    item.transform.position[axis.Selected] - this.gameManagerOffset[axis.Selected];
                 switch (selectMovementPostion)
                 {
-                    // From positive to negative
                     default:
                     case Direction.Vertical1:
                     case Direction.FromLeftToRight: 
-                        if (item.transform.position[axis.Selected] >
+                        if (positionWithOffset >
                             (screenHalfSizeWorldUnits[axis.Selected] + 
                              parallaxObjectSize[axis.Selected]) * axis.Direction)
                         {
                             sendObjectToEndOfQueue(item);
                         }
                         break;
-                    // From negative to positive
                     case Direction.Vertical2:
                     case Direction.FromRightToLeft:
-                        if (item.transform.position[axis.Selected] <
+                        if (positionWithOffset <
                             (screenHalfSizeWorldUnits[axis.Selected] + 
                              parallaxObjectSize[axis.Selected]) * axis.Direction)
                         {
@@ -174,7 +176,8 @@ namespace Components
                 var currentPosition = item.transform.position;
                 item.transform.position = new Vector2 
                 {
-                    [axis.Selected] = currentPosition[axis.Selected] + this.ParallaxSpeed * Time.deltaTime * axis.Direction,
+                    [axis.Selected] = 
+                        currentPosition[axis.Selected] + this.ParallaxSpeed * Time.deltaTime * axis.Direction,
                     [axis.Unselected] = currentPosition[axis.Unselected]
                 };
             }

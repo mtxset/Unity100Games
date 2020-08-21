@@ -22,6 +22,7 @@ namespace Components.UnityComponents
                 this.SelectMovementPostion,
                 this.ParallaxSpeed,
                 this.CurrentCamera,
+                this.gameManager.transform.position,
                 this.transform);
         }
 
