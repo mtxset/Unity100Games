@@ -124,7 +124,13 @@ namespace GameManager
                 {
                     MinigamePrefab = Resources.Load("RoadDodger") as GameObject,
                     MinigameManagerType = typeof(Minigames.RoadDodger.MinigameManager),
-                }
+                },
+                
+                new Minigame() // 19
+                {
+                    MinigamePrefab = Resources.Load("MathTheTarget") as GameObject,
+                    MinigameManagerType = typeof(Minigames.MathTheTarget.MinigameManager),
+                },
             };
 
         }

@@ -43,6 +43,11 @@ namespace Minigames.CatchApple
 
             await Task.Delay(TimeSpan.FromSeconds(HoldHandForSeconds));
 
+            if (this.gameManager.GameOver)
+            {
+                return;
+            }
+
             this.transform.position = this.initialPosition;
         }
     }

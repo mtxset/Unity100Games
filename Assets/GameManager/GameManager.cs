@@ -185,7 +185,7 @@ namespace GameManager
             communicationBusReference.OnPlayerDeath += OnPlayerDeath;
 
             // offsetting scene for player
-            playerPrefab.transform.position = new Vector3(0, -300 * currentPlayerCount, -10);
+            playerPrefab.transform.position = new Vector3(0, -300 * currentPlayerCount, 0);
             randomGame.transform.position = playerPrefab.transform.position;
 
             // adding reference to mini game manager
