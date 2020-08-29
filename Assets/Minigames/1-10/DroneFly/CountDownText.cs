@@ -24,7 +24,7 @@ namespace Minigames.DroneFly
 
         private IEnumerator Countdown()
         {
-            for (int i = 3; i > 0; i--)
+            for (int i = 2; i > 0; i--)
             {
                 this.CountdownText.text = i.ToString();
                 yield return new WaitForSeconds(1);

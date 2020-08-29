@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Utils.Curves
@@ -7,6 +8,65 @@ namespace Utils.Curves
     {
         public delegate Vector2 Function(float t);
 
+        public static List<Vector2> BifurcationOfLogisticMap(
+            Vector2 startingPoint,
+            float stepBetweenPoints,
+            float rLimitFrom,
+            float rLimitTo,
+            int iterations,
+            float initialX)
+        {
+            var points = new List<Vector2>();
+            var step = Mathf.Clamp(stepBetweenPoints, 0.001f, 0.1f);
+
+            // http://www.po.gso.uri.edu/tracking/tracking/chaos/presentations/bifurcationmicroscope/
+            for (var r = rLimitFrom; r < rLimitTo; r += step)
+            {
+                var x = r;
+
+                var tempPoints = LogisticMap(
+                    startingPoint,
+                    step,
+                    iterations,
+                    r,
+                    initialX);
+
+                float extrema;
+                var direction = 1;
+                foreach (var item in tempPoints)
+                {
+                    
+                    points.Add(new Vector2(x, item.y));
+                }
+            }
+            
+            return points;
+        }
+        
+        public static List<Vector2> LogisticMap(
+            Vector2 startingPoint,
+            float stepBetweenPoints,
+            float limitTo,
+            float r,
+            float initialX)
+        {
+            var points = new List<Vector2>();
+            var step = Mathf.Clamp(stepBetweenPoints, 0.001f, 0.1f);
+
+            // https://en.wikipedia.org/wiki/Logistic_map
+            var lastX = initialX;
+            for (var i = 0; i < limitTo; i++)
+            {
+                var x = startingPoint.x + i * step;
+                var y = startingPoint.y +
+                        r * lastX * (1 - lastX);
+                points.Add(new Vector2(x, y));
+                lastX = y;
+            }
+            
+            return points;
+        }
+        
         public static List<Vector2> LissajousCurve(
             Vector2 startingPoint,
             float stepBetweenPoints,

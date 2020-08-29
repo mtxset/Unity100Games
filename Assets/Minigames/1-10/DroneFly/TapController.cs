@@ -2,7 +2,6 @@
 
 namespace Minigames.DroneFly
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     public class TapController : MonoBehaviour
     {
         public float TapForce = 10;

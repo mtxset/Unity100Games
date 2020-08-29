@@ -12,6 +12,7 @@ namespace GameManager
         /// <returns></returns>
         public static List<Rect> GetViewports(int players)
         {
+            const float third = 0.3333f;
             var viewports = new List<Rect>();
             switch (players)
             {
@@ -28,6 +29,15 @@ namespace GameManager
                     viewports.Add(new Rect(0.5f, 0.5f, 0.5f, 0.5f));
                     viewports.Add(new Rect(0.0f, 0.0f, 0.5f, 0.5f));
                     viewports.Add(new Rect(0.5f, 0.0f, 0.5f, 0.5f));
+                    return viewports;
+                case 5:
+                case 6:
+                    viewports.Add(new Rect(third * 0, 0.0f, third, 0.5f));
+                    viewports.Add(new Rect(third * 1, 0.0f, third, 0.5f));
+                    viewports.Add(new Rect(third * 2, 0.0f, third, 0.5f));
+                    viewports.Add(new Rect(third * 0, 0.5f, third, 0.5f));
+                    viewports.Add(new Rect(third * 1, 0.5f, third, 0.5f));
+                    viewports.Add(new Rect(third * 2, 0.5f, third, 0.5f));
                     return viewports;
                 default:
                     return null;

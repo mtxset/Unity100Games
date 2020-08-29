@@ -9,6 +9,7 @@ public class TextInterface2 : MonoBehaviour
     public void OnEnable()
     {
         var comp = this.GetComponentInParent<IMinigameManager>();
+        
         this.TextField.text = $"SCORE: {comp.Score}";
     }
 }

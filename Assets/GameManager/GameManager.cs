@@ -42,7 +42,7 @@ namespace GameManager
         /// </summary>
         public int DebugGame = 10;
         
-        private const uint MAXPLAYERS = 9;
+        private const uint MAXPLAYERS = 6;
         private List<Minigame> gameList;
         private Dictionary<int, Player> playersData;
         private int currentPlayerCount;
