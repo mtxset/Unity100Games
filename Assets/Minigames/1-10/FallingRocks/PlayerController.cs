@@ -43,7 +43,7 @@ namespace Minigames.FallingRocks
                 return;
             }
             this.movePlayer();
-            //this.teleportIfBeyondBounds();
+            
         }
 
         private void FixedUpdate()
@@ -54,13 +54,13 @@ namespace Minigames.FallingRocks
         private void teleportIfBeyondBounds()
         {
             var halfPlayerWidht = transform.localScale.x / 2f;
-            if (this.transform.position.x < -this.screenOffsetTeleport + halfPlayerWidht)
+            if (this.transform.position.x < -this.screenOffsetTeleport - halfPlayerWidht)
             {
-                this.position = new Vector2(this.screenOffsetTeleport + halfPlayerWidht, transform.position.y);
+                this.position = new Vector2(this.screenOffsetTeleport - halfPlayerWidht * 2, transform.position.y);
             }
             else if (this.transform.position.x > this.screenOffsetTeleport + halfPlayerWidht)
             {
-                this.position = new Vector2(-this.screenOffsetTeleport + halfPlayerWidht, transform.position.y);
+                this.position = new Vector2(-this.screenOffsetTeleport + halfPlayerWidht * 2, transform.position.y);
             }
         }
 
@@ -71,6 +71,7 @@ namespace Minigames.FallingRocks
                 new Vector2(this.position.x + (this.MovementOffset * (int) this.playerMovement), this.position.y),
                 this.MovementSpeed * Time.deltaTime);
 
+            this.teleportIfBeyondBounds();
             this.transform.position = this.position;
         }
 

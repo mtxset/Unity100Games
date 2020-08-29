@@ -330,7 +330,6 @@ MonoBehaviour:
   MovementSpeed: 10
   MovementOffset: 0.1
   JumpHeight: 7
-  playerOnGround: 0
 --- !u!1 &5306082086834760200
 GameObject:
   m_ObjectHideFlags: 0

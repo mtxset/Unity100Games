@@ -1,4 +1,5 @@
-﻿using Components;
+﻿using System.Collections.Generic;
+using Components;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityInterfaces;
@@ -15,6 +16,8 @@ namespace Minigames.PingPong
         public Events Events;
         public ButtonEvents ButtonEvents;
         public PlayerToManagerCommunicationBus CommunicationBus;
+
+        public List<GameObject> LiveBalls;
 
         public bool GameOver { get; set; }
 

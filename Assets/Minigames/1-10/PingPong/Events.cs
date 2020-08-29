@@ -4,6 +4,13 @@ namespace Minigames.PingPong
 {
     public class Events
     {
+        public event Action OnHit;
+
+        public void EventHit()
+        {
+            OnHit?.Invoke();
+        }
+        
         public event Action OnDeath;
         /// <summary>
         /// Fires when drone dies (collides with anything tagged 'deadzone')

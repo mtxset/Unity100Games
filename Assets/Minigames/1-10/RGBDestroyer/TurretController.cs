@@ -83,6 +83,8 @@ namespace Minigames.RGBDestroyer
             {
                 return;
             }
+            
+            this.outlineTurret(this.turretControl);
 
             this.turrets[(int)this.turretControl].transform.Rotate(
                 0, 0, 1 * this.TurretRotationSpeed * Time.deltaTime);
@@ -114,6 +116,17 @@ namespace Minigames.RGBDestroyer
             this.gameManager.ButtonEvents.OnDownButtonPressed -= HandleDownButtonPressed;
             this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
             this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalPressed;
+        }
+
+        private void HandleLeftButtonPressed()
+        {
+            this.turretControl = TurretControl.Left;
+        }
+
+        private void HandleRightButtonPressed()
+        {
+            this.turretControl = TurretControl.Right;
+            
         }
 
         private void HandleUpButtonPressed()

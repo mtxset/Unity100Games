@@ -4,6 +4,8 @@ namespace Minigames.MathTheTarget
 {
     public class Dart : MonoBehaviour
     {
+        public GameObject Mark;
+        public GameObject Target;
         public GameObject Crosshair;
         public GameObject DartPrefab;
         public float DeaccelerationSpeed;
@@ -47,6 +49,11 @@ namespace Minigames.MathTheTarget
 
         private void FixedUpdate()
         {
+            if (this.gameManager.GameOver)
+            {
+                return;
+            }
+            
             if (shooting)
             {
                 this.dartRigidbody.velocity -= 
@@ -64,6 +71,7 @@ namespace Minigames.MathTheTarget
             if (other.gameObject.CompareTag("scorezone"))
             {
                 var target = other.GetComponent<TargetPoints>();
+                leaveAMark(other.transform, this.transform.position);
                 this.gameManager.Events.EventScored(target.Points);
             }
             else if (other.gameObject.CompareTag("deadzone"))
@@ -73,6 +81,12 @@ namespace Minigames.MathTheTarget
             
             this.gameManager.DartEvents.EventDartReset(); 
             this.shooting = false;
+        }
+        
+        private void leaveAMark(Transform setParentTo, Vector3 position)
+        {
+            var mark = Instantiate(this.Mark, position, Quaternion.identity, setParentTo);
+            mark.transform.localScale /= setParentTo.localScale.x;
         }
     }
 }

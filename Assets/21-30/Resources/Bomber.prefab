@@ -365,7 +365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7354741655660944161
 Transform:
   m_ObjectHideFlags: 0
@@ -500,6 +500,7 @@ MonoBehaviour:
   MinigameManager: {fileID: 0}
   BombPrefab: {fileID: 1301130813067263358}
   DropCooldown: 1
+  Force: 5
 --- !u!1 &7354741656143178907
 GameObject:
   m_ObjectHideFlags: 0

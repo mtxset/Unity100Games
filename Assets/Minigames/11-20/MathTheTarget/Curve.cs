@@ -81,6 +81,11 @@ namespace Minigames.MathTheTarget
 
         public void FixedUpdate()
         {
+            if (this.gameManager.GameOver)
+            {
+                return;
+            }
+            
             moveCrosshair();
             moveTarget();
 

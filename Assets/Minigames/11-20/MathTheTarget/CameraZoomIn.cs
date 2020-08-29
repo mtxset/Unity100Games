@@ -46,6 +46,11 @@ namespace Minigames.MathTheTarget
         }
         private void Update()
         {
+            if (this.gameManager.GameOver)
+            {
+                return;
+            }
+            
             if (this.zoomIn)
             {
                 cameraZoomIn();

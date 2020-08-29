@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Shaders;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Minigames.Cannonizer
 {
@@ -23,6 +25,7 @@ namespace Minigames.Cannonizer
         private Vector2 ballDirection;
         private bool canFire;
         private SpriteOutline spriteOutline;
+        private float pressedFireButton = 0;
 
         private void Start()
         {
@@ -39,7 +42,7 @@ namespace Minigames.Cannonizer
             this.gameManager.ButtonEvents.OnDownButtonPressed += HandleDownButtonPressed;
             this.gameManager.ButtonEvents.OnLeftButtonPressed += HandleLeftButtonPressed;
             this.gameManager.ButtonEvents.OnRightButtonPressed += HandleRightButtonPressed;
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
+            this.gameManager.ButtonEvents.OnActionButtonStateChanged += HandleActionButtonPressed;
         }
 
         private void OnDisable()
@@ -48,7 +51,12 @@ namespace Minigames.Cannonizer
             this.gameManager.ButtonEvents.OnDownButtonPressed -= HandleDownButtonPressed;
             this.gameManager.ButtonEvents.OnLeftButtonPressed -= HandleLeftButtonPressed;
             this.gameManager.ButtonEvents.OnRightButtonPressed -= HandleRightButtonPressed;
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
+            this.gameManager.ButtonEvents.OnActionButtonStateChanged -= HandleActionButtonPressed;
+        }
+
+        private void HandleActionButtonPressed(InputValue inputValue)
+        {
+            this.pressedFireButton = inputValue.Get<float>();
         }
 
         private void Update()
@@ -56,6 +64,11 @@ namespace Minigames.Cannonizer
             if (gameManager.GameOver)
             {
                 return;
+            }
+
+            if (Math.Abs(this.pressedFireButton - 1) < 0.1)
+            {
+                this.shootZeBall();
             }
             
             this.gameObject.transform.rotation = Quaternion.Lerp(
@@ -95,7 +108,7 @@ namespace Minigames.Cannonizer
             }
         }
 
-        private void HandleActionButtonPressed()
+        private void shootZeBall()
         {
             // check if ready to fire and not in rotation
             if (!canFire || Quaternion.Angle(this.transform.rotation, this.targetRotation) >= AngleApproximation)

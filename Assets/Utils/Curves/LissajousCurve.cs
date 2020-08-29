@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Utils.Curves
 {
+#if UNITY_EDITOR 
     [CustomEditor(typeof(LissajousCurveParameters))]
     public class LissajousCurve : Editor
     {
@@ -38,4 +39,5 @@ namespace Utils.Curves
             }
         }
     }
+#endif
 }

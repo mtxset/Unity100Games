@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Utils.Curves
 {
+#if UNITY_EDITOR 
     [CustomEditor(typeof(LogisticMapParameters))]
     public class LogisticMap : Editor
     {
@@ -33,4 +34,5 @@ namespace Utils.Curves
             }
         }
     }
+#endif
 }

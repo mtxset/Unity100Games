@@ -170,7 +170,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e0354fc07364b3e47b01bcefbc2e23c8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.238
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -832,7 +832,7 @@ GameObject:
   - component: {fileID: 2051186403}
   - component: {fileID: 2051186404}
   m_Layer: 0
-  m_Name: Hexagon Spanner
+  m_Name: Hexagon Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1112,7 +1112,7 @@ MonoBehaviour:
   - {fileID: 675238463}
   - {fileID: 507264543}
   - {fileID: 391197194}
-  MovementSpeed: 600
+  MovementSpeed: 300
   CenterObject: {fileID: 216884854054396401}
 --- !u!212 &303890878
 SpriteRenderer:

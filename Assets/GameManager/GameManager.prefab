@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9127332509663361150
 Transform:
   m_ObjectHideFlags: 0
@@ -299,11 +299,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125ff7eb5da10ee43bf8720f750522ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugGame: 0
+  DebugGame: -2
   TimerText: {fileID: 9127332510607011607}
   MainText: {fileID: 9127332510703666331}
   InitialPage: {fileID: 9127332510650679036}
   IntermissionPage: {fileID: 9127332510044647021}
+  intermission: 0
 --- !u!1 &9127332509898176763
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +939,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9127332510917229711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -300, y: -300, z: 0}
+  m_LocalPosition: {x: -300, y: -300, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9127332509663361150}
@@ -970,7 +971,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -11
   m_CullingMask:

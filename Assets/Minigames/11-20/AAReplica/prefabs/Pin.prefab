@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6838832232954726230}
   - component: {fileID: 6838832232954726229}
   - component: {fileID: 6838832232954726233}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pin
   m_TagString: deadzone
   m_Icon: {fileID: 0}

@@ -9,7 +9,6 @@ namespace Minigames.FallingBlocks
     {
         public float MovementSpeed = 1f;
         public Transform MaxXOffset;
-        public float Slowness = 10f;
 
         private Rigidbody2D rigidbody2d;
         private MinigameManager gameManager;
@@ -69,13 +68,13 @@ namespace Minigames.FallingBlocks
         {
             if (other.gameObject.CompareTag("deadzone"))
             {
-                Time.timeScale = 1f / this.Slowness;
+                /*Time.timeScale = 1f / this.Slowness;
                 Time.fixedDeltaTime /= Slowness;
 
                 await Task.Delay(TimeSpan.FromSeconds(1));
 
                 Time.timeScale = 1f;
-                Time.fixedDeltaTime *= Slowness;
+                Time.fixedDeltaTime *= Slowness;*/
                 
                 this.gameManager.Events.EventHit();
             }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Utils.Curves
 {
+#if UNITY_EDITOR 
     [CustomEditor(typeof(LemniscateOfGeronoParameters))]
     public class LemniscateOfGerono : Editor
     {
@@ -35,4 +36,5 @@ namespace Utils.Curves
             }
         }
     }
+#endif
 }

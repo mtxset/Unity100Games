@@ -8,6 +8,7 @@ namespace Minigames.Barreling
         public int BoxLandedThreshold = 2;
         public float SmoothMove = 1f;
         public float MoveInYBy = 2f;
+
         private MinigameManager gameManager;
 
         private int moveCameraCount;
@@ -40,6 +41,7 @@ namespace Minigames.Barreling
              * If the x and y coordinates values of the result vector are between 0 and 1 and the z value is
              * superior to 0, it means the center of object is seen by camera.
              */
+            var maxIterations = 100;
             var viewPosition = this.currentCamera.WorldToViewportPoint(barrel.transform.position);
             while (!
                 (viewPosition.x >= 0 && 
@@ -50,6 +52,11 @@ namespace Minigames.Barreling
             {
                 viewPosition = this.currentCamera.WorldToViewportPoint(barrel.transform.position);
                 this.currentCamera.orthographicSize += 1.0f;
+
+                if (--maxIterations < 0)
+                {
+                    break;
+                }
             }
         }
 
@@ -74,6 +81,9 @@ namespace Minigames.Barreling
 
         private void Update()
         {
+            if (this.gameManager.GameOver)
+                return;
+            
             this.transform.position = Vector3.Lerp(
                 this.transform.position,
                 this.targetPosition,

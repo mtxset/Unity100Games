@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectToParallax: {fileID: 2223231752116751589, guid: 4a132cfc3b8cd0d4d9b484f152c92d90, type: 3}
   SelectMovementPostion: 3
-  ParallaxSpeed: 7
+  ParallaxSpeed: 6
   CurrentCamera: {fileID: 8691652558731183057}
 --- !u!212 &577122169
 SpriteRenderer:
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectToParallax: {fileID: 8443576022653602670, guid: d4d648c3f25ee2b489dcc878c594178f, type: 3}
   SelectMovementPostion: 3
-  ParallaxSpeed: 7
+  ParallaxSpeed: 6
   CurrentCamera: {fileID: 8691652558731183057}
 --- !u!212 &1373340821
 SpriteRenderer:
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectToParallax: {fileID: 114970379298571118, guid: c0f90e7ad9e3bba498bb568b42352b8c, type: 3}
   SelectMovementPostion: 3
-  ParallaxSpeed: 7
+  ParallaxSpeed: 6
   CurrentCamera: {fileID: 8691652558731183057}
 --- !u!212 &1933574568
 SpriteRenderer:
@@ -621,8 +621,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HorizontalState: 0
   VerticalState: 0
+  Explosion: {fileID: 4790595232422760428, guid: 3f4ab45b21bda924cb3a0a4fb7ed7d6b, type: 3}
   MaxXOffset: {fileID: 868003126}
-  MoveSpeed: 5
+  MoveSpeed: 6
 --- !u!1 &8691652558577680734
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectToParallax: {fileID: 114970379298571118, guid: c0f90e7ad9e3bba498bb568b42352b8c, type: 3}
   SelectMovementPostion: 3
-  ParallaxSpeed: 7
+  ParallaxSpeed: 6
   CurrentCamera: {fileID: 8691652558731183057}
 --- !u!212 &1607538171
 SpriteRenderer:
@@ -976,18 +977,13 @@ MonoBehaviour:
   - {fileID: 8691652558099705453}
   - {fileID: 8691652559281804409}
   CarPrefabs:
-  - {fileID: 5521982585453912422, guid: 4142a276ffda79542b8e5b3191e21d60, type: 3}
-  - {fileID: 5521982585453912422, guid: 4476d790a5e5aa541bddffffb32c7eab, type: 3}
-  - {fileID: 5521982585453912422, guid: de94b00147ecac24397381f7bd26e269, type: 3}
-  - {fileID: 5521982585453912422, guid: 27828498718a45d4c8745d6b9e6bb769, type: 3}
-  - {fileID: 5521982585453912422, guid: 6f7d5f4b8d076c042b665b9136f0ed35, type: 3}
-  - {fileID: 7946190000652634462, guid: 21e0abd10273fcc409df66a41499cfdd, type: 3}
-  SpawnAfter: 1
+  - {fileID: 2034486296808820585, guid: 21e0abd10273fcc409df66a41499cfdd, type: 3}
+  SpawnAfter: 2
   CurrentDifficulty: 0
   IncreaseAfter: 1
-  IncreaseBy: 0.05
+  IncreaseBy: 0.01
   CarSpawnOffsetMinMax: {x: 5, y: -2}
-  CarSpeedMinMax: {x: 1, y: 20}
+  CarSpeedMinMax: {x: 1, y: 10}
 --- !u!1 &8691652559347733086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,7 +1090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectToParallax: {fileID: 114970379298571118, guid: c0f90e7ad9e3bba498bb568b42352b8c, type: 3}
   SelectMovementPostion: 3
-  ParallaxSpeed: 7
+  ParallaxSpeed: 6
   CurrentCamera: {fileID: 8691652558731183057}
 --- !u!212 &469828041
 SpriteRenderer:

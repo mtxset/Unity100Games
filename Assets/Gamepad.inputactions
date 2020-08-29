@@ -248,7 +248,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "1D Axis Gamepad",
+                    "name": "1D Axis Gamepad Stick",
                     "id": "965cc821-6f16-4483-990c-0e4690d5427d",
                     "path": "1DAxis",
                     "interactions": "",
@@ -273,6 +273,39 @@
                     "name": "positive",
                     "id": "d5c408d9-a76f-4911-97cc-700af57896a3",
                     "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis Gamepad Hat",
+                    "id": "ed9e6998-6f49-49ac-9049-c43c3d859828",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "e5c8afb5-b8cb-4452-ac38-ccc4c28ee76b",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "93615985-fcb5-485f-be3a-cc9333d87fa8",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -347,7 +380,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "1D Axis Gamepad",
+                    "name": "1D Axis Gamepad Stick",
                     "id": "6f7e6372-272e-43b7-a3e7-bb0c3d4c22ac",
                     "path": "1DAxis",
                     "interactions": "",
@@ -372,6 +405,39 @@
                     "name": "positive",
                     "id": "37bdfbc7-6d4b-4615-b93b-7922af227b3b",
                     "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis Gamepad Hat",
+                    "id": "1a38c212-78cd-4b15-8826-76651e7cd7d9",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "84168c7b-cc4f-4e14-bf0f-a558d6a432e3",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "1002c640-dc26-419f-a2e5-8ad3a5c8ea15",
+                    "path": "<HID::Microntek              USB Joystick          >/hat/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Minigames.PingPong
 {
-    class Ball : MonoBehaviour
+    internal class Ball : MonoBehaviour
     {
         public float MovementSpeed;
         public Text SpeedText;
@@ -19,15 +21,43 @@ namespace Minigames.PingPong
         private float currentAcceleration = 1.0f;
         private float t;
         private float splitTimer;
-
+        private List<GameObject> liveBalls;
+        private Vector2 initialPosition;
+        
         private void Start()
         {
+            this.liveBalls = new List<GameObject>();
             this.gameManager = GetComponentInParent<MinigameManager>();
+            this.initialPosition = this.transform.position;
+            launchFirstBall();
 
+            this.gameManager.Events.OnHit += HandleHit;
+        }
+
+        private void launchFirstBall()
+        {
+            this.currentAcceleration = 1.0f;
+            this.transform.position = this.initialPosition;
             this.rigidbody2d = this.GetComponent<Rigidbody2D>();
             float x = Random.Range(0, 2) == 0 ? -1 : 1;
             float y = Random.Range(0, 2) == 0 ? -1 : 1;
             this.rigidbody2d.velocity = new Vector2(this.MovementSpeed * x, this.MovementSpeed * y);
+        }
+
+        private void OnDisable()
+        {
+            this.gameManager.Events.OnHit -= HandleHit;
+        }
+
+        private void HandleHit()
+        {
+            foreach (var item in this.liveBalls)
+            {
+                Destroy(item);
+            }
+            
+            launchFirstBall();
+            liveBalls.Clear();
         }
 
         private void Update()
@@ -35,8 +65,8 @@ namespace Minigames.PingPong
             this.splitTimer += Time.deltaTime;
             if (this.splitTimer > this.SplitFrequencySeconds)
             {
-                Instantiate(this.gameObject, this.gameManager.transform);
-                this.splitTimer = 0.0f;
+                this.liveBalls.Add(Instantiate(this.gameObject, this.gameManager.transform));
+                this.splitTimer = 0;
             }
             this.increaseAcceleration();
         }
@@ -80,7 +110,7 @@ namespace Minigames.PingPong
                     break;
                 case "deadzone":
                     this.DieAudio.Play();
-                    this.gameManager.Events.EventDeath();
+                    this.gameManager.Events.EventHit();
                     break;
             }
         }

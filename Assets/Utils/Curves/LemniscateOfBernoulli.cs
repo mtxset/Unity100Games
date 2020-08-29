@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Utils.Curves
 {
+#if UNITY_EDITOR 
     [CustomEditor(typeof(LemniscateOfBernoulliParameters))]
     public class LemniscateOfBernoulli : Editor
     {
@@ -36,4 +37,5 @@ namespace Utils.Curves
             }
         }
     }
+#endif
 }

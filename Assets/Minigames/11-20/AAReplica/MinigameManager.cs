@@ -14,7 +14,7 @@ namespace Minigames.AAReplica
         public Transform SpawnPoint;
         public float Cooldown = 1f;
         public Animator CameraAnimation;
-
+        public int MaxPointsBeforeReset = 15;
 
         private List<GameObject> liveEntities;
         private List<GameObject> lifes;
@@ -26,6 +26,7 @@ namespace Minigames.AAReplica
         private GameObject currentEntity;
         private bool canShoot = true;
         private static readonly int Hit = Animator.StringToHash("hit");
+        private int scoreForResetting;
 
         protected override void UnityStart()
         {
@@ -101,6 +102,12 @@ namespace Minigames.AAReplica
         private void OnScored(int obj)
         {
             this.SoundPinned.Play();
+
+            if (++this.scoreForResetting == this.MaxPointsBeforeReset)
+            {
+                this.scoreForResetting = 0;
+                this.removeAllPins();
+            }
         }
 
         private void removeAllPins()
@@ -112,10 +119,10 @@ namespace Minigames.AAReplica
 
             this.liveEntities.Clear();
         }
-
-        // TODO: issue with triggering HandleHit two times
+        
         private void HandleHit()
         {
+            this.scoreForResetting = 0;
             if (this.lifes.Count == 0 || this.GameOver)
             {
                 this.SoundDeath.Play();

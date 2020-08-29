@@ -46,11 +46,6 @@ namespace Minigames.MissTheTarget
 
         private void resetPosition()
         {
-            if (this.gameManager.GameOver)
-            {
-                return;
-            }
-
             this.transform.position = this.spawnPoint;
             rigidbody2d.velocity = Vector2.zero;
             rigidbody2d.simulated = false;

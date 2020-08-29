@@ -9,7 +9,8 @@ namespace Minigames.Bomber
     {
         public GameObject BombPrefab;
         public float DropCooldown = 1f;
-
+        public float Force = 5f;
+        
         private Rigidbody2D bombRigidBody;
         private Vector2 spawnPostion;
         private bool canBomb;
@@ -57,6 +58,7 @@ namespace Minigames.Bomber
             this.BombPrefab.SetActive(true);
             this.BombPrefab.transform.position = this.spawnPostion;
             this.bombRigidBody.simulated = true;
+            this.bombRigidBody.AddForce(Vector2.down * this.Force, ForceMode2D.Impulse);
         }
 
         private async void resetBomb()

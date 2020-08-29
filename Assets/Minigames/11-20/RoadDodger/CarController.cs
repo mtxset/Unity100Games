@@ -1,5 +1,6 @@
 ﻿using System;
 using Components.UnityComponents;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ namespace Minigames.RoadDodger
 {
     public class CarController : BasicControls
     {
+        public GameObject Explosion;
         public Transform MaxXOffset;
         public float MoveSpeed;
 
@@ -56,7 +58,11 @@ namespace Minigames.RoadDodger
         {
             if (other.gameObject.CompareTag("deadzone"))
             {
-                Destroy(other);
+                Destroy(
+                    Instantiate(this.Explosion, other.transform.position, Quaternion.identity),
+                    5f);
+                
+                Destroy(other.gameObject);
                 this.gameManager.Events.EventHit(); 
             }
         }

@@ -13,6 +13,11 @@ namespace Minigames.RGBDestroyer
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            if (this.gameManager.GameOver)
+            {
+                return;
+            }
+            
             switch (collision.gameObject.tag)
             {
                 case "scorezone":

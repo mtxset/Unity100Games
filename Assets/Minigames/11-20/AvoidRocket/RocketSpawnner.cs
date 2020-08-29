@@ -14,6 +14,7 @@ namespace Minigames.AvoidRocket
     }
     internal class RocketSpawnner : MonoBehaviour
     {
+        public AudioSource SoundSpawn;
         public GameObject RocketPrefab;
         [SerializeField] public Transform[] SpawnPoints;
         public Transform Target;
@@ -44,6 +45,8 @@ namespace Minigames.AvoidRocket
             this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
 
             this.gameManager.Events.OnHit += HandleHit;
+
+            this.spawnTimer = this.SpawnRocketPeriod;
         }
 
         private void OnDisable()
@@ -110,6 +113,7 @@ namespace Minigames.AvoidRocket
 
         private RocketMissile spawnNewMissile()
         {
+            this.SoundSpawn.Play();
             var randomSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
 
             var newRocketMissile = new RocketMissile

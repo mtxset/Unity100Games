@@ -52,7 +52,7 @@ namespace Minigames.RoadDodger
 
             if ((spawnTimer += Time.deltaTime) >= this.SpawnAfter)
             {
-                this.spawnCar(2);
+                this.spawnCar(Random.Range(1, 4));
                 this.MinigameManager.Events.EventScored();
                 this.spawnTimer = 0;
             }

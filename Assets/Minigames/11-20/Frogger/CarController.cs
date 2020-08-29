@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace Minigames.Frogger
@@ -10,11 +12,22 @@ namespace Minigames.Frogger
         
         private Rigidbody2D rigidbody2d;
         private float currentSpeed;
-
+        private MinigameManager gameManager;
+        
         private void Start()
         {
+            this.gameManager = this.GetComponentInParent<MinigameManager>();
             this.rigidbody2d = this.GetComponent<Rigidbody2D>();
-            this.currentSpeed = Random.Range(this.MovementSpeedMinMax.x, this.MovementSpeedMinMax.y);
+            
+            var difficulty = DifficultyAdjuster.SpreadDifficulty(
+                this.gameManager.Difficulty, new List<Vector2>
+                {
+                  this.MovementSpeedMinMax  
+                });
+
+            this.currentSpeed = difficulty[0];
+            Debug.Log(this.gameManager.Difficulty);
+            Debug.Log(currentSpeed);
         }
 
         private void FixedUpdate()

@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Components.UnityComponents;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Minigames.Flythrough
 {
-    public class PlaneController: MonoBehaviour
+    public class PlaneController: BasicControls
     {
         public GameObject[] Lifes;
-        public float MoveByInX;
         public Transform PlaneTransform;
         public float MoveSpeed;
 
-        public float MaxLeft;
-        public float MaxRight;
 
         public GameObject ExolosionEffect; 
 
@@ -42,44 +41,48 @@ namespace Minigames.Flythrough
 
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnLeftButtonPressed += this.HandleLeftButtonPressed;
-            this.gameManager.ButtonEvents.OnRightButtonPressed += this.HandleRightButtonPressed;
+            this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChange;
+            this.gameManager.ButtonEvents.OnHorizontalPressed += LocalStateChange;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnLeftButtonPressed -= this.HandleLeftButtonPressed;
-            this.gameManager.ButtonEvents.OnRightButtonPressed -= this.HandleRightButtonPressed;
+            this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChange;
+            this.gameManager.ButtonEvents.OnHorizontalPressed -= LocalStateChange;
         }
 
-        private void HandleRightButtonPressed()
+        private void LocalStateChange(InputValue obj)
         {
-            if (this.PlaneTransform.position.x > this.MaxRight)
-                return;
-
-            this.animator.SetTrigger(RightPressed);
-            var position = this.PlaneTransform.position;
-            this.targetPosition = new Vector2(
-                position.x + this.MoveByInX,
-                position.y);
-
-            this.gameManager.SoundMove.Play();
+            movePlane();
         }
 
-        private void HandleLeftButtonPressed()
+        private void movePlane()
         {
-            if (this.PlaneTransform.position.x < this.MaxLeft)
-                return;
-
-            this.animator.SetTrigger(LeftPressed);
-            var position = this.PlaneTransform.position;
-            this.targetPosition = new Vector2(
-                position.x - this.MoveByInX,
-                position.y);
-
-            this.gameManager.SoundMove.Play();
+            
+            if (HorizontalState == AxisState.Negative)
+            {
+                this.gameManager.SoundMove.Play();
+                this.animator.SetTrigger(LeftPressed);
+                this.targetPosition = new Vector2(
+                    -5f,
+                    this.targetPosition.y);
+            }
+            else if (HorizontalState == AxisState.Positive)
+            {
+                this.gameManager.SoundMove.Play();
+                this.animator.SetTrigger(RightPressed);
+                this.targetPosition = new Vector2(
+                    5f,
+                    this.targetPosition.y);
+            }
+            else
+            {
+                this.targetPosition = new Vector2(
+                    0,
+                    this.targetPosition.y);
+            }
         }
-
+        
         private void Update()
         {
             if (this.gameManager.GameOver) return;
@@ -98,7 +101,8 @@ namespace Minigames.Flythrough
                 Destroy(lastEntry);
                 this.lifes.Remove(lastEntry);
 
-                var explosion = Instantiate(this.ExolosionEffect, collision.transform.position, Quaternion.identity);
+                var explosion = Instantiate(
+                    this.ExolosionEffect, collision.transform.position, Quaternion.identity);
                 Destroy(collision.gameObject);
                 Destroy(explosion, 5.0f);
                 this.gameManager.SoundExplosion.Play();

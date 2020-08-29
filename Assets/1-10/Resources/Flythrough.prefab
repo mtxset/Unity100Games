@@ -1789,7 +1789,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5115740239018764491}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.76, z: 0}
+  m_LocalPosition: {x: 0, y: -3.48, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 7369429259799806933}
@@ -1806,6 +1806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5115740239394150057}
   - component: {fileID: 5115740239394150056}
+  - component: {fileID: 819922144}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1870,6 +1871,37 @@ Camera:
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &819922144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5115740239394150058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &5115740240413469190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3037,15 +3069,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d1932c9593dcb4c90cf42544af201a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HorizontalState: 0
+  VerticalState: 0
   Lifes:
   - {fileID: 44463014}
   - {fileID: 1896951370}
   - {fileID: 755807967}
-  MoveByInX: 5
   PlaneTransform: {fileID: 5115740239018764490}
   MoveSpeed: 100
-  MaxLeft: -4
-  MaxRight: 4
   ExolosionEffect: {fileID: 4942756376354263021, guid: 596e1f7f6fa139b48a9f814d355594cd, type: 3}
 --- !u!61 &5106780969967994463
 BoxCollider2D:

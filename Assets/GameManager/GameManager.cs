@@ -38,7 +38,7 @@ namespace GameManager
     public partial class GameManager : MonoBehaviour
     {
         /// <summary>
-        /// If 0 will random game, else will only launch game by index from <see cref="gameList"/>
+        /// If -1 will random game, else will only launch game by index from <see cref="gameList"/>
         /// </summary>
         public int DebugGame = 10;
         
@@ -47,7 +47,7 @@ namespace GameManager
         private Dictionary<int, Player> playersData;
         private int currentPlayerCount;
         private Queue<Color> colors;
-        private int currentRandomGame;
+        private int currentRandomGame = -1;
 
         public static GameManager Instance;
 
@@ -55,6 +55,8 @@ namespace GameManager
         public Text MainText;
         public GameObject InitialPage;
         public GameObject IntermissionPage;
+
+        public bool intermission = false;
 
         public string GetCurrentGameName()
         {
@@ -130,11 +132,18 @@ namespace GameManager
 
         private void selectRandomGame()
         {
-            if (DebugGame != -1)
+            if (DebugGame >= 0)
             {
                 this.currentRandomGame = DebugGame;
             }
-            else
+            else if (DebugGame == -2)
+            {
+                do
+                {
+                    this.currentRandomGame++;
+                } while (!this.gameList[this.currentRandomGame].Active);
+            }
+            else if (DebugGame == -1)
             {
                 do
                 {
@@ -152,6 +161,8 @@ namespace GameManager
             colors.Enqueue(Color.yellow);
             colors.Enqueue(Color.blue);
             colors.Enqueue(Color.magenta);
+            colors.Enqueue(Color.cyan);
+            colors.Enqueue(Color.white);
         }
 
         /// <summary>
@@ -205,7 +216,7 @@ namespace GameManager
             var viewPorts = Viewports.GetViewports(currentPlayerCount + 1);
 
             // setting cameras for each player
-            for (int i = 0; i < currentPlayerCount + 1; i++)
+            for (var i = 0; i < currentPlayerCount + 1; i++)
             {
                 playersData[i].CurrentGamePrefab.GetComponentInChildren<Camera>().rect = viewPorts[i];
             }
@@ -233,6 +244,7 @@ namespace GameManager
 
         private async void intermissionStart()
         {
+            this.intermission = true;
             // check if any player has total score over x
             await Task.Delay(TimeSpan.FromSeconds(2));
             // disable games for all players
@@ -275,7 +287,7 @@ namespace GameManager
             // getting static viewports
             var viewPorts = Viewports.GetViewports(currentPlayerCount);
             // set active new game for each player
-            for (int i = 0; i < currentPlayerCount; i++)
+            for (var i = 0; i < currentPlayerCount; i++)
             {
                 playersData[i].CurrentGamePrefab.SetActive(true);
 
@@ -283,11 +295,12 @@ namespace GameManager
                 playersData[i].CurrentGamePrefab.GetComponentInChildren<Camera>().rect = viewPorts[i];
             }
 
+            this.intermission = false;
         }
 
 
         /// <summary>
-        /// Checks if all players died
+        /// Checks if all players are dead
         /// </summary>
         /// <returns>true if all player have died</returns>
         private bool checkIfAllDied()
