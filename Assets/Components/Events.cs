@@ -4,6 +4,13 @@ namespace Components
 {
     public class EventsDefault
     {
+        public event Action OnDodged;
+
+        public void EventDodged()
+        {
+            OnDodged?.Invoke();
+        }
+        
         public event Action OnHit;
 
         public void EventHit()

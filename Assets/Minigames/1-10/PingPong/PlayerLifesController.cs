@@ -8,12 +8,12 @@ namespace Minigames.PingPong
     {
         public GameObject[] Lifes;
 
-        private PlayerLifes playerLifes;
+        private Lifes lifes;
         private MinigameManager gameManager;
         private void Start()
         {
             this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.playerLifes = new PlayerLifes(this.Lifes);
+            this.lifes = new Lifes(this.Lifes);
             
             this.subscribeToEvents();
         }
@@ -35,7 +35,7 @@ namespace Minigames.PingPong
 
         private void HandleHit()
         {
-            if (playerLifes.LoseLife())
+            if (lifes.LoseLife())
             {
                 this.gameManager.Events.EventDeath();
             }

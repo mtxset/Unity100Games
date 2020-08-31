@@ -16,13 +16,13 @@ namespace Minigames.ColorJumper
         public AudioSource SoundDeath;
         public AudioSource SoundScored;
 
-        private PlayerLifes playerLifes;
+        private Lifes lifes;
 
         protected override void UnityStart()
         {
             base.UnityStart();
 
-            this.playerLifes = new PlayerLifes(this.Lifes);
+            this.lifes = new Lifes(this.Lifes);
         }
 
         protected override void SubscribeToEvents()
@@ -41,7 +41,7 @@ namespace Minigames.ColorJumper
         {
             this.SoundHit.Play();
 
-            if (this.playerLifes.LoseLife())
+            if (this.lifes.LoseLife())
             {
                 this.SoundDeath.Play();
                 this.Events.EventDeath();

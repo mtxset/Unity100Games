@@ -25,7 +25,7 @@ namespace Minigames.Cannonizer
         private Vector2 ballDirection;
         private bool canFire;
         private SpriteOutline spriteOutline;
-        private float pressedFireButton = 0;
+        private float pressedFireButton;
 
         private void Start()
         {

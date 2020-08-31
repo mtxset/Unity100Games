@@ -6,12 +6,12 @@ namespace Components.UnityComponents
     {
         public GameObject[] Lifes;
 
-        private PlayerLifes playerLifes;
+        private Lifes lifes;
         private MinigameManagerDefault gameManager;
         private void Start()
         {
             this.gameManager = this.GetComponentInParent<MinigameManagerDefault>();
-            this.playerLifes = new PlayerLifes(this.Lifes);
+            this.lifes = new Lifes(this.Lifes);
             
             this.subscribeToEvents();
         }
@@ -33,7 +33,7 @@ namespace Components.UnityComponents
 
         private void HandleHit()
         {
-            if (playerLifes.LoseLife())
+            if (lifes.LoseLife())
             {
                 this.gameManager.Events.EventDeath();
             }
