@@ -1,2 +1,3 @@
 ﻿Add voting upon new game whether replay or go next;
 Add game explanation before game starts;
+safsadsadsadsa;
