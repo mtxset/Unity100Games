@@ -9,8 +9,8 @@ namespace Minigames.DroneFly
         private MinigameManager gameManager;
         private void Start()
         {
-            this.gameManager = GetComponentInParent<MinigameManager>();
-            if (this.gameManager == null)
+            gameManager = GetComponentInParent<MinigameManager>();
+            if (gameManager == null)
             {
                 throw new Exception("Game Manager was not injected");
             }
@@ -20,7 +20,7 @@ namespace Minigames.DroneFly
 
         private void OnButtonClick()
         {
-            this.gameManager.StartGame();
+            gameManager.StartGame();
         }
     }
 }

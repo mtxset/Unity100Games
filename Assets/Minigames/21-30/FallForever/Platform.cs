@@ -9,23 +9,34 @@ namespace Minigames.FallForever
         {
             Simple,
             MovingLeft,
-            MovingRight
+            MovingRight,
+            Ramp,
+            RandomDirectionRamp
         }
 
+        public float RandomJumpXOffset = 1;
+        public float JumpPower = 20;
+        public float SlideForce = 5f;
         public PlatformType SelectPlatformType;
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            var rbVelocity = other.gameObject.GetComponent<Rigidbody2D>();
-            switch (this.SelectPlatformType)
+            var player = other.gameObject.GetComponent<Player>();
+            switch (SelectPlatformType)
             {
                 case PlatformType.Simple:
                     break;
                 case PlatformType.MovingLeft:
-                    rbVelocity.velocity = new Vector2(-1, rbVelocity.velocity.y);
+                    player.PlatformOffset = -SlideForce;
                     break;
                 case PlatformType.MovingRight:
-                    rbVelocity.velocity = new Vector2(1, rbVelocity.velocity.y);
+                    player.PlatformOffset = SlideForce;
+                    break;
+                case PlatformType.Ramp:
+                    player.Jump(JumpPower);
+                    break;
+                case PlatformType.RandomDirectionRamp:
+                    player.RandomJump(JumpPower, RandomJumpXOffset);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

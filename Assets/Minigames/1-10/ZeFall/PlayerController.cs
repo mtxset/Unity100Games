@@ -24,30 +24,30 @@ namespace Minigames.ZeFall
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
 
-            this.subscribeToEvents();
+            subscribeToEvents();
         }
         private void Update()
         {
-            var position = this.transform.position;
+            var position = transform.position;
             position = Vector2.MoveTowards(
                     position,
-                    new Vector2(position.x + (this.MovementOffset * (int)this.playerMovement), position.y),
-                    this.MovementSpeed * Time.deltaTime);
-            this.transform.position = position;
+                    new Vector2(position.x + (MovementOffset * (int)playerMovement), position.y),
+                    MovementSpeed * Time.deltaTime);
+            transform.position = position;
         }
 
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnUpButtonPressed += HandleUpButtonPressed;
-            this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalPressed;
+            gameManager.ButtonEvents.OnUpButtonPressed += HandleUpButtonPressed;
+            gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalPressed;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnUpButtonPressed -= HandleUpButtonPressed;
-            this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalPressed;
+            gameManager.ButtonEvents.OnUpButtonPressed -= HandleUpButtonPressed;
+            gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalPressed;
         }
         private void HandleHorizontalPressed(InputValue inputValue)
         {
@@ -66,20 +66,20 @@ namespace Minigames.ZeFall
         }
         private void OnDisable()
         {
-            this.unsubscribeToEvents();    
+            unsubscribeToEvents();    
         }
 
         private void HandleUpButtonPressed()
         {
-            if (!this.playerOnGround)
+            if (!playerOnGround)
                 return;
 
-            this.GetComponent<Rigidbody2D>().AddForce(Vector2.up * this.JumpHeight, ForceMode2D.Impulse);
+            GetComponent<Rigidbody2D>().AddForce(Vector2.up * JumpHeight, ForceMode2D.Impulse);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            this.playerOnGround = collision.gameObject.CompareTag("ground");
+            playerOnGround = collision.gameObject.CompareTag("ground");
         }
     }
 }

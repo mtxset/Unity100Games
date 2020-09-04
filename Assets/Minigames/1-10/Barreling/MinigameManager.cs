@@ -5,7 +5,7 @@ using UnityInterfaces;
 
 namespace Minigames.Barreling
 {
-    public class MinigameManager : MonoBehaviour, IMinigameManagerOLD
+    public class MinigameManager : MonoBehaviour, IMinigameManagerOld
     {
         public AudioSource DeathAudio;
         public AudioSource LandedAudio;
@@ -30,71 +30,71 @@ namespace Minigames.Barreling
 
         private void Awake()
         {
-            this.Events = new Events();
+            Events = new Events();
         }
 
         private void Start()
         {
-            this.ButtonEvents = GetComponentInParent<ButtonEvents>();
-            this.CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
+            ButtonEvents = GetComponentInParent<ButtonEvents>();
+            CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
 
-            this.subscribeToEvents();
+            subscribeToEvents();
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         public void SetCurrentBarrel(Barrel barrel)
         {
-            this.currentBarrel = barrel;
+            currentBarrel = barrel;
         }
 
         public int GetScore()
         {
-            return this.Score;
+            return Score;
         }
 
         private void subscribeToEvents()
         {
-            this.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
+            ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
 
-            this.Events.OnScored += HandleScored;
-            this.Events.OnDeath += HandleDeath;
+            Events.OnScored += HandleScored;
+            Events.OnDeath += HandleDeath;
         }
 
         private void HandleActionButtonPressed()
         {
-            this.currentBarrel.SetBarrelStatic();
+            currentBarrel.SetBarrelStatic();
         }
 
         private void unsubscribeToEvents()
         {
-            this.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
+            ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
 
-            this.Events.OnScored -= HandleScored;
-            this.Events.OnDeath -= HandleDeath;
+            Events.OnScored -= HandleScored;
+            Events.OnDeath -= HandleDeath;
         }
 
         private void HandleDeath(GameObject obj)
         {
-            this.GameOver = true;
-            this.GameOverPage.SetActive(true);
-            this.DeathAudio.Play();
-            this.CommunicationBus.PlayerDied();
+            GameOver = true;
+            GameOverPage.SetActive(true);
+            DeathAudio.Play();
+            CommunicationBus.PlayerDied();
         }
 
         private void HandleScored(int score)
         {
-            this.LandedAudio.Play();
-            this.setScore(this.Score + score);
-            this.CommunicationBus.PlayerScored(score);
+            LandedAudio.Play();
+            setScore(Score + score);
+            CommunicationBus.PlayerScored(score);
         }
         private void setScore(int newScore)
         {
-            this.ScoreText.text = newScore.ToString();
-            this.Score = newScore;
+            ScoreText.text = newScore.ToString();
+            Score = newScore;
         }
     }
 }

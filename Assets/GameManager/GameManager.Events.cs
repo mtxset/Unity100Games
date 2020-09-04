@@ -13,15 +13,15 @@
         /// <param name="playerId">Player's id</param>
         private void OnPlayerDeath(int playerId)
         {
-            if (this.intermission)
+            if (Intermission)
             {
                 return;
             }
             
             playersData[playerId].GameStateData.Alive = false;
 
-            if (this.checkIfAllDied())
-                this.intermissionStart();
+            if (checkIfAllDied())
+                StartCoroutine(intermissionStart());
         }
     }
 }

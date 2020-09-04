@@ -1,4 +1,4 @@
-﻿using Interfaces;
+﻿using Components.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +8,8 @@ public class TextInterface2 : MonoBehaviour
 
     public void OnEnable()
     {
-        var comp = this.GetComponentInParent<IMinigameManager>();
+        var comp = GetComponentInParent<IMinigameManager>();
         
-        this.TextField.text = $"SCORE: {comp.Score}";
+        TextField.text = $"SCORE: {comp.Score}";
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Components.UnityComponents
+namespace Components.UnityComponents.v1
 {
     public class DefaultSoundsController : MonoBehaviour
     {
@@ -12,43 +12,43 @@ namespace Components.UnityComponents
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManagerDefault>();
+            gameManager = GetComponentInParent<MinigameManagerDefault>();
             
-            this.subscribeToEvents();
+            subscribeToEvents();
         }
         
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
         
         private void subscribeToEvents()
         {
-            this.gameManager.Events.OnHit += HandleHit;
-            this.gameManager.Events.OnDeath += HandleDeath;
-            this.gameManager.Events.OnScored += HandleScored;
+            gameManager.Events.OnHit += HandleHit;
+            gameManager.Events.OnDeath += HandleDeath;
+            gameManager.Events.OnScored += HandleScored;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.Events.OnHit -= HandleHit;
-            this.gameManager.Events.OnDeath -= HandleDeath;
-            this.gameManager.Events.OnScored -= HandleScored;
+            gameManager.Events.OnHit -= HandleHit;
+            gameManager.Events.OnDeath -= HandleDeath;
+            gameManager.Events.OnScored -= HandleScored;
         }
 
         private void HandleHit()
         {
-            this.SoundHit.Play();
+            SoundHit.Play();
         }
 
         private void HandleDeath()
         {
-            this.SoundDeath.Play();
+            SoundDeath.Play();
         }
 
         private void HandleScored(int obj)
         {
-            this.SoundScored.Play();
+            SoundScored.Play();
         }
     }
 }

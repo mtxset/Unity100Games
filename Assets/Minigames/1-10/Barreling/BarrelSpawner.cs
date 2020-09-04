@@ -19,61 +19,61 @@ namespace Minigames.Barreling
 
         private void Start()
         {
-            this.barrels = new List<GameObject>();
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.subscribetToEvents();
-            this.spawnBarrel();
+            barrels = new List<GameObject>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            subscribetToEvents();
+            spawnBarrel();
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            this.timer += Time.deltaTime;
+            timer += Time.deltaTime;
 
-            if (this.timer >= this.MovementSpeedFrequencyInSeconds)
+            if (timer >= MovementSpeedFrequencyInSeconds)
             {
-                this.currentMovementSpeed += IncreaseMovementSpeedBy;
-                this.timer = 0;
+                currentMovementSpeed += IncreaseMovementSpeedBy;
+                timer = 0;
             }
 
-            this.TextSpeed.text = $"SPEED: {this.currentMovementSpeed}";
+            TextSpeed.text = $"SPEED: {currentMovementSpeed}";
         }
 
         private void spawnBarrel()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            var barrelObject = Instantiate(this.BarrelPrefab, this.transform);
-            this.barrels.Add(barrelObject);
+            var barrelObject = Instantiate(BarrelPrefab, transform);
+            barrels.Add(barrelObject);
 
             var barrel = barrelObject.GetComponent<Barrel>();
             
-            this.gameManager.SetCurrentBarrel(barrel);
-            barrel.AccelerateBarrelMovement(this.currentMovementSpeed);
+            gameManager.SetCurrentBarrel(barrel);
+            barrel.AccelerateBarrelMovement(currentMovementSpeed);
         }
 
         private void subscribetToEvents()
         {
-            this.gameManager.Events.OnLanded += HandleLanded;
-            this.gameManager.Events.OnDeath += HandleDeath;
+            gameManager.Events.OnLanded += HandleLanded;
+            gameManager.Events.OnDeath += HandleDeath;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.Events.OnLanded -= HandleLanded;
-            this.gameManager.Events.OnDeath -= HandleDeath;
+            gameManager.Events.OnLanded -= HandleLanded;
+            gameManager.Events.OnDeath -= HandleDeath;
         }
 
         private void HandleDeath(GameObject obj)
         {
-            foreach (var item in this.barrels)
+            foreach (var item in barrels)
             {
                 item.GetComponent<Rigidbody2D>().simulated = false;
             }
@@ -81,12 +81,12 @@ namespace Minigames.Barreling
 
         private void HandleLanded()
         {
-            this.spawnBarrel();
+            spawnBarrel();
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
     }
 }

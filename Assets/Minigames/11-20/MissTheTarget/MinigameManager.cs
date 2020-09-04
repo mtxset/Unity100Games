@@ -1,4 +1,4 @@
-﻿using Components.UnityComponents;
+﻿using Components.UnityComponents.v1;
 
 namespace Minigames.MissTheTarget
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Components.UnityComponents;
+using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Components
@@ -45,49 +45,49 @@ namespace Components
             this.setParentTo = setParentTo;
             this.gameManagerOffset = gameManagerOffset;
 
-            this.parallaxObjectList = new List<GameObject>();
+            parallaxObjectList = new List<GameObject>();
 
             float orthographicSize;
-            this.screenHalfSizeWorldUnits = new Vector2(
+            screenHalfSizeWorldUnits = new Vector2(
                 currentCamera.aspect * (orthographicSize = currentCamera.orthographicSize),
                 orthographicSize);
             
-            this.parallaxObjectSize = new Vector2(
-                this.objectToParallax.GetComponent<SpriteRenderer>().bounds.size.x,
-                this.objectToParallax.GetComponent<SpriteRenderer>().bounds.size.y);
+            parallaxObjectSize = new Vector2(
+                objectToParallax.GetComponent<SpriteRenderer>().bounds.size.x,
+                objectToParallax.GetComponent<SpriteRenderer>().bounds.size.y);
             
-            this.preInitiateObjects();
+            preInitiateObjects();
         }
         
         private void preInitiateObjects()
         {
-            var axis = this.getCurrentAxis();
+            var axis = getCurrentAxis();
             
             var amountOfParallaxObjects = Mathf.Ceil(
-                (this.screenHalfSizeWorldUnits[axis.Selected] * 2 + this.parallaxObjectSize[axis.Selected] * 3) /
-                this.parallaxObjectSize[axis.Selected]);
+                (screenHalfSizeWorldUnits[axis.Selected] * 2 + parallaxObjectSize[axis.Selected] * 3) /
+                parallaxObjectSize[axis.Selected]);
                 
-            var lastAxisPosition = this.calculateLastPosition()[axis.Selected];
+            var lastAxisPosition = calculateLastPosition()[axis.Selected];
             for (var i = 0; i < amountOfParallaxObjects; i++)
             {
-                var newParallaxObject = Object.Instantiate(this.objectToParallax, this.setParentTo);
+                var newParallaxObject = Object.Instantiate(objectToParallax, setParentTo);
                 newParallaxObject.transform.position = new Vector2
                     {
                         [axis.Selected] = lastAxisPosition,
-                        [axis.Unselected] = this.setParentTo.position[axis.Unselected]
+                        [axis.Unselected] = setParentTo.position[axis.Unselected]
                     };
-                lastAxisPosition += this.parallaxObjectSize[axis.Selected] * -axis.Direction;
-                this.parallaxObjectList.Add(newParallaxObject);
+                lastAxisPosition += parallaxObjectSize[axis.Selected] * -axis.Direction;
+                parallaxObjectList.Add(newParallaxObject);
             }
 
-            this.currentLastParallaxObject = this.parallaxObjectList.Last();
+            currentLastParallaxObject = parallaxObjectList.Last();
         }
 
         private VectorAxis getCurrentAxis()
         {
             var axis = new VectorAxis();
-            if (this.selectMovementPostion == Direction.FromRightToLeft ||
-                this.selectMovementPostion == Direction.FromLeftToRight)
+            if (selectMovementPostion == Direction.FromRightToLeft ||
+                selectMovementPostion == Direction.FromLeftToRight)
             {
                 axis.Selected = 0;
                 axis.Unselected = 1;
@@ -98,8 +98,8 @@ namespace Components
                 axis.Unselected = 0;
             }
             
-            if (this.selectMovementPostion == Direction.FromLeftToRight ||
-                this.selectMovementPostion == Direction.Vertical1)
+            if (selectMovementPostion == Direction.FromLeftToRight ||
+                selectMovementPostion == Direction.Vertical1)
             {
                 axis.Direction = 1;
             }
@@ -113,30 +113,30 @@ namespace Components
         
         private void sendObjectToEndOfQueue(GameObject parallaxObject)
         {
-            var axis = this.getCurrentAxis();
+            var axis = getCurrentAxis();
             
             parallaxObject.transform.position =  new Vector2 
             {
                 [axis.Selected] = currentLastParallaxObject.transform.position[axis.Selected] +
-                    (this.parallaxObjectSize[axis.Selected] *
+                    (parallaxObjectSize[axis.Selected] *
                      -axis.Direction),
-                [axis.Unselected] = this.setParentTo.position[axis.Unselected]
+                [axis.Unselected] = setParentTo.position[axis.Unselected]
             };
             
-            this.currentLastParallaxObject = parallaxObject;
+            currentLastParallaxObject = parallaxObject;
         }
 
         private Vector2 calculateLastPosition()
         {
-            var axis = this.getCurrentAxis();
+            var axis = getCurrentAxis();
             
             var lastPosition = new Vector2
             {
                 [axis.Selected] =
-                    (this.screenHalfSizeWorldUnits[axis.Selected] -
-                     this.parallaxObjectSize.x / 2) *
-                    axis.Direction + this.gameManagerOffset[axis.Selected],
-                [axis.Unselected] = this.setParentTo.position[axis.Unselected]
+                    (screenHalfSizeWorldUnits[axis.Selected] -
+                     parallaxObjectSize.x / 2) *
+                    axis.Direction + gameManagerOffset[axis.Selected],
+                [axis.Unselected] = setParentTo.position[axis.Unselected]
             };
             
             return lastPosition;                                            
@@ -144,12 +144,12 @@ namespace Components
 
         private void parallaxCycle()
         {
-            var axis = this.getCurrentAxis();
+            var axis = getCurrentAxis();
             
-            foreach (var item in this.parallaxObjectList)
+            foreach (var item in parallaxObjectList)
             {
                 var positionWithOffset = 
-                    item.transform.position[axis.Selected] - this.gameManagerOffset[axis.Selected];
+                    item.transform.position[axis.Selected] - gameManagerOffset[axis.Selected];
                 switch (selectMovementPostion)
                 {
                     default:
@@ -177,7 +177,7 @@ namespace Components
                 item.transform.position = new Vector2 
                 {
                     [axis.Selected] = 
-                        currentPosition[axis.Selected] + this.ParallaxSpeed * Time.deltaTime * axis.Direction,
+                        currentPosition[axis.Selected] + ParallaxSpeed * Time.deltaTime * axis.Direction,
                     [axis.Unselected] = currentPosition[axis.Unselected]
                 };
             }
@@ -185,7 +185,7 @@ namespace Components
         
         public void FixedUpdateRoutine()
         {
-            this.parallaxCycle();
+            parallaxCycle();
         }
     }
 }

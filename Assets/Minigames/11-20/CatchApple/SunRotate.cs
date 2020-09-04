@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Minigames.CatchApple
 {
@@ -9,7 +8,7 @@ namespace Minigames.CatchApple
 
         private void Update()
         {
-            this.transform.Rotate(Vector3.forward, this.RotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.forward, RotationSpeed * Time.deltaTime);
         }
     }
 }

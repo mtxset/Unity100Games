@@ -27,42 +27,42 @@ namespace Minigames.MathTheTarget
         private MinigameManager gameManager;
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
             
-            this.points = newPoints();
-            this.targetPoints = newTargetPoints();
+            points = newPoints();
+            targetPoints = newTargetPoints();
 
-            this.lastA = A;
-            this.targetPosition = this.points[0];
-            this.targetTargetPosition = this.targetPoints[0];
+            lastA = A;
+            targetPosition = points[0];
+            targetTargetPosition = targetPoints[0];
             
-            this.ObjectToMove.transform.position = this.targetPosition;
-            this.Target.transform.position = this.targetTargetPosition;
+            ObjectToMove.transform.position = targetPosition;
+            Target.transform.position = targetTargetPosition;
 
-            this.gameManager.DartEvents.OnShoot += HandleShoot;
-            this.gameManager.DartEvents.OnDartReset += HandleReset;
+            gameManager.DartEvents.OnShoot += HandleShoot;
+            gameManager.DartEvents.OnDartReset += HandleReset;
         }
 
         private void OnDisable()
         {
-            this.gameManager.DartEvents.OnShoot -= HandleShoot;
-            this.gameManager.DartEvents.OnDartReset -= HandleReset;
+            gameManager.DartEvents.OnShoot -= HandleShoot;
+            gameManager.DartEvents.OnDartReset -= HandleReset;
         }
 
         private void HandleShoot()
         {
-            this.ObjectToMove.GetComponent<SpriteRenderer>().enabled = false;
+            ObjectToMove.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         private void HandleReset()
         {
-            this.ObjectToMove.GetComponent<SpriteRenderer>().enabled = true;
+            ObjectToMove.GetComponent<SpriteRenderer>().enabled = true;
         }
 
         private List<Vector2> newPoints()
         {
             return Curves.LemniscateOfBernoulli(
-                this.transform.position,
+                transform.position,
                 0.1f,
                 0,
                 Mathf.PI * 2,
@@ -72,7 +72,7 @@ namespace Minigames.MathTheTarget
         private List<Vector2> newTargetPoints()
         {
             return Curves.LemniscateOfBernoulli(
-                this.gameManager.transform.position, 
+                gameManager.transform.position, 
                 0.01f,
                 0, 
                 Mathf.PI*2,
@@ -81,7 +81,7 @@ namespace Minigames.MathTheTarget
 
         public void FixedUpdate()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
@@ -89,61 +89,61 @@ namespace Minigames.MathTheTarget
             moveCrosshair();
             moveTarget();
 
-            this.Target.transform.localScale = Vector3.Lerp(
-                this.Target.transform.localScale, Vector3.one * this.TargetScale,
+            Target.transform.localScale = Vector3.Lerp(
+                Target.transform.localScale, Vector3.one * TargetScale,
                 30 * Time.fixedDeltaTime);
         }
 
         private void moveTarget()
         {
-            this.Target.transform.position = Vector2.Lerp(
-                this.Target.transform.position,
-                this.targetTargetPosition,
-                this.TargetMovementSpeed * Time.fixedDeltaTime);
+            Target.transform.position = Vector2.Lerp(
+                Target.transform.position,
+                targetTargetPosition,
+                TargetMovementSpeed * Time.fixedDeltaTime);
             
-            this.Target.transform.Rotate(
-                0,0, this.TargetRotationSpeed * Time.fixedDeltaTime);
+            Target.transform.Rotate(
+                0,0, TargetRotationSpeed * Time.fixedDeltaTime);
             
             if (Vector2.Distance(
-                this.Target.transform.position,
-                this.targetTargetPosition) <= this.DistanceThreshold)
+                Target.transform.position,
+                targetTargetPosition) <= DistanceThreshold)
             {
-                this.targetCurrentPoint++;
+                targetCurrentPoint++;
 
-                if (this.targetCurrentPoint == this.targetPoints.Count)
+                if (targetCurrentPoint == targetPoints.Count)
                 {
-                    this.targetCurrentPoint = 0;
+                    targetCurrentPoint = 0;
                 }
 
-                targetTargetPosition = this.targetPoints[targetCurrentPoint];
+                targetTargetPosition = targetPoints[targetCurrentPoint];
             }
         }
 
         private void moveCrosshair()
         {
-            if (Mathf.Abs(this.lastA - this.A) > 0.001f)
+            if (Mathf.Abs(lastA - A) > 0.001f)
             {
-                this.points = this.newPoints();
-                this.lastA = this.A;
+                points = newPoints();
+                lastA = A;
             }
 
-            this.ObjectToMove.transform.position = Vector2.Lerp(
-                this.ObjectToMove.transform.position,
-                this.targetPosition,
-                this.MovementSpeed * Time.fixedDeltaTime);
+            ObjectToMove.transform.position = Vector2.Lerp(
+                ObjectToMove.transform.position,
+                targetPosition,
+                MovementSpeed * Time.fixedDeltaTime);
 
             if (Vector2.Distance(
-                this.ObjectToMove.transform.position,
-                this.targetPosition) <= this.DistanceThreshold)
+                ObjectToMove.transform.position,
+                targetPosition) <= DistanceThreshold)
             {
-                this.currentPoint++;
+                currentPoint++;
 
-                if (this.currentPoint == this.points.Count)
+                if (currentPoint == points.Count)
                 {
-                    this.currentPoint = 0;
+                    currentPoint = 0;
                 }
 
-                targetPosition = this.points[currentPoint];
+                targetPosition = points[currentPoint];
             }
         }
     }

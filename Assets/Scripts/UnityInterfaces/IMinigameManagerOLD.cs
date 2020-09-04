@@ -1,6 +1,6 @@
 ﻿namespace UnityInterfaces
 {
-    public interface IMinigameManagerOLD
+    public interface IMinigameManagerOld
     {
         int GetScore();
 

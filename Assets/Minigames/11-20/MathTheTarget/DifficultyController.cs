@@ -23,12 +23,12 @@ namespace Minigames.MathTheTarget
 
         private void Start()
         {
-            this.DifficultyText.text = $"DIFFICULTY: {this.CurrentDifficulty * 100}";
+            DifficultyText.text = $"DIFFICULTY: {CurrentDifficulty * 100}";
         }
 
         private void Update()
         {
-            this.checkDifficulty();
+            checkDifficulty();
         }
 
         private void adjustDifficulty()
@@ -42,27 +42,27 @@ namespace Minigames.MathTheTarget
             };
 
             var difficulty = DifficultyAdjuster.SpreadDifficulty(
-                this.CurrentDifficulty, vectors);
+                CurrentDifficulty, vectors);
 
-            this.Curve.TargetMovementSpeed = difficulty[0];
-            this.Curve.TargetRotationSpeed = difficulty[1];
-            this.Curve.MovementSpeed = difficulty[2];
-            this.Curve.TargetScale = difficulty[3];
+            Curve.TargetMovementSpeed = difficulty[0];
+            Curve.TargetRotationSpeed = difficulty[1];
+            Curve.MovementSpeed = difficulty[2];
+            Curve.TargetScale = difficulty[3];
         }
 
         private void checkDifficulty()
         {
-            if ((this.timer += Time.deltaTime) > this.IncreaseAfter)
+            if ((timer += Time.deltaTime) > IncreaseAfter)
             {
-                if (this.CurrentDifficulty >= 1.0f)
+                if (CurrentDifficulty >= 1.0f)
                 {
                     return;
                 }
                 
-                this.CurrentDifficulty += this.IncreaseBy;
-                this.DifficultyText.text = $"DIFFICULTY: {this.CurrentDifficulty * 100}";
-                this.adjustDifficulty();
-                this.timer = 0;
+                CurrentDifficulty += IncreaseBy;
+                DifficultyText.text = $"DIFFICULTY: {CurrentDifficulty * 100}";
+                adjustDifficulty();
+                timer = 0;
             }
         }
     }

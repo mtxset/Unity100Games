@@ -34,8 +34,8 @@ namespace Components
         {
             this.entitiesToSpawn = entitiesToSpawn;
 
-            this.liveEntities = new List<GameObject>();
-            this.deadEntities = new List<GameObject>();
+            liveEntities = new List<GameObject>();
+            deadEntities = new List<GameObject>();
 
             this.moveMethod = moveMethod;
             this.destroyConditionDelegate = destroyConditionDelegate;
@@ -53,7 +53,7 @@ namespace Components
         {
             foreach (var entity in liveEntities)
             {
-                entity.transform.position = this.moveMethod(entity.transform.position);
+                entity.transform.position = moveMethod(entity.transform.position);
 
                 if (destroyConditionDelegate == null) continue;
                 
@@ -67,7 +67,7 @@ namespace Components
             {
                 liveEntities.Remove(entity);
                 Object.Destroy(entity);
-                this.callbackOnDestroyed?.Invoke();
+                callbackOnDestroyed?.Invoke();
             }
             
             deadEntities.Clear();
@@ -78,11 +78,11 @@ namespace Components
             var randomIndex = Random.Range(0, entitiesToSpawn.Length);
 
             var newEntity =
-                Object.Instantiate(this.entitiesToSpawn[randomIndex], this.setParentTo);
+                Object.Instantiate(entitiesToSpawn[randomIndex], setParentTo);
 
-            newEntity.transform.position = this.spawnPositionDelegate(newEntity.transform);
+            newEntity.transform.position = spawnPositionDelegate(newEntity.transform);
             
-            this.liveEntities.Add(newEntity);
+            liveEntities.Add(newEntity);
         }
     }
     

@@ -1,4 +1,4 @@
-﻿using Components.UnityComponents;
+﻿using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Minigames.TrainRunner
@@ -11,7 +11,7 @@ namespace Minigames.TrainRunner
         protected override void UnityStart()
         {
             base.UnityStart();
-            this.SlowMotionEvents = new SlowMotionEvents();
+            SlowMotionEvents = new SlowMotionEvents();
         }
     }
 }

@@ -24,31 +24,31 @@ namespace Minigames.Flythrough
 
         private void Start()
         {
-            this.lifes = new List<GameObject>(this.Lifes);
+            lifes = new List<GameObject>(Lifes);
 
-            this.gameManager = GetComponentInParent<MinigameManager>();
-            this.animator = GetComponent<Animator>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            animator = GetComponent<Animator>();
 
-            this.targetPosition = this.PlaneTransform.position;
+            targetPosition = PlaneTransform.position;
 
-            this.subscribeToEvents();
+            subscribeToEvents();
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChange;
-            this.gameManager.ButtonEvents.OnHorizontalPressed += LocalStateChange;
+            gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChange;
+            gameManager.ButtonEvents.OnHorizontalPressed += LocalStateChange;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChange;
-            this.gameManager.ButtonEvents.OnHorizontalPressed -= LocalStateChange;
+            gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChange;
+            gameManager.ButtonEvents.OnHorizontalPressed -= LocalStateChange;
         }
 
         private void LocalStateChange(InputValue obj)
@@ -61,61 +61,61 @@ namespace Minigames.Flythrough
             
             if (HorizontalState == AxisState.Negative)
             {
-                this.gameManager.SoundMove.Play();
-                this.animator.SetTrigger(LeftPressed);
-                this.targetPosition = new Vector2(
+                gameManager.SoundMove.Play();
+                animator.SetTrigger(LeftPressed);
+                targetPosition = new Vector2(
                     -5f,
-                    this.targetPosition.y);
+                    targetPosition.y);
             }
             else if (HorizontalState == AxisState.Positive)
             {
-                this.gameManager.SoundMove.Play();
-                this.animator.SetTrigger(RightPressed);
-                this.targetPosition = new Vector2(
+                gameManager.SoundMove.Play();
+                animator.SetTrigger(RightPressed);
+                targetPosition = new Vector2(
                     5f,
-                    this.targetPosition.y);
+                    targetPosition.y);
             }
             else
             {
-                this.targetPosition = new Vector2(
+                targetPosition = new Vector2(
                     0,
-                    this.targetPosition.y);
+                    targetPosition.y);
             }
         }
         
         private void Update()
         {
-            if (this.gameManager.GameOver) return;
+            if (gameManager.GameOver) return;
 
-            this.PlaneTransform.transform.position = Vector2.MoveTowards(
-                this.PlaneTransform.transform.position,
-                this.targetPosition,
-                this.MoveSpeed * Time.deltaTime);
+            PlaneTransform.transform.position = Vector2.MoveTowards(
+                PlaneTransform.transform.position,
+                targetPosition,
+                MoveSpeed * Time.deltaTime);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("deadzone"))
             {
-                var lastEntry = this.lifes.Last();
+                var lastEntry = lifes.Last();
                 Destroy(lastEntry);
-                this.lifes.Remove(lastEntry);
+                lifes.Remove(lastEntry);
 
                 var explosion = Instantiate(
-                    this.ExolosionEffect, collision.transform.position, Quaternion.identity);
+                    ExolosionEffect, collision.transform.position, Quaternion.identity);
                 Destroy(collision.gameObject);
                 Destroy(explosion, 5.0f);
-                this.gameManager.SoundExplosion.Play();
-                if (this.lifes.Count == 0)
+                gameManager.SoundExplosion.Play();
+                if (lifes.Count == 0)
                 {
-                    this.gameManager.SoundDeath.Play();
-                    this.gameManager.Events.EventDeath();
+                    gameManager.SoundDeath.Play();
+                    gameManager.Events.EventDeath();
                 }
             }
             else if (collision.CompareTag("scorezone"))
             {
-                this.gameManager.SoundScore.Play();
-                this.gameManager.Events.EventScored(1);
+                gameManager.SoundScore.Play();
+                gameManager.Events.EventScored(1);
             }
         }
     }

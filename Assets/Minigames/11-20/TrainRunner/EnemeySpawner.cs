@@ -15,18 +15,18 @@ namespace Minigames.TrainRunner
             Transform spawnYPosition,
             float spawnDistance)
         {
-            this.barrelPrefab = enemyPrefab;
-            this.parent = setParentTo;
+            barrelPrefab = enemyPrefab;
+            parent = setParentTo;
             this.spawnDistance = spawnDistance;
             this.spawnYPosition = spawnYPosition;
         }
         
         public GameObject SpawnBarrel()
         {
-            var randomX = Random.Range(-this.spawnDistance, this.spawnDistance);
-            var barrel = Object.Instantiate(this.barrelPrefab, this.parent);
+            var randomX = Random.Range(-spawnDistance, spawnDistance);
+            var barrel = Object.Instantiate(barrelPrefab, parent);
             barrel.transform.position = new Vector3(
-                randomX, this.spawnYPosition.position.y);
+                randomX, spawnYPosition.position.y);
             
             return barrel;
         }

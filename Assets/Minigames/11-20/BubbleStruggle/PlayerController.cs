@@ -1,5 +1,4 @@
-﻿using System;
-using Components.UnityComponents;
+﻿using Components.UnityComponents;
 using UnityEngine;
 
 namespace Minigames.BubbleStruggle
@@ -12,41 +11,41 @@ namespace Minigames.BubbleStruggle
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.subscribeToEvents();
+            gameManager = GetComponentInParent<MinigameManager>();
+            subscribeToEvents();
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnHorizontalPressed 
+            gameManager.ButtonEvents.OnHorizontalPressed 
                 += HandleHorizontalStateChange;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnHorizontalPressed 
+            gameManager.ButtonEvents.OnHorizontalPressed 
                 -= HandleHorizontalStateChange;
         }
 
         private void FixedUpdate()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
-            this.movePlayer();
+            movePlayer();
         }
 
         private void movePlayer()
         {
-            this.transform.Translate(
-                (int) this.HorizontalState * this.MovementSpeed * Time.fixedDeltaTime,
+            transform.Translate(
+                (int) HorizontalState * MovementSpeed * Time.fixedDeltaTime,
                 0f,
                 0f);
         }
@@ -55,8 +54,8 @@ namespace Minigames.BubbleStruggle
         {
             if (other.gameObject.CompareTag("scorezone"))
             {
-                this.gameManager.Events.EventHit();
-                this.gameManager.ResetBalls();
+                gameManager.Events.EventHit();
+                gameManager.ResetBalls();
             }
         }
     }

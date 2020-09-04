@@ -18,51 +18,51 @@ namespace Minigames.MathTheTarget
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
 
-            this.dartRigidbody = this.DartPrefab.GetComponent<Rigidbody>();
-            this.initialPostion = this.DartPrefab.transform.position;
+            dartRigidbody = DartPrefab.GetComponent<Rigidbody>();
+            initialPostion = DartPrefab.transform.position;
             
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButton;
+            gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButton;
         }
 
         private void OnDisable()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButton;
+            gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButton;
         }
 
         private void HandleActionButton()
         {
-            if (this.shooting)
+            if (shooting)
             {
                 return;
             }
             
-            this.DartPrefab.transform.position += new Vector3(
-                this.Crosshair.transform.localPosition.x,
-                this.Crosshair.transform.localPosition.y,
+            DartPrefab.transform.position += new Vector3(
+                Crosshair.transform.localPosition.x,
+                Crosshair.transform.localPosition.y,
                 0);
-            this.dartRigidbody.velocity = new Vector3(0,0, this.DartLaunchVelocity);
-            this.gameManager.DartEvents.EventShoot();
-            this.shooting = true;
+            dartRigidbody.velocity = new Vector3(0,0, DartLaunchVelocity);
+            gameManager.DartEvents.EventShoot();
+            shooting = true;
         }
 
         private void FixedUpdate()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
             if (shooting)
             {
-                this.dartRigidbody.velocity -= 
-                    new Vector3(0, 0, this.DeaccelerationSpeed * Time.fixedDeltaTime);
+                dartRigidbody.velocity -= 
+                    new Vector3(0, 0, DeaccelerationSpeed * Time.fixedDeltaTime);
             }
             else
             {
-                this.dartRigidbody.velocity = Vector3.zero;
-                this.DartPrefab.transform.position = this.initialPostion;
+                dartRigidbody.velocity = Vector3.zero;
+                DartPrefab.transform.position = initialPostion;
             }
         }
 
@@ -71,21 +71,21 @@ namespace Minigames.MathTheTarget
             if (other.gameObject.CompareTag("scorezone"))
             {
                 var target = other.GetComponent<TargetPoints>();
-                leaveAMark(other.transform, this.transform.position);
-                this.gameManager.Events.EventScored(target.Points);
+                leaveAMark(other.transform, transform.position);
+                gameManager.Events.EventScored(target.Points);
             }
             else if (other.gameObject.CompareTag("deadzone"))
             {
-                this.gameManager.Events.EventHit();
+                gameManager.Events.EventHit();
             }
             
-            this.gameManager.DartEvents.EventDartReset(); 
-            this.shooting = false;
+            gameManager.DartEvents.EventDartReset(); 
+            shooting = false;
         }
         
         private void leaveAMark(Transform setParentTo, Vector3 position)
         {
-            var mark = Instantiate(this.Mark, position, Quaternion.identity, setParentTo);
+            var mark = Instantiate(Mark, position, Quaternion.identity, setParentTo);
             mark.transform.localScale /= setParentTo.localScale.x;
         }
     }

@@ -8,10 +8,10 @@ namespace Minigames.ColorJumper
 
         private void Update()
         {
-            if (!(this.Player.position.y > this.transform.position.y)) return;
+            if (!(Player.position.y > transform.position.y)) return;
             
-            var position = this.Player.position;
-            this.transform.position = new Vector3(
+            var position = Player.position;
+            transform.position = new Vector3(
                 position.x,
                 position.y,
                 position.z - 10.0f);

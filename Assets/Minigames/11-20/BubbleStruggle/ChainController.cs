@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Minigames.BubbleStruggle
 {
@@ -15,61 +14,61 @@ namespace Minigames.BubbleStruggle
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
             
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
             
-            this.resetChain();
+            resetChain();
         }
 
         private void OnDisable()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
         }
 
         private void HandleActionButtonPressed()
         {
-            if (this.isFired)
+            if (isFired)
             {
                 return;
             }
             
-            this.gameManager.ChainEvents.EventFired();
-            this.fireChain();
+            gameManager.ChainEvents.EventFired();
+            fireChain();
         }
 
         private void Update()
         {
-            if (!isFired || this.gameManager.GameOver)
+            if (!isFired || gameManager.GameOver)
             {
                 return;
             }
             
-            this.Chain.transform.localScale = Vector3.Lerp(
-                this.Chain.transform.localScale,
-                this.targetScale,
-                this.ShootSpeed * Time.deltaTime);
+            Chain.transform.localScale = Vector3.Lerp(
+                Chain.transform.localScale,
+                targetScale,
+                ShootSpeed * Time.deltaTime);
         }
 
         private void resetChain()
         {
-            this.isFired = false;
-            this.Chain.transform.localScale = new Vector3(1, 0, 1);
-            this.targetScale = new Vector3(1, 0, 1);
+            isFired = false;
+            Chain.transform.localScale = new Vector3(1, 0, 1);
+            targetScale = new Vector3(1, 0, 1);
         }
         
         private void fireChain()
         {
-            this.Chain.transform.position = this.ShootPoint.transform.position;
+            Chain.transform.position = ShootPoint.transform.position;
 
-            this.targetScale = new Vector3(1, 60, 1);
+            targetScale = new Vector3(1, 60, 1);
 
-            this.isFired = true;
+            isFired = true;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            this.resetChain();
+            resetChain();
             if (other.gameObject.CompareTag("scorezone"))
             {
                 other.gameObject.GetComponent<Ball>().Split();

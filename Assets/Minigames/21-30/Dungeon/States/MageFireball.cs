@@ -9,11 +9,11 @@ namespace Minigames.Dungeon.States
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex)
         {
-            this.enemyController = animator.GetComponentInParent<EnemyController>();
+            enemyController = animator.GetComponentInParent<EnemyController>();
             
             var fireBall = Instantiate(
-                this.FireBallPrefab, 
-                this.enemyController.FireBallSpawnPoint.position,
+                FireBallPrefab, 
+                enemyController.FireBallSpawnPoint.position,
                 FireBallPrefab.transform.rotation,
                 animator.transform);
             

@@ -29,34 +29,34 @@ namespace Minigames.Cannonizer
 
         private void Start()
         {
-            this.spriteOutline = GetComponent<SpriteOutline>();
-            this.spriteOutline.outlineSize = 9;
-            this.spriteOutline.color = Color.green;
+            spriteOutline = GetComponent<SpriteOutline>();
+            spriteOutline.outlineSize = 9;
+            spriteOutline.color = Color.green;
 
-            this.gameManager = GetComponentInParent<CannonizerManager>();
-            this.targetRotation = this.transform.rotation;
-            this.ballDirection = Vector2.left;
-            this.canFire = true;
+            gameManager = GetComponentInParent<CannonizerManager>();
+            targetRotation = transform.rotation;
+            ballDirection = Vector2.left;
+            canFire = true;
 
-            this.gameManager.ButtonEvents.OnUpButtonPressed += HandleUpButtonPressed;
-            this.gameManager.ButtonEvents.OnDownButtonPressed += HandleDownButtonPressed;
-            this.gameManager.ButtonEvents.OnLeftButtonPressed += HandleLeftButtonPressed;
-            this.gameManager.ButtonEvents.OnRightButtonPressed += HandleRightButtonPressed;
-            this.gameManager.ButtonEvents.OnActionButtonStateChanged += HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnUpButtonPressed += HandleUpButtonPressed;
+            gameManager.ButtonEvents.OnDownButtonPressed += HandleDownButtonPressed;
+            gameManager.ButtonEvents.OnLeftButtonPressed += HandleLeftButtonPressed;
+            gameManager.ButtonEvents.OnRightButtonPressed += HandleRightButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonStateChanged += HandleActionButtonPressed;
         }
 
         private void OnDisable()
         {
-            this.gameManager.ButtonEvents.OnUpButtonPressed -= HandleUpButtonPressed;
-            this.gameManager.ButtonEvents.OnDownButtonPressed -= HandleDownButtonPressed;
-            this.gameManager.ButtonEvents.OnLeftButtonPressed -= HandleLeftButtonPressed;
-            this.gameManager.ButtonEvents.OnRightButtonPressed -= HandleRightButtonPressed;
-            this.gameManager.ButtonEvents.OnActionButtonStateChanged -= HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnUpButtonPressed -= HandleUpButtonPressed;
+            gameManager.ButtonEvents.OnDownButtonPressed -= HandleDownButtonPressed;
+            gameManager.ButtonEvents.OnLeftButtonPressed -= HandleLeftButtonPressed;
+            gameManager.ButtonEvents.OnRightButtonPressed -= HandleRightButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonStateChanged -= HandleActionButtonPressed;
         }
 
         private void HandleActionButtonPressed(InputValue inputValue)
         {
-            this.pressedFireButton = inputValue.Get<float>();
+            pressedFireButton = inputValue.Get<float>();
         }
 
         private void Update()
@@ -66,44 +66,44 @@ namespace Minigames.Cannonizer
                 return;
             }
 
-            if (Math.Abs(this.pressedFireButton - 1) < 0.1)
+            if (Math.Abs(pressedFireButton - 1) < 0.1)
             {
-                this.shootZeBall();
+                shootZeBall();
             }
             
-            this.gameObject.transform.rotation = Quaternion.Lerp(
-                this.transform.rotation,
-                this.targetRotation,
-                this.RotationSpeed * Time.deltaTime);
+            gameObject.transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                targetRotation,
+                RotationSpeed * Time.deltaTime);
 
-            if (Quaternion.Angle(this.transform.rotation, this.targetRotation) <= this.AngleApproximation && canFire)
+            if (Quaternion.Angle(transform.rotation, targetRotation) <= AngleApproximation && canFire)
             {
-                this.spriteOutline.color = Color.green;
+                spriteOutline.color = Color.green;
             }
             else
             {
-                this.spriteOutline.color = Color.red;
+                spriteOutline.color = Color.red;
             }
         }
 
         private void rotateCannon(float angle)
         {
-            this.targetRotation = Quaternion.Euler(0, 0, angle);
-            this.RotationAudio.Play();
+            targetRotation = Quaternion.Euler(0, 0, angle);
+            RotationAudio.Play();
 
             switch (angle)
             {
                 case 0:
-                    this.ballDirection = Vector2.right;
+                    ballDirection = Vector2.right;
                     break;
                 case 180:
-                    this.ballDirection = Vector2.left;
+                    ballDirection = Vector2.left;
                     break;
                 case 270:
-                    this.ballDirection = Vector2.down;
+                    ballDirection = Vector2.down;
                     break;
                 case 90:
-                    this.ballDirection = Vector2.up;
+                    ballDirection = Vector2.up;
                     break;
             }
         }
@@ -111,21 +111,21 @@ namespace Minigames.Cannonizer
         private void shootZeBall()
         {
             // check if ready to fire and not in rotation
-            if (!canFire || Quaternion.Angle(this.transform.rotation, this.targetRotation) >= AngleApproximation)
+            if (!canFire || Quaternion.Angle(transform.rotation, targetRotation) >= AngleApproximation)
             {
-                this.CantShotBallAudio.Play();
+                CantShotBallAudio.Play();
                 return;
             }
 
             // Fire
-            var ball = Instantiate(this.BallPrefab, this.BallSpawnPoint.transform.position, Quaternion.identity);
-            ball.transform.SetParent(this.gameManager.transform);
-            ball.GetComponent<Rigidbody2D>().AddForce(this.ballDirection * this.BallSpeed);
+            var ball = Instantiate(BallPrefab, BallSpawnPoint.transform.position, Quaternion.identity);
+            ball.transform.SetParent(gameManager.transform);
+            ball.GetComponent<Rigidbody2D>().AddForce(ballDirection * BallSpeed);
 
-            this.canFire = false;
-            this.spriteOutline.color = Color.red;
+            canFire = false;
+            spriteOutline.color = Color.red;
 
-            this.ShootBallAudio.Play();
+            ShootBallAudio.Play();
 
             Destroy(ball, 3.0f);
 
@@ -134,32 +134,32 @@ namespace Minigames.Cannonizer
 
         private IEnumerator CannonCooldown()
         {
-            for (var i = this.ShootCooldown; i > 0; i--)
+            for (var i = ShootCooldown; i > 0; i--)
             {
                 yield return new WaitForSeconds(1);
             }
 
-            this.canFire = true;
+            canFire = true;
         }
 
         private void HandleRightButtonPressed()
         {
-            this.rotateCannon(0);
+            rotateCannon(0);
         }
 
         private void HandleLeftButtonPressed()
         {
-            this.rotateCannon(180);
+            rotateCannon(180);
         }
 
         private void HandleDownButtonPressed()
         {
-            this.rotateCannon(270);
+            rotateCannon(270);
         }
 
         private void HandleUpButtonPressed()
         {
-            this.rotateCannon(90);
+            rotateCannon(90);
         }
     }
 

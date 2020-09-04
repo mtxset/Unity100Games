@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Minigames.CatchApple
@@ -15,40 +14,35 @@ namespace Minigames.CatchApple
 
         public void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.initialPosition = this.transform.position;
+            gameManager = GetComponentInParent<MinigameManager>();
+            initialPosition = transform.position;
 
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleAction;
+            gameManager.ButtonEvents.OnActionButtonPressed += HandleAction;
         }
 
         private void OnDisable()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleAction;
+            gameManager.ButtonEvents.OnActionButtonPressed -= HandleAction;
         }
 
         private void HandleAction()
         {
-            if (this.gameManager.GameOver || !this.gameManager.AllowHand)
+            if (gameManager.GameOver || !gameManager.AllowHand)
             {
                 return;
             }
             
-            this.shoveHandAsync();
-            this.gameManager.AllowHand = false;
+            StartCoroutine(shoveHand());
+            gameManager.AllowHand = false;
         }
 
-        private async void shoveHandAsync()
+        private IEnumerator shoveHand()
         {
-            this.transform.position = this.ShoveHandPosition.position;
+            transform.position = ShoveHandPosition.position;
 
-            await Task.Delay(TimeSpan.FromSeconds(HoldHandForSeconds));
-
-            if (this.gameManager.GameOver)
-            {
-                return;
-            }
-
-            this.transform.position = this.initialPosition;
+            yield return new WaitForSeconds(HoldHandForSeconds);
+            
+            transform.position = initialPosition;
         }
     }
 }

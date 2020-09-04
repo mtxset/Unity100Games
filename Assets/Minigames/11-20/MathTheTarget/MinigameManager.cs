@@ -1,5 +1,4 @@
-﻿using System;
-using Components.UnityComponents;
+﻿using Components.UnityComponents.v1;
 
 namespace Minigames.MathTheTarget
 {
@@ -10,7 +9,7 @@ namespace Minigames.MathTheTarget
         protected override void UnityStart()
         {
             base.UnityStart();
-            this.DartEvents = new Events();
+            DartEvents = new Events();
         }
     }
 }

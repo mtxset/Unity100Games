@@ -1,5 +1,4 @@
-﻿using System;
-using Components.UnityComponents;
+﻿using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Minigames.Frogger
@@ -14,9 +13,9 @@ namespace Minigames.Frogger
         private float timer;
         private void Update()
         {
-            if ((timer += Time.deltaTime) >= this.IncreaseAfter)
+            if ((timer += Time.deltaTime) >= IncreaseAfter)
             {
-                this.Difficulty += this.IncreaseBy;
+                Difficulty += IncreaseBy;
                 timer = 0;
             }
         }

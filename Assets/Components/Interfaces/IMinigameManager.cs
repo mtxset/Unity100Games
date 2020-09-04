@@ -1,6 +1,4 @@
-﻿using Components;
-
-namespace Interfaces
+﻿namespace Components.Interfaces
 {
     public interface IMinigameManager
     {

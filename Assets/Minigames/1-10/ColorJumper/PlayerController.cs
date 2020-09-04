@@ -15,14 +15,14 @@ namespace Minigames.ColorJumper
         private Transform thisTransform;
         private void Start()
         {
-            this.thisTransform = this.transform;
-            this.spriteRenderer = this.GetComponent<SpriteRenderer>();
-            this.rigidbody2d = this.GetComponent<Rigidbody2D>();
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            thisTransform = transform;
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            rigidbody2d = GetComponent<Rigidbody2D>();
+            gameManager = GetComponentInParent<MinigameManager>();
 
             setPlayerToRandomColor();
-            this.subscribeToEvents();
-            this.setPlayerReady(false);
+            subscribeToEvents();
+            setPlayerReady(false);
         }
         
         /// <summary>
@@ -33,83 +33,83 @@ namespace Minigames.ColorJumper
         {
             if (readyOrNot)
             {
-                this.playerReady = true;
-                this.rigidbody2d.simulated = true;
+                playerReady = true;
+                rigidbody2d.simulated = true;
             }
             else
             {
-                this.playerReady = false;
-                this.rigidbody2d.simulated = false;
+                playerReady = false;
+                rigidbody2d.simulated = false;
             }
         }
 
         private void Update()
         {
-            this.checkIfPlayerBelowScreen();
+            checkIfPlayerBelowScreen();
         }
 
         private void checkIfPlayerBelowScreen()
         {
-            var playerPostion = this.thisTransform.position;
-            var cameraPosition = this.CurrentCamera.transform.position;
+            var playerPostion = thisTransform.position;
+            var cameraPosition = CurrentCamera.transform.position;
             
             if (!(playerPostion.y <
-                  cameraPosition.y - this.CurrentCamera.orthographicSize))
+                  cameraPosition.y - CurrentCamera.orthographicSize))
             {
                 return;
             }
 
-            this.gameManager.Events.EventHit();
+            gameManager.Events.EventHit();
             playerPostion = new Vector2(
                 cameraPosition.x,
-                cameraPosition.y - this.CurrentCamera.orthographicSize + (this.transform.localScale.y * 4f));
+                cameraPosition.y - CurrentCamera.orthographicSize + (transform.localScale.y * 4f));
 
-            this.thisTransform.position = playerPostion;
+            thisTransform.position = playerPostion;
             
-            this.setPlayerReady(false);
+            setPlayerReady(false);
         }
         
         private void setPlayerToRandomColor()
         {
-            var randomColorIndex = Random.Range(0, this.gameManager.ColorList.Length);
-            this.spriteRenderer.color = this.gameManager.ColorList[randomColorIndex];
+            var randomColorIndex = Random.Range(0, gameManager.ColorList.Length);
+            spriteRenderer.color = gameManager.ColorList[randomColorIndex];
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
-            this.gameManager.Events.OnDeath += HandleDeath;
+            gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
+            gameManager.Events.OnDeath += HandleDeath;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
-            this.gameManager.Events.OnDeath -= HandleDeath;
+            gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
+            gameManager.Events.OnDeath -= HandleDeath;
         }
 
         private void HandleDeath()
         {
-            this.rigidbody2d.simulated = false;
+            rigidbody2d.simulated = false;
         }
 
         private void HandleActionButtonPressed()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
             if (!playerReady)
             {
-                this.playerReady = true;
-                this.rigidbody2d.simulated = true;
+                playerReady = true;
+                rigidbody2d.simulated = true;
             }
-            this.rigidbody2d.velocity = Vector2.up * this.JumpHeight;
+            rigidbody2d.velocity = Vector2.up * JumpHeight;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -117,23 +117,23 @@ namespace Minigames.ColorJumper
             if (collision.CompareTag("scorezone"))
             {
                 if (collision.GetComponent<SpriteRenderer>().color
-                    == this.spriteRenderer.color)
+                    == spriteRenderer.color)
                 {
                     collision.gameObject.SetActive(false);
-                    this.gameManager.SoundScored.Play();
-                    this.gameManager.Events.EventScored(1);
+                    gameManager.SoundScored.Play();
+                    gameManager.Events.EventScored();
                 }
                 else
                 {
                     collision.gameObject.transform.parent.gameObject.SetActive(false);
-                    this.gameManager.Events.EventHit();
+                    gameManager.Events.EventHit();
                 }
             }
             else if (collision.CompareTag("deadzone"))
             {
                 // Change color
-                this.gameManager.SoundChangeColor.Play();
-                this.setPlayerToRandomColor();
+                gameManager.SoundChangeColor.Play();
+                setPlayerToRandomColor();
                 Destroy(collision.gameObject);
             }
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Minigames.MathTheTarget
 {
@@ -15,49 +14,49 @@ namespace Minigames.MathTheTarget
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
             
-            this.cameraStaringPoint = this.transform.position;
+            cameraStaringPoint = transform.position;
             
-            this.gameManager.DartEvents.OnShoot += HandleShoot;
-            this.gameManager.DartEvents.OnDartReset += HandleReset;
+            gameManager.DartEvents.OnShoot += HandleShoot;
+            gameManager.DartEvents.OnDartReset += HandleReset;
         }
 
         private void OnDisable()
         {
-            this.gameManager.DartEvents.OnShoot -= HandleShoot;
-            this.gameManager.DartEvents.OnDartReset -= HandleReset;
+            gameManager.DartEvents.OnShoot -= HandleShoot;
+            gameManager.DartEvents.OnDartReset -= HandleReset;
         }
 
         private void HandleShoot()
         {
-            this.zoomIn = true;
+            zoomIn = true;
         }
 
         private void HandleReset()
         {
-            this.zoomIn = false;
+            zoomIn = false;
         }
 
         private void cameraZoomIn()
         {
-            this.transform.position =
-                this.ObjectToFollow.position + new Vector3(0, 0, this.Zoffest - 10);
+            transform.position =
+                ObjectToFollow.position + new Vector3(0, 0, Zoffest - 10);
         }
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
-            if (this.zoomIn)
+            if (zoomIn)
             {
                 cameraZoomIn();
             }
             else
             {
-                this.transform.position = cameraStaringPoint;
+                transform.position = cameraStaringPoint;
             }
         }
     }

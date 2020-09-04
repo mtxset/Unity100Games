@@ -23,91 +23,91 @@ namespace Minigames.Dungeon
 
         private void Start()
         {
-            this.animator = this.GetComponent<Animator>();
-            this.MinigameManager.Events.OnDeath += HandleDeath;
+            animator = GetComponent<Animator>();
+            MinigameManager.Events.OnDeath += HandleDeath;
             
-            this.MinigameManager.ButtonEvents.OnRightButtonPressed += HandleAction;
-            this.MinigameManager.ButtonEvents.OnUpButtonPressed += HandleJump;
-            this.MinigameManager.ButtonEvents.OnLeftButtonPressed += HandleRoll;
+            MinigameManager.ButtonEvents.OnRightButtonPressed += HandleAction;
+            MinigameManager.ButtonEvents.OnUpButtonPressed += HandleJump;
+            MinigameManager.ButtonEvents.OnLeftButtonPressed += HandleRoll;
         }
 
         private void OnDisable()
         {
-            this.MinigameManager.Events.OnDeath -= HandleDeath;
+            MinigameManager.Events.OnDeath -= HandleDeath;
 
-            this.MinigameManager.ButtonEvents.OnRightButtonPressed -= HandleAction;
-            this.MinigameManager.ButtonEvents.OnUpButtonPressed -= HandleJump;
-            this.MinigameManager.ButtonEvents.OnLeftButtonPressed -= HandleRoll;
+            MinigameManager.ButtonEvents.OnRightButtonPressed -= HandleAction;
+            MinigameManager.ButtonEvents.OnUpButtonPressed -= HandleJump;
+            MinigameManager.ButtonEvents.OnLeftButtonPressed -= HandleRoll;
         }
 
         private void HandleRoll()
         {
-            if (this.MinigameManager.GameOver || !this.canDoWeSomething)
+            if (MinigameManager.GameOver || !canDoWeSomething)
             {
                 return;
             }
             
-            this.Sounds.SoundPlayerRoll.Play();
-            this.animator.SetTrigger(PlayerRoll);
-            this.startCooldown();
+            Sounds.SoundPlayerRoll.Play();
+            animator.SetTrigger(PlayerRoll);
+            startCooldown();
         }
 
         private void HandleJump()
         {
-            if (this.MinigameManager.GameOver || !this.canDoWeSomething)
+            if (MinigameManager.GameOver || !canDoWeSomething)
             {
                 return;
             }
             
-            this.Sounds.SoundPlayerJump.Play();
-            this.animator.SetTrigger(PlayerJump);
-            this.startCooldown();
+            Sounds.SoundPlayerJump.Play();
+            animator.SetTrigger(PlayerJump);
+            startCooldown();
         }
 
         private void HandleDeath()
         {
-            this.animator.SetBool(PlayerDied, true);
+            animator.SetBool(PlayerDied, true);
         }
 
         private void HandleAction()
         {
-            if (this.MinigameManager.GameOver || !this.canDoWeSomething)
+            if (MinigameManager.GameOver || !canDoWeSomething)
             {
                 return;
             }
-            this.raiseShield();
-            this.startCooldown();
+            raiseShield();
+            startCooldown();
         }
 
         private void startCooldown()
         {
-            this.canDoWeSomething = true;
+            canDoWeSomething = true;
             StartCoroutine(Delay.StartDelay(
-                    this.ActionCooldown, this.resetCooldown, null));
+                    ActionCooldown, resetCooldown, null));
 
         }
 
         private void resetCooldown()
         {
-            this.canDoWeSomething = true;
-            this.lowerShield();
+            canDoWeSomething = true;
+            lowerShield();
         }
 
         private void lowerShield()
         {
-            this.shielded = false;
-            this.animator.SetBool(PlayerShield, shielded);
+            shielded = false;
+            animator.SetBool(PlayerShield, shielded);
         }
         private void raiseShield()
         {
-            this.shielded = true;
+            shielded = true;
             
-            this.animator.SetBool(PlayerShield, shielded);
+            animator.SetBool(PlayerShield, shielded);
         }
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (this.MinigameManager.GameOver)
+            if (MinigameManager.GameOver)
             {
                 return;
             }
@@ -115,13 +115,13 @@ namespace Minigames.Dungeon
             if (other.gameObject.CompareTag("hit"))
             {
                 // Knight
-                if (!this.shielded)
+                if (!shielded)
                 {
                     playerGotHit();
                 }
                 else
                 {
-                    this.MinigameManager.Events.EventDodged();
+                    MinigameManager.Events.EventDodged();
                 }
             }
             else if (other.gameObject.CompareTag("deadzone"))
@@ -135,7 +135,7 @@ namespace Minigames.Dungeon
             else if (other.gameObject.CompareTag("Barrel"))
             {
                 // Mage
-                this.Sounds.SoundFireBallHit.Play();
+                Sounds.SoundFireBallHit.Play();
                 
                 playerGotHit();
                 
@@ -145,8 +145,8 @@ namespace Minigames.Dungeon
 
         private void playerGotHit()
         {
-            this.MinigameManager.Events.EventHit();
-            this.animator.SetTrigger(PlayerHit);
+            MinigameManager.Events.EventHit();
+            animator.SetTrigger(PlayerHit);
         }
     }
 }

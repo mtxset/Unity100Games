@@ -17,22 +17,22 @@ namespace Minigames.Barreling
 
         private void Start()
         {
-            this.currentCamera = this.GetComponent<Camera>();
-            this.targetPosition = this.transform.position;
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.subscribetToEvents();
+            currentCamera = GetComponent<Camera>();
+            targetPosition = transform.position;
+            gameManager = GetComponentInParent<MinigameManager>();
+            subscribetToEvents();
         }
 
         private void subscribetToEvents()
         {
-            this.gameManager.Events.OnLanded += HandleLanded;
-            this.gameManager.Events.OnDeath += HandleDeath;
+            gameManager.Events.OnLanded += HandleLanded;
+            gameManager.Events.OnDeath += HandleDeath;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.Events.OnLanded -= HandleLanded;
-            this.gameManager.Events.OnDeath -= HandleDeath;
+            gameManager.Events.OnLanded -= HandleLanded;
+            gameManager.Events.OnDeath -= HandleDeath;
         }
 
         private void HandleDeath(GameObject barrel)
@@ -42,7 +42,7 @@ namespace Minigames.Barreling
              * superior to 0, it means the center of object is seen by camera.
              */
             var maxIterations = 100;
-            var viewPosition = this.currentCamera.WorldToViewportPoint(barrel.transform.position);
+            var viewPosition = currentCamera.WorldToViewportPoint(barrel.transform.position);
             while (!
                 (viewPosition.x >= 0 && 
                 viewPosition.x <= 1 && 
@@ -50,8 +50,8 @@ namespace Minigames.Barreling
                 viewPosition.y <= 1 && 
                 viewPosition.z > 0))
             {
-                viewPosition = this.currentCamera.WorldToViewportPoint(barrel.transform.position);
-                this.currentCamera.orthographicSize += 1.0f;
+                viewPosition = currentCamera.WorldToViewportPoint(barrel.transform.position);
+                currentCamera.orthographicSize += 1.0f;
 
                 if (--maxIterations < 0)
                 {
@@ -62,37 +62,37 @@ namespace Minigames.Barreling
 
         private void HandleLanded()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            this.moveCameraCount++;
-            if (this.moveCameraCount != this.BoxLandedThreshold)
+            moveCameraCount++;
+            if (moveCameraCount != BoxLandedThreshold)
             {
                 return;
             }
             
-            this.moveCameraCount = 0;
-            this.targetPosition = this.transform.position;
-            targetPosition.y += this.MoveInYBy;
+            moveCameraCount = 0;
+            targetPosition = transform.position;
+            targetPosition.y += MoveInYBy;
 
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
                 return;
             
-            this.transform.position = Vector3.Lerp(
-                this.transform.position,
-                this.targetPosition,
-                this.SmoothMove * Time.deltaTime);
+            transform.position = Vector3.Lerp(
+                transform.position,
+                targetPosition,
+                SmoothMove * Time.deltaTime);
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
     }
 }

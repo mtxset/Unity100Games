@@ -9,13 +9,13 @@ namespace Minigames.Dungeon
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.currentCamera = this.gameManager.currentCamera;
+            gameManager = GetComponentInParent<MinigameManager>();
+            currentCamera = gameManager.CurrentCamera;
         }
 
         private void FixedUpdate()
         {
-            var viewPosition = this.currentCamera.WorldToViewportPoint(this.transform.position);
+            var viewPosition = currentCamera.WorldToViewportPoint(transform.position);
 
             if (viewPosition.x >= 0 &&
                 viewPosition.x <= 1 &&
@@ -26,8 +26,8 @@ namespace Minigames.Dungeon
                 return;
             }
             
-            this.gameManager.Events.EventDodged();
-            Destroy(this.gameObject);
+            gameManager.Events.EventDodged();
+            Destroy(gameObject);
         }
     }
 }

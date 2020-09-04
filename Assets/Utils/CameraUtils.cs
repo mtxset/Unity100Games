@@ -15,7 +15,7 @@ namespace Utils
                    viewPosition.y <= 1 &&
                    viewPosition.z > 0;
         }
-        public static bool IsObjectInCamera(UnityEngine.Camera camera, Renderer objectsRenderer)
+        public static bool IsObjectInCamera(Camera camera, Renderer objectsRenderer)
         {
             return TestPlanesAABB(CalculateFrustumPlanes(camera), objectsRenderer.bounds);
         }

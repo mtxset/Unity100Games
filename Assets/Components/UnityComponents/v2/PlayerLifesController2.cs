@@ -1,17 +1,16 @@
-﻿using Components;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Minigames.PingPong
+namespace Components.UnityComponents.v2
 {
-    public class PlayerLifesController : MonoBehaviour
+    public class PlayerLifesController2 : MonoBehaviour
     {
         public GameObject[] Lifes;
 
         private Lifes lifes;
-        private MinigameManager gameManager;
+        private MinigameManager2 gameManager;
         private void Start()
         {
-            gameManager = GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager2>();
             lifes = new Lifes(Lifes);
             
             subscribeToEvents();

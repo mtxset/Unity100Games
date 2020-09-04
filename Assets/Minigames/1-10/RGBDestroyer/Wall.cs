@@ -10,15 +10,15 @@ namespace Minigames.RGBDestroyer
 
         private void Start()
         {
-            lineRenderer = this.GetComponent<LineRenderer>();
+            lineRenderer = GetComponent<LineRenderer>();
         }
 
         private void Update()
         {
             var traverseGradient = GradientRainbow.Next(
-                lineRenderer.colorGradient, 0.01f * this.GradientTraverseSpeed * Time.deltaTime);
+                lineRenderer.colorGradient, 0.01f * GradientTraverseSpeed * Time.deltaTime);
 
-            this.lineRenderer.colorGradient = traverseGradient;
+            lineRenderer.colorGradient = traverseGradient;
         }
     }
 }

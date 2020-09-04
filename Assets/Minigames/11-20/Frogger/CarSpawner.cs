@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Minigames.Frogger
@@ -13,27 +12,25 @@ namespace Minigames.Frogger
         private float timer;
         private void Update()
         {
-            if ((this.timer += Time.deltaTime) >= this.SpawnRate)
+            if ((timer += Time.deltaTime) >= SpawnRate)
             {
-                this.spawnCar();
-                this.timer = 0;
+                spawnCar();
+                timer = 0;
             }
         }
 
-        private GameObject spawnCar()
+        private void spawnCar()
         {
-            var randomSpawnIndex = Random.Range(0, this.SpawnPoints.Length);
-            var randomCarIndex = Random.Range(0, this.CarPrefabs.Length);
+            var randomSpawnIndex = Random.Range(0, SpawnPoints.Length);
+            var randomCarIndex = Random.Range(0, CarPrefabs.Length);
 
             var car = Instantiate(
-                this.CarPrefabs[randomCarIndex],
-                this.SpawnPoints[randomSpawnIndex].position,
-                this.SpawnPoints[randomSpawnIndex].rotation,
-                this.transform);
+                CarPrefabs[randomCarIndex],
+                SpawnPoints[randomSpawnIndex].position,
+                SpawnPoints[randomSpawnIndex].rotation,
+                transform);
             
             Destroy(car, 10.0f);
-            
-            return car;    
         }
     }
 }

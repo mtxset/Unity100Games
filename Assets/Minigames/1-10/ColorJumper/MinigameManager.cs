@@ -1,5 +1,5 @@
 ﻿using Components;
-using Components.UnityComponents;
+using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Minigames.ColorJumper
@@ -22,29 +22,29 @@ namespace Minigames.ColorJumper
         {
             base.UnityStart();
 
-            this.lifes = new Lifes(this.Lifes);
+            lifes = new Lifes(Lifes);
         }
 
         protected override void SubscribeToEvents()
         {
             base.SubscribeToEvents();
-            this.Events.OnHit += HandleHit;
+            Events.OnHit += HandleHit;
         }
 
         protected override void UnsubscribeToEvents()
         {
             base.UnsubscribeToEvents();
-            this.Events.OnHit -= HandleHit;
+            Events.OnHit -= HandleHit;
         }
 
         private void HandleHit()
         {
-            this.SoundHit.Play();
+            SoundHit.Play();
 
-            if (this.lifes.LoseLife())
+            if (lifes.LoseLife())
             {
-                this.SoundDeath.Play();
-                this.Events.EventDeath();
+                SoundDeath.Play();
+                Events.EventDeath();
             }
         }
     }

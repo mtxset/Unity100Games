@@ -1,5 +1,4 @@
-﻿using Components.UnityComponents;
-using Interfaces;
+﻿using Components.UnityComponents.v2;
 using UnityEngine;
 
 namespace Components
@@ -11,7 +10,7 @@ namespace Components
 
         public void Awake()
         {
-            this.MinigameManager = this.GetComponentInParent<MinigameManager2>();
+            MinigameManager = GetComponentInParent<MinigameManager2>();
         }
     }
 }

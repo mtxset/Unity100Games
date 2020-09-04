@@ -20,45 +20,45 @@ namespace Minigames.DroneFly
 
         private void OnDisable()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= this.HandleActionButton;
-            this.gameManager.DroneEvents.OnGameConfirmed -= this.HandleGameOverConfirmed;
-            this.gameManager.DroneEvents.OnGameStarted -= this.HandleGameStarted;
+            gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButton;
+            gameManager.DroneEvents.OnGameConfirmed -= HandleGameOverConfirmed;
+            gameManager.DroneEvents.OnGameStarted -= HandleGameStarted;
         }
 
         private void HandleGameOverConfirmed()
         {
-            this.transform.localPosition = this.StartPosition;
-            this.transform.rotation = Quaternion.identity;
+            transform.localPosition = StartPosition;
+            transform.rotation = Quaternion.identity;
         }
 
         private void HandleGameStarted()
         {
-            this.rigidBody.velocity = Vector3.zero;
-            this.rigidBody.simulated = true;
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.simulated = true;
         }
 
         private void Start()
         {
-            this.gameManager = GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
 
-            this.gameManager.DroneEvents.OnGameConfirmed += this.HandleGameOverConfirmed;
-            this.gameManager.DroneEvents.OnGameStarted += this.HandleGameStarted;
-            this.gameManager.ButtonEvents.OnActionButtonPressed += this.HandleActionButton;
+            gameManager.DroneEvents.OnGameConfirmed += HandleGameOverConfirmed;
+            gameManager.DroneEvents.OnGameStarted += HandleGameStarted;
+            gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButton;
 
-            this.rigidBody = GetComponent<Rigidbody2D>();
-            this.downRotation = Quaternion.Euler(0, 0, -75);
-            this.forwardRotation = Quaternion.Euler(0, 0, 35);
-            this.rigidBody.simulated = false;
+            rigidBody = GetComponent<Rigidbody2D>();
+            downRotation = Quaternion.Euler(0, 0, -75);
+            forwardRotation = Quaternion.Euler(0, 0, 35);
+            rigidBody.simulated = false;
         }
 
         private void HandleActionButton()
         {
             if (gameManager.GameOver) return;
 
-            this.TapAudio.Play();
-            this.transform.rotation = forwardRotation;
-            this.rigidBody.velocity = Vector3.zero;
-            this.rigidBody.AddForce(Vector2.up * this.TapForce, ForceMode2D.Force);
+            TapAudio.Play();
+            transform.rotation = forwardRotation;
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.AddForce(Vector2.up * TapForce, ForceMode2D.Force);
         }
 
         private void Update()
@@ -68,10 +68,10 @@ namespace Minigames.DroneFly
                 return;
             }
 
-            this.transform.rotation = Quaternion.Lerp(
-                this.transform.rotation,
-                this.downRotation,
-                this.TiltSmooth * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                downRotation,
+                TiltSmooth * Time.deltaTime);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -79,13 +79,13 @@ namespace Minigames.DroneFly
             switch (collision.gameObject.tag)
             {
                 case "scorezone":
-                    this.gameManager.DroneEvents.EventScored();
-                    this.ScoreAudio.Play();
+                    gameManager.DroneEvents.EventScored();
+                    ScoreAudio.Play();
                     break;
                 case "deadzone":
-                    this.DieAudio.Play();
-                    this.rigidBody.simulated = false;
-                    this.gameManager.DroneEvents.EventDroneDeath();
+                    DieAudio.Play();
+                    rigidBody.simulated = false;
+                    gameManager.DroneEvents.EventDroneDeath();
                     break;
             }
         }

@@ -31,107 +31,107 @@ namespace Minigames.TrainRunner
         
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
             
-            this.parallaxer = new Parallaxer(
-                this.ObjectToParallax,
-                this.SelectMovementPostion,
-                this.ParallaxSpeedMinMax.y,
-                this.CurrentCamera,
-                this.gameManager.transform.position,
-                this.transform);
+            parallaxer = new Parallaxer(
+                ObjectToParallax,
+                SelectMovementPostion,
+                ParallaxSpeedMinMax.y,
+                CurrentCamera,
+                gameManager.transform.position,
+                transform);
             
-            this.enemyList = new List<GameObject>();
+            enemyList = new List<GameObject>();
             
-            this.enemeySpawner = new EnemeySpawner(
-                this.BarrelPrefab, 
-                this.transform, 
-                this.SpawnYPosition,
-                this.BarrelSpawnDistance);
+            enemeySpawner = new EnemeySpawner(
+                BarrelPrefab, 
+                transform, 
+                SpawnYPosition,
+                BarrelSpawnDistance);
 
-            this.targetParallaxSpeed = this.ParallaxSpeedMinMax.y;
-            this.targetAnimationSpeed = this.AnimationSpeedMinMax.y;
-            this.subscribeToEvents();
+            targetParallaxSpeed = ParallaxSpeedMinMax.y;
+            targetAnimationSpeed = AnimationSpeedMinMax.y;
+            subscribeToEvents();
             
-            this.enemyList.Add(this.enemeySpawner.SpawnBarrel());
+            enemyList.Add(enemeySpawner.SpawnBarrel());
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         private void subscribeToEvents()
         {
-            this.gameManager.SlowMotionEvents.OnStartShooting += HandleStartShooting;
-            this.gameManager.SlowMotionEvents.OnEndShooting += HandleEndShooting;
-            this.gameManager.SlowMotionEvents.OnReloaded += HandleReloaded;
+            gameManager.SlowMotionEvents.OnStartShooting += HandleStartShooting;
+            gameManager.SlowMotionEvents.OnEndShooting += HandleEndShooting;
+            gameManager.SlowMotionEvents.OnReloaded += HandleReloaded;
         }
         
         private void unsubscribeToEvents()
         {
-            this.gameManager.SlowMotionEvents.OnStartShooting -= HandleStartShooting;
-            this.gameManager.SlowMotionEvents.OnEndShooting -= HandleEndShooting;
-            this.gameManager.SlowMotionEvents.OnReloaded -= HandleReloaded;
+            gameManager.SlowMotionEvents.OnStartShooting -= HandleStartShooting;
+            gameManager.SlowMotionEvents.OnEndShooting -= HandleEndShooting;
+            gameManager.SlowMotionEvents.OnReloaded -= HandleReloaded;
         }
 
         private void HandleReloaded()
         {
-            this.enemyList.Add(this.enemeySpawner.SpawnBarrel());
+            enemyList.Add(enemeySpawner.SpawnBarrel());
         }
 
         private void HandleEndShooting()
         {
             // Setting to maximum slow motion value
-            this.targetParallaxSpeed = this.ParallaxSpeedMinMax.y;
-            this.targetAnimationSpeed = this.AnimationSpeedMinMax.y;
+            targetParallaxSpeed = ParallaxSpeedMinMax.y;
+            targetAnimationSpeed = AnimationSpeedMinMax.y;
         }
 
         private void HandleStartShooting()
         {
             // Setting to minimal slow motion value
-            this.targetParallaxSpeed = this.ParallaxSpeedMinMax.x;
-            this.targetAnimationSpeed = this.AnimationSpeedMinMax.x;
+            targetParallaxSpeed = ParallaxSpeedMinMax.x;
+            targetAnimationSpeed = AnimationSpeedMinMax.x;
         }
 
         private void enemyCycle()
         {
-            if (this.enemyList.Count == 0)
+            if (enemyList.Count == 0)
             {
-                this.gameManager.SlowMotionEvents.EventNoEnemies();
+                gameManager.SlowMotionEvents.EventNoEnemies();
                 return;
             }
             
-            foreach (var item in this.enemyList)
+            foreach (var item in enemyList)
             {
                 item.transform.Translate(
-                    Vector2.down * (this.parallaxer.ParallaxSpeed * Time.deltaTime));
+                    Vector2.down * (parallaxer.ParallaxSpeed * Time.deltaTime));
             }
         }
 
         private void FixedUpdate()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
-            this.enemyCycle();
+            enemyCycle();
             
-            this.AnimationSpeedMinMax.x = Mathf.Clamp(this.AnimationSpeedMinMax.x, 0.1f, 0.9f);
-            this.AnimationSpeedMinMax.y = Mathf.Clamp(this.AnimationSpeedMinMax.y, 0.1f, 1.0f);
+            AnimationSpeedMinMax.x = Mathf.Clamp(AnimationSpeedMinMax.x, 0.1f, 0.9f);
+            AnimationSpeedMinMax.y = Mathf.Clamp(AnimationSpeedMinMax.y, 0.1f, 1.0f);
 
-            this.TrainAnimator.speed = Mathf.Lerp(
-                this.TrainAnimator.speed,
-                this.targetAnimationSpeed,
-                this.SlowMotionSpeed * Time.deltaTime);
+            TrainAnimator.speed = Mathf.Lerp(
+                TrainAnimator.speed,
+                targetAnimationSpeed,
+                SlowMotionSpeed * Time.deltaTime);
             
-            this.parallaxer.ParallaxSpeed = Mathf.Lerp(
-                this.parallaxer.ParallaxSpeed,
-                this.targetParallaxSpeed,
-                this.SlowMotionSpeed * Time.deltaTime);
+            parallaxer.ParallaxSpeed = Mathf.Lerp(
+                parallaxer.ParallaxSpeed,
+                targetParallaxSpeed,
+                SlowMotionSpeed * Time.deltaTime);
             
-            this.parallaxer.FixedUpdateRoutine();
+            parallaxer.FixedUpdateRoutine();
         }
     }
 }

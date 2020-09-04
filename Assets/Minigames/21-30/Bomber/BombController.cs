@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using Components;
 using UnityEngine;
 
@@ -17,58 +16,58 @@ namespace Minigames.Bomber
 
         private void Start()
         {
-            this.MinigameManager.ButtonEvents.OnActionButtonPressed += this.dropTheBomb;
-            this.MinigameManager.Events.OnHit += this.HandleHit;
-            this.MinigameManager.Events.OnScored += this.HandleScored;
+            MinigameManager.ButtonEvents.OnActionButtonPressed += dropTheBomb;
+            MinigameManager.Events.OnHit += HandleHit;
+            MinigameManager.Events.OnScored += HandleScored;
             
-            this.bombRigidBody = this.BombPrefab.GetComponent<Rigidbody2D>();
-            this.spawnPostion = this.transform.position;
-            this.bombRigidBody.simulated = false;
-            this.canBomb = true;
+            bombRigidBody = BombPrefab.GetComponent<Rigidbody2D>();
+            spawnPostion = transform.position;
+            bombRigidBody.simulated = false;
+            canBomb = true;
         }
 
         private void OnDisable()
         {
-            this.MinigameManager.ButtonEvents.OnActionButtonPressed -= this.dropTheBomb;
-            this.MinigameManager.Events.OnHit -= this.HandleHit;
-            this.MinigameManager.Events.OnScored -= this.HandleScored;
+            MinigameManager.ButtonEvents.OnActionButtonPressed -= dropTheBomb;
+            MinigameManager.Events.OnHit -= HandleHit;
+            MinigameManager.Events.OnScored -= HandleScored;
         }
 
         private void HandleHit()
         {
-            this.resetBomb();
+            StartCoroutine(resetBomb());
         }
 
         private void HandleScored(int obj)
         {
-            this.resetBomb();
+            StartCoroutine(resetBomb());
         }
 
         private void dropTheBomb()
         {
 
-            if (this.MinigameManager.GameOver || !this.canBomb)
+            if (MinigameManager.GameOver || !canBomb)
             {
                 return;
             }
 
-            this.canBomb = false;
+            canBomb = false;
             
-            this.bombRigidBody.velocity = Vector2.zero;
-            this.BombPrefab.SetActive(true);
-            this.BombPrefab.transform.position = this.spawnPostion;
-            this.bombRigidBody.simulated = true;
-            this.bombRigidBody.AddForce(Vector2.down * this.Force, ForceMode2D.Impulse);
+            bombRigidBody.velocity = Vector2.zero;
+            BombPrefab.SetActive(true);
+            BombPrefab.transform.position = spawnPostion;
+            bombRigidBody.simulated = true;
+            bombRigidBody.AddForce(Vector2.down * Force, ForceMode2D.Impulse);
         }
 
-        private async void resetBomb()
+        private IEnumerator resetBomb()
         {
-            await Task.Delay(TimeSpan.FromSeconds(this.DropCooldown));
+            yield return new WaitForSeconds(DropCooldown);
 
-            this.BombPrefab.SetActive(true);
-            this.BombPrefab.transform.position = this.spawnPostion;
-            this.bombRigidBody.simulated = false;
-            this.canBomb = true;
+            BombPrefab.SetActive(true);
+            BombPrefab.transform.position = spawnPostion;
+            bombRigidBody.simulated = false;
+            canBomb = true;
         }
     }
 }

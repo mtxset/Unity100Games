@@ -304,9 +304,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: FallForever
       objectReference: {fileID: 0}
-    - target: {fileID: 8519048623082072503, guid: e7e5dcc7185157741a6b08d759f9e1d2, type: 3}
-      propertyPath: SpawnAfterMinMax.x
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7e5dcc7185157741a6b08d759f9e1d2, type: 3}

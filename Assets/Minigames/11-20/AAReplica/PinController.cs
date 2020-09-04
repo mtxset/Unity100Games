@@ -13,9 +13,9 @@ namespace Minigames.AAReplica
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.rigidbody2d = this.GetComponent<Rigidbody2D>();
-            this.circleCollider = this.GetComponent<CircleCollider2D>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            rigidbody2d = GetComponent<Rigidbody2D>();
+            circleCollider = GetComponent<CircleCollider2D>();
         }
 
         private void Update()
@@ -25,24 +25,24 @@ namespace Minigames.AAReplica
                 return;
             }
 
-            this.rigidbody2d.MovePosition(
-                this.rigidbody2d.position + Vector2.up * (this.ShootSpeed * Time.deltaTime));
+            rigidbody2d.MovePosition(
+                rigidbody2d.position + Vector2.up * (ShootSpeed * Time.deltaTime));
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("scorezone"))
             {
-                this.transform.SetParent(collision.transform);
-                this.circleCollider.isTrigger = true;
-                this.pinned = true;
-                this.gameManager.Events.EventScored(1);
+                transform.SetParent(collision.transform);
+                circleCollider.isTrigger = true;
+                pinned = true;
+                gameManager.Events.EventScored();
             }
             else if (collision.CompareTag("deadzone"))
             {
                 collision.gameObject.SetActive(false);
-                this.gameObject.SetActive(false);
-                this.gameManager.Events.EventHit();
+                gameObject.SetActive(false);
+                gameManager.Events.EventHit();
             }
         }
     }

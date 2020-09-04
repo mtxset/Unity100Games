@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Utils.Curves
@@ -31,11 +30,8 @@ namespace Utils.Curves
                     r,
                     initialX);
 
-                float extrema;
-                var direction = 1;
                 foreach (var item in tempPoints)
                 {
-                    
                     points.Add(new Vector2(x, item.y));
                 }
             }

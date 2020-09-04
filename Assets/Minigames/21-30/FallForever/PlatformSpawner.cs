@@ -13,51 +13,55 @@ namespace Minigames.FallForever
 
         private Camera currentCamera;
         private SimpleEntityLifecycle entityLifecycle;
-        private float spawnTimer; 
+        private float spawnTimer;
+        private float globalPositionOffsetY;
         private void Start()
         {
-            this.currentCamera = MinigameManager.CurrentCamera;
+            globalPositionOffsetY = MinigameManager.transform.position.y;
+            currentCamera = MinigameManager.CurrentCamera;
             
-            this.entityLifecycle = new SimpleEntityLifecycle(
-                this.transform,
+            entityLifecycle = new SimpleEntityLifecycle(
+                transform,
                 PlatformPrefabs,
                 moveEntity,
                 spawnMethod,
                 null,
                 outsideCameraDestroy);
             
-            this.entityLifecycle.CreateNewEntity();
+            entityLifecycle.CreateNewEntity();
         }
         
         private void FixedUpdate()
         {
-            this.entityLifecycle.UpdateRoutine();
+            entityLifecycle.UpdateRoutine();
 
-            this.spawnAfter();
+            spawnAfter();
         }
 
         private void spawnAfter()
         {
-            if ((this.spawnTimer += Time.fixedDeltaTime) > SpawnAfterMinMax.x)
+            if ((spawnTimer += Time.fixedDeltaTime) > SpawnAfterMinMax.x)
             {
-                this.entityLifecycle.CreateNewEntity();
-                this.spawnTimer = 0;
+                entityLifecycle.CreateNewEntity();
+                spawnTimer = 0;
             }
         }
 
         private bool outsideCameraDestroy(Vector3 objectPosition)
         {
-            return objectPosition.y > this.currentCamera.orthographicSize;
+            return objectPosition.y > currentCamera.orthographicSize + globalPositionOffsetY;
         }
         private Vector2 spawnMethod(Transform platform)
         {
             var randomOffset = Random.Range(
-                -this.MaxXOffset.position.x + platform.localScale.x,
-                this.MaxXOffset.position.x - platform.localScale.x);
+                -MaxXOffset.position.x + platform.localScale.x,
+                MaxXOffset.position.x - platform.localScale.x);
             
             return new Vector2(
                 randomOffset,
-                -currentCamera.orthographicSize - platform.localScale.y);
+                -currentCamera.orthographicSize 
+                - platform.localScale.y 
+                + globalPositionOffsetY);
         }
         
         private Vector3 moveEntity(Vector3 position)
@@ -66,7 +70,7 @@ namespace Minigames.FallForever
                 position,
                 Vector3.up, 
                 Vector3.up, 
-                this.PlatfromFloatSpeedMinMax.x,
+                PlatfromFloatSpeedMinMax.x,
                 SimpleEntityLifecycle.UpdateType.FixedUpdate);
         }
     }

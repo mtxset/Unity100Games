@@ -37,21 +37,21 @@ namespace Minigames.AvoidRocket
 
         public void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.liveEntities = new List<RocketMissile>();
-            this.deadEntities = new List<RocketMissile>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            liveEntities = new List<RocketMissile>();
+            deadEntities = new List<RocketMissile>();
 
-            this.spawnTimer = this.IncreaseRateAfter;
-            this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
+            spawnTimer = IncreaseRateAfter;
+            SpeedText.text = $"DIFFICULTY: {currentDifficulty * 100}";
 
-            this.gameManager.Events.OnHit += HandleHit;
+            gameManager.Events.OnHit += HandleHit;
 
-            this.spawnTimer = this.SpawnRocketPeriod;
+            spawnTimer = SpawnRocketPeriod;
         }
 
         private void OnDisable()
         {
-            this.gameManager.Events.OnHit -= HandleHit;
+            gameManager.Events.OnHit -= HandleHit;
         }
 
         private void HandleHit()
@@ -61,30 +61,30 @@ namespace Minigames.AvoidRocket
 
         private void FixedUpdate()    
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            if ((this.spawnTimer += Time.deltaTime) >= this.SpawnRocketPeriod)
+            if ((spawnTimer += Time.deltaTime) >= SpawnRocketPeriod)
             {
-                this.liveEntities.Add(this.spawnNewMissile());
-                this.spawnTimer = 0;
+                liveEntities.Add(spawnNewMissile());
+                spawnTimer = 0;
             }
 
-            this.checkDifficulty();
+            checkDifficulty();
 
-            this.rocketLifecycle();
+            rocketLifecycle();
         }
 
         private void checkDifficulty()
         {
-            if ((this.difficultyTimer += Time.deltaTime) >= this.IncreaseRateAfter &&
-                this.currentDifficulty < 1.0f)
+            if ((difficultyTimer += Time.deltaTime) >= IncreaseRateAfter &&
+                currentDifficulty < 1.0f)
             {
-                this.currentDifficulty += this.IncreaseRateBy;
-                this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
-                this.difficultyTimer = 0;
+                currentDifficulty += IncreaseRateBy;
+                SpeedText.text = $"DIFFICULTY: {currentDifficulty * 100}";
+                difficultyTimer = 0;
             }
         }
 
@@ -92,7 +92,7 @@ namespace Minigames.AvoidRocket
         {
             foreach (var item in liveEntities)
             {
-                var direction = (Vector2) this.Target.position - item.Rigidbody2D.position;
+                var direction = (Vector2) Target.position - item.Rigidbody2D.position;
                 direction.Normalize();
 
                 var up = item.RocketGameObject.transform.up;
@@ -104,35 +104,35 @@ namespace Minigames.AvoidRocket
             
             foreach (var item in deadEntities)
             {
-                this.liveEntities.Remove(item);
+                liveEntities.Remove(item);
                 Destroy(item.RocketGameObject);
             }
 
-            this.deadEntities.Clear();
+            deadEntities.Clear();
         }
 
         private RocketMissile spawnNewMissile()
         {
-            this.SoundSpawn.Play();
+            SoundSpawn.Play();
             var randomSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
 
             var newRocketMissile = new RocketMissile
             {
                 RocketGameObject = Instantiate(
-                    this.RocketPrefab,
+                    RocketPrefab,
                     randomSpawnPoint.position,
                     Quaternion.identity,
-                    this.gameObject.transform),
+                    gameObject.transform),
             };
 
             newRocketMissile.Rigidbody2D = newRocketMissile.RocketGameObject.GetComponent<Rigidbody2D>();
 
             var difficulty = Utils.DifficultyAdjuster.SpreadDifficulty(
-                this.currentDifficulty,
+                currentDifficulty,
                 new List<Vector2>
                 {
-                    this.RotationSpeedMinMax,
-                    this.FlySpeedMinMax
+                    RotationSpeedMinMax,
+                    FlySpeedMinMax
                 });
 
             newRocketMissile.RotationSpeed = difficulty[0];

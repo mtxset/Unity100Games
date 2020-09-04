@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -29,53 +28,53 @@ namespace Minigames.TrainRunner
 
         private void Start()
         {
-            this.GetComponent<SpriteRenderer>();
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.setRandomDirection();
+            GetComponent<SpriteRenderer>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            setRandomDirection();
 
-            this.subscribeToEvents();
+            subscribeToEvents();
         }
 
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonStateChanged += HandleActionButton;
-            this.gameManager.Events.OnHit += HandleHit;
-            this.gameManager.Events.OnScored += HandleScored;
-            this.gameManager.SlowMotionEvents.OnNoEnemies += HandleNoEnemies;
+            gameManager.ButtonEvents.OnActionButtonStateChanged += HandleActionButton;
+            gameManager.Events.OnHit += HandleHit;
+            gameManager.Events.OnScored += HandleScored;
+            gameManager.SlowMotionEvents.OnNoEnemies += HandleNoEnemies;
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonStateChanged -= HandleActionButton;
-            this.gameManager.Events.OnHit -= HandleHit;
-            this.gameManager.Events.OnScored -= HandleScored;
-            this.gameManager.SlowMotionEvents.OnNoEnemies -= HandleNoEnemies;
+            gameManager.ButtonEvents.OnActionButtonStateChanged -= HandleActionButton;
+            gameManager.Events.OnHit -= HandleHit;
+            gameManager.Events.OnScored -= HandleScored;
+            gameManager.SlowMotionEvents.OnNoEnemies -= HandleNoEnemies;
             
         }
 
         private void HandleNoEnemies()
         {
-            this.noEnemies = true;
+            noEnemies = true;
         }
 
         private void HandleScored(int obj)
         {
-            this.canSpawn = true;
+            canSpawn = true;
         }
 
         private void HandleHit()
         {
-            this.canSpawn = true;
+            canSpawn = true;
         }
 
         private void HandleActionButton(InputValue inputValue)
         {
-            this.toggleShootingState();
+            toggleShootingState();
         }
 
         private void toggleShootingState()
@@ -87,64 +86,64 @@ namespace Minigames.TrainRunner
             
             if (!startedShooting)
             {
-                this.gameManager.SlowMotionEvents.EventStartShooting();
-                this.startedShooting = true;
+                gameManager.SlowMotionEvents.EventStartShooting();
+                startedShooting = true;
             }
             else
             {
-                this.TurretAnimator.SetTrigger(Shoot);
-                this.shoot();
-                this.gameManager.SlowMotionEvents.EventEndShooting();
-                this.canShoot = false;
-                this.doWeRotate = false;
-                this.startedShooting = false;
-                this.cooldownAsync();
+                TurretAnimator.SetTrigger(Shoot);
+                shoot();
+                gameManager.SlowMotionEvents.EventEndShooting();
+                canShoot = false;
+                doWeRotate = false;
+                startedShooting = false;
+                StartCoroutine(cooldown());
             }
         }
         
         private void setRandomDirection()
         {
             var randomDirection = (Random.Range(0, 1) == 1) ? 1 : -1;
-            this.currentDirection = Vector3.back * randomDirection;
+            currentDirection = Vector3.back * randomDirection;
         }
         
         private void FixedUpdate()
         {
-            this.rotateCycle();
+            rotateCycle();
             
             if (canSpawn && noEnemies)
             {
-                this.gameManager.SlowMotionEvents.EventReloaded();
-                this.spawnCooldownAsync();
-                this.noEnemies = false;
+                gameManager.SlowMotionEvents.EventReloaded();
+                StartCoroutine(spawnCooldown());
+                noEnemies = false;
             }
         }
         
-        private async void cooldownAsync()
+        private IEnumerator cooldown()
         {
-            await Task.Delay(TimeSpan.FromSeconds(this.ShootAfter));
+            yield return new WaitForSeconds(ShootAfter);
             
-            this.canShoot = true;
-            this.doWeRotate = true;
+            canShoot = true;
+            doWeRotate = true;
         }
 
-        private async void spawnCooldownAsync()
+        private IEnumerator spawnCooldown()
         {
-            await Task.Delay(TimeSpan.FromSeconds(this.ShootAfter));
+            yield return new WaitForSeconds(ShootAfter);
 
-            this.canSpawn = true;
+            canSpawn = true;
         }
 
         private void rotateCycle()
         {
-            if (!this.doWeRotate || this.gameManager.GameOver)
+            if (!doWeRotate || gameManager.GameOver)
             {
                 return;
             }
             
             transform.RotateAround(
                 Target.transform.position,
-                this.currentDirection,
+                currentDirection,
                 RotationSpeed * Time.deltaTime);
 
             var angleOffset = AngleDegree / 2 / 360;
@@ -152,19 +151,19 @@ namespace Minigames.TrainRunner
             if (transform.rotation.z <= -angleOffset ||
                 transform.rotation.z >= angleOffset)
             {
-                this.currentDirection *= -1;
+                currentDirection *= -1;
             }
         }
 
         private void shoot()
         {
-            if (!this.canShoot)
+            if (!canShoot)
             {
                 return;
             }
             
-            var bullet = Instantiate(BulletPrefab, this.GunPoint.position, transform.rotation);
-            bullet.GetComponent<Rigidbody2D>().velocity = transform.up * this.BulletSpeed;
+            var bullet = Instantiate(BulletPrefab, GunPoint.position, transform.rotation);
+            bullet.GetComponent<Rigidbody2D>().velocity = transform.up * BulletSpeed;
             
             Destroy(bullet, 5.0f);
         }

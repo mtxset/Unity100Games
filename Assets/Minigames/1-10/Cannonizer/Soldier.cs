@@ -12,7 +12,7 @@ namespace Minigames.Cannonizer
 
         private void Start()
         {
-            this.gameManager = GetComponentInParent<CannonizerManager>();
+            gameManager = GetComponentInParent<CannonizerManager>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -20,13 +20,13 @@ namespace Minigames.Cannonizer
             switch (collision.gameObject.tag)
             {
                 case "scorezone":
-                    this.gameManager.Events.EventScored();
-                    this.HitAudio.Play();
-                    this.gameManager.EnemySpawnnerReference.RemoveEnemy(this.gameObject);
+                    gameManager.Events.EventScored();
+                    HitAudio.Play();
+                    gameManager.EnemySpawnnerReference.RemoveEnemy(gameObject);
                     break;
                 case "deadzone":
-                    this.DieAudio.Play();
-                    this.gameManager.Events.EventDeath();
+                    DieAudio.Play();
+                    gameManager.Events.EventDeath();
                     break;
             }
         }

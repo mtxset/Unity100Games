@@ -6,7 +6,7 @@ using UnityInterfaces;
 
 namespace Minigames.PingPong
 {
-    public class MinigameManager : MonoBehaviour, IMinigameManagerOLD
+    public class MinigameManager : MonoBehaviour, IMinigameManagerOld
     {
         public GameObject GameOverPage;
         public Text ScoreText;
@@ -23,46 +23,46 @@ namespace Minigames.PingPong
 
         private void Awake()
         {
-            this.Events = new Events();
+            Events = new Events();
         }
 
         private void Start()
         {
-            this.ButtonEvents = GetComponentInParent<ButtonEvents>();
-            this.CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
+            ButtonEvents = GetComponentInParent<ButtonEvents>();
+            CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
 
-            this.Events.OnScored += HandleScored;
-            this.Events.OnDeath += HandleDeath;
+            Events.OnScored += HandleScored;
+            Events.OnDeath += HandleDeath;
         }
 
         private void OnDisable()
         {
-            this.Events.OnScored -= HandleScored;
-            this.Events.OnDeath -= HandleDeath;
+            Events.OnScored -= HandleScored;
+            Events.OnDeath -= HandleDeath;
         }
         
         private void HandleDeath()
         {
-            this.GameOver = true;
-            this.GameOverPage.SetActive(true);
-            this.CommunicationBus.PlayerDied();
+            GameOver = true;
+            GameOverPage.SetActive(true);
+            CommunicationBus.PlayerDied();
         }
 
         private void HandleScored()
         {
-            this.setScore(this.Score + 1);
-            this.CommunicationBus.PlayerScored(1);
+            setScore(Score + 1);
+            CommunicationBus.PlayerScored(1);
         }
 
         private void setScore(int newScore)
         {
-            this.ScoreText.text = newScore.ToString();
-            this.Score = newScore;
+            ScoreText.text = newScore.ToString();
+            Score = newScore;
         }
 
         public int GetScore()
         {
-            return this.Score;
+            return Score;
         }
     }
 }

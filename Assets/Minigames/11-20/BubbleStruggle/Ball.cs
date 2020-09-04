@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Minigames.BubbleStruggle
@@ -13,25 +12,25 @@ namespace Minigames.BubbleStruggle
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.rigidbody2d = this.GetComponent<Rigidbody2D>();
-            this.rigidbody2d.AddForce(this.StartForce, ForceMode2D.Impulse);
+            gameManager = GetComponentInParent<MinigameManager>();
+            rigidbody2d = GetComponent<Rigidbody2D>();
+            rigidbody2d.AddForce(StartForce, ForceMode2D.Impulse);
         }
         
         public void Split()
         {
-            var scale = this.transform.localScale / 1.5f;
+            var scale = transform.localScale / 1.5f;
             var ballLeft = Instantiate(
-                this.gameObject, 
-                this.rigidbody2d.position + Vector2.left / 4f,
+                gameObject, 
+                rigidbody2d.position + Vector2.left / 4f,
                 Quaternion.identity,
-                this.gameManager.transform);
+                gameManager.transform);
             
             var ballRight = Instantiate(
-                this.gameObject, 
-                this.rigidbody2d.position + Vector2.right / 4f,
+                gameObject, 
+                rigidbody2d.position + Vector2.right / 4f,
                 Quaternion.identity,
-                this.gameManager.transform);
+                gameManager.transform);
 
             ballLeft.transform.localScale = scale;
             ballRight.transform.localScale = scale;
@@ -44,12 +43,12 @@ namespace Minigames.BubbleStruggle
             ballLeft.GetComponent<Ball>().StartForce = new Vector2(-2, 5);
             ballRight.GetComponent<Ball>().StartForce = new Vector2(2, 5);
             
-            this.gameManager.Events.EventScored();
+            gameManager.Events.EventScored();
             
-            this.gameManager.Balls.Add(ballLeft);
-            this.gameManager.Balls.Add(ballRight);
+            gameManager.Balls.Add(ballLeft);
+            gameManager.Balls.Add(ballRight);
                 
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

@@ -9,12 +9,12 @@ namespace Minigames.MathTheTarget
 
         public void EventDartReset()
         {
-            this.OnDartReset?.Invoke();
+            OnDartReset?.Invoke();
         }
         
         public void EventShoot()
         {
-            this.OnShoot?.Invoke();
+            OnShoot?.Invoke();
         }
     }
 }

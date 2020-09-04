@@ -27,21 +27,21 @@ namespace Components
             this.directionsForEnemiesToGo = directionsForEnemiesToGo;
             this.prefabsToSpawn = prefabsToSpawn;
             this.setParentTo = setParentTo;
-            this.SpawnFrequencyInSeconds = spawnFrequencyInSeconds;
-            this.MovementSpeed = movementSpeed;
+            SpawnFrequencyInSeconds = spawnFrequencyInSeconds;
+            MovementSpeed = movementSpeed;
 
             pool = new List<GameObject>();
-            this.spawnEnemy();
+            spawnEnemy();
         }
 
         public void UpdateRoutine()
         {
-            this.timePassed += Time.deltaTime;
+            timePassed += Time.deltaTime;
 
-            if (timePassed >= this.SpawnFrequencyInSeconds)
+            if (timePassed >= SpawnFrequencyInSeconds)
             {
-                this.spawnEnemy();
-                this.timePassed = 0;
+                spawnEnemy();
+                timePassed = 0;
             }
 
             updatePositions();
@@ -49,20 +49,20 @@ namespace Components
 
         public void RemoveEnemy(GameObject gameObjectToRemove)
         {
-            this.pool.Remove(gameObjectToRemove);
+            pool.Remove(gameObjectToRemove);
             Object.Destroy(gameObjectToRemove);
         }
 
         private void spawnEnemy()
         {
-            var randomIndex = Random.Range(0, this.prefabsToSpawn.Length);
+            var randomIndex = Random.Range(0, prefabsToSpawn.Length);
 
             var randomEnemy = Object.Instantiate(
-                this.prefabsToSpawn[randomIndex],
-                this.setParentTo.transform);
+                prefabsToSpawn[randomIndex],
+                setParentTo.transform);
 
-            randomIndex = Random.Range(0, this.spawnPoints.Length);
-            var randomPosition = this.spawnPoints[randomIndex];
+            randomIndex = Random.Range(0, spawnPoints.Length);
+            var randomPosition = spawnPoints[randomIndex];
 
             randomEnemy.transform.position = randomPosition.position;
             pool.Add(randomEnemy);
@@ -70,15 +70,15 @@ namespace Components
 
         private void updatePositions()
         {
-            var randomIndex = Random.Range(0, this.directionsForEnemiesToGo.Length);
-            var randomPosition = this.directionsForEnemiesToGo[randomIndex];
+            var randomIndex = Random.Range(0, directionsForEnemiesToGo.Length);
+            var randomPosition = directionsForEnemiesToGo[randomIndex];
 
             foreach (var item in pool)
             {
                 item.transform.position = Vector3.MoveTowards(
                     item.transform.position,
                     randomPosition.transform.position,
-                    this.MovementSpeed * Time.deltaTime);
+                    MovementSpeed * Time.deltaTime);
             }
         }
     }

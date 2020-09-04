@@ -1,5 +1,5 @@
 ﻿using Components;
-using Interfaces;
+using Components.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,46 +23,46 @@ namespace Minigames.Flythrough
 
         public void HandleDeath()
         {
-            this.GameOver = true;
-            this.GameOverPage.SetActive(true);
-            this.CommunicationBus.PlayerDied();
+            GameOver = true;
+            GameOverPage.SetActive(true);
+            CommunicationBus.PlayerDied();
         }
 
         public void HandleScored(int points)
         {
-            this.Score += points;
-            this.ScoreText.text = this.Score.ToString();
-            this.CommunicationBus.PlayerScored(points);
+            Score += points;
+            ScoreText.text = Score.ToString();
+            CommunicationBus.PlayerScored(points);
         }
 
         public void OnDisable()
         {
-            this.UnsubscribeToEvents();
+            UnsubscribeToEvents();
         }
 
         public void SubscribeToEvents()
         {
-            this.Events.OnScored += HandleScored;
-            this.Events.OnDeath += HandleDeath;
+            Events.OnScored += HandleScored;
+            Events.OnDeath += HandleDeath;
         }
 
         public void UnsubscribeToEvents()
         {
-            this.Events.OnScored -= HandleScored;
-            this.Events.OnDeath -= HandleDeath;
+            Events.OnScored -= HandleScored;
+            Events.OnDeath -= HandleDeath;
         }
 
         private void Awake()
         {
-            this.Events = new Events();
+            Events = new Events();
         }
 
         private void Start()
         {
-            this.ButtonEvents = GetComponentInParent<ButtonEvents>();
-            this.CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
+            ButtonEvents = GetComponentInParent<ButtonEvents>();
+            CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
 
-            this.SubscribeToEvents();
+            SubscribeToEvents();
         }
     }
 }

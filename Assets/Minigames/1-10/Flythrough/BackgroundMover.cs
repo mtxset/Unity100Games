@@ -15,17 +15,17 @@ namespace Minigames.Flythrough
 
         private void Start()
         {
-            this.gameManager = GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
         }
 
         private void Update()
         {
-            this.transform.Translate(this.Direction * (this.Speed * Time.deltaTime));
+            transform.Translate(Direction * (Speed * Time.deltaTime));
 
-            if (this.transform.position.y <= this.EndY + this.gameManager.transform.position.y)
+            if (transform.position.y <= EndY + gameManager.transform.position.y)
             {
                 var transform1 = transform;
-                transform1.position = new Vector2(transform1.position.x, StartY + this.gameManager.transform.position.y);
+                transform1.position = new Vector2(transform1.position.x, StartY + gameManager.transform.position.y);
             }
         }
     }

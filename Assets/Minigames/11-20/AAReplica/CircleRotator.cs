@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Minigames.AAReplica
@@ -17,35 +16,35 @@ namespace Minigames.AAReplica
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.SpeedText.text = $"SPEED: {this.RotationDegreesPerSecond}";
+            gameManager = GetComponentInParent<MinigameManager>();
+            SpeedText.text = $"SPEED: {RotationDegreesPerSecond}";
 
-            this.gameManager.Events.OnHit += HandleHit;
-            this.initialRotationSpeed = this.RotationDegreesPerSecond;
+            gameManager.Events.OnHit += HandleHit;
+            initialRotationSpeed = RotationDegreesPerSecond;
         }
 
         private void OnDisable()
         {
-            this.gameManager.Events.OnHit -= HandleHit;
+            gameManager.Events.OnHit -= HandleHit;
         }
 
         private void HandleHit()
         {
-            this.RotationDegreesPerSecond = this.initialRotationSpeed;
+            RotationDegreesPerSecond = initialRotationSpeed;
         }
 
         private void Update()
         {
-            this.difficultyTimer += Time.deltaTime;
-            if (this.difficultyTimer >= this.IncreaseRateAfter)
+            difficultyTimer += Time.deltaTime;
+            if (difficultyTimer >= IncreaseRateAfter)
             {
-                this.RotationDegreesPerSecond += this.IncreaseRateBy;
-                this.SpeedText.text = $"SPEED: {this.RotationDegreesPerSecond}";
-                this.difficultyTimer = 0;
+                RotationDegreesPerSecond += IncreaseRateBy;
+                SpeedText.text = $"SPEED: {RotationDegreesPerSecond}";
+                difficultyTimer = 0;
             }
 
-            this.transform.Rotate(
-                0, 0, this.RotationDegreesPerSecond * Time.deltaTime);
+            transform.Rotate(
+                0, 0, RotationDegreesPerSecond * Time.deltaTime);
         }
     }
 }

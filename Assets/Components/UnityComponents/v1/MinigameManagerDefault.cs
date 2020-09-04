@@ -1,8 +1,8 @@
-﻿using Interfaces;
+﻿using Components.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Components.UnityComponents
+namespace Components.UnityComponents.v1
 {
     public class MinigameManagerDefault : MonoBehaviour, IMinigameManager
     {
@@ -23,49 +23,49 @@ namespace Components.UnityComponents
 
         private void Awake()
         {
-            this.Events = new EventsDefault();
-            this.UnityAwake();
+            Events = new EventsDefault();
+            UnityAwake();
         }
 
         private void Start()
         {
-            this.ButtonEvents = GetComponentInParent<ButtonEvents>();
-            this.CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
+            ButtonEvents = GetComponentInParent<ButtonEvents>();
+            CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
 
-            this.SubscribeToEvents();
-            this.UnityStart();
+            SubscribeToEvents();
+            UnityStart();
         }
 
         public void HandleDeath()
         {
-            this.GameOver = true;
-            this.GameOverPage.SetActive(true);
-            this.CommunicationBus.PlayerDied();
+            GameOver = true;
+            GameOverPage.SetActive(true);
+            CommunicationBus.PlayerDied();
         }
 
         public void HandleScored(int points)
         {
-            this.Score += points;
-            this.ScoreText.text = this.Score.ToString();
-            this.CommunicationBus.PlayerScored(points);
+            Score += points;
+            ScoreText.text = Score.ToString();
+            CommunicationBus.PlayerScored(points);
         }
 
         public void OnDisable()
         {
-            this.UnsubscribeToEvents();
-            this.UnityOnDisable();
+            UnsubscribeToEvents();
+            UnityOnDisable();
         }
 
         protected virtual void SubscribeToEvents()
         {
-            this.Events.OnDeath += this.HandleDeath;
-            this.Events.OnScored += this.HandleScored;
+            Events.OnDeath += HandleDeath;
+            Events.OnScored += HandleScored;
         }
 
         protected virtual void UnsubscribeToEvents()
         {
-            this.Events.OnDeath -= this.HandleDeath;
-            this.Events.OnScored -= this.HandleScored;
+            Events.OnDeath -= HandleDeath;
+            Events.OnScored -= HandleScored;
         }
     }
 }

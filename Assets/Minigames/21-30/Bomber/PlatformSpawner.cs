@@ -31,17 +31,17 @@ namespace Minigames.Bomber
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
             
-            this.liveEntities = new List<Platform>();
-            this.deadEntities = new List<Platform>();
+            liveEntities = new List<Platform>();
+            deadEntities = new List<Platform>();
 
-            this.gameManager.OnPlatformHit += HandlePlatformHit;
+            gameManager.OnPlatformHit += HandlePlatformHit;
         }
 
         private void OnDisable()
         {
-            this.gameManager.OnPlatformHit -= HandlePlatformHit;
+            gameManager.OnPlatformHit -= HandlePlatformHit;
         }
 
         private void HandlePlatformHit(GameObject obj)
@@ -57,20 +57,20 @@ namespace Minigames.Bomber
 
         private void FixedUpdate()
         {
-            if ((this.spawnTimer += Time.fixedDeltaTime) >= this.SpawnAfter)
+            if ((spawnTimer += Time.fixedDeltaTime) >= SpawnAfter)
             {
-                this.liveEntities.Add(this.createPlatform());
-                this.spawnTimer = 0;
+                liveEntities.Add(createPlatform());
+                spawnTimer = 0;
             }
             
             foreach (var item in liveEntities)
             {
                 item.Holder.transform.position += new Vector3(
-                    -1 * this.PlatformSlideSpeed * Time.fixedDeltaTime,
+                    -1 * PlatformSlideSpeed * Time.fixedDeltaTime,
                     0, 0);
 
                 if (item.LastBlock.transform.position.x + item.LastBlock.transform.localScale.x <
-                    -this.CurrentCamera.orthographicSize * this.CurrentCamera.aspect)
+                    -CurrentCamera.orthographicSize * CurrentCamera.aspect)
                 {
                     deadEntities.Add(item);
                 }
@@ -95,10 +95,10 @@ namespace Minigames.Bomber
                 item.transform.Rotate(Vector3.forward, Random.Range(0, 360));
 
                 var direction = item.transform.position -
-                                this.Bomb.transform.position;
+                                Bomb.transform.position;
                 
                 rigidBody.AddForce(
-                    direction * this.Force, ForceMode2D.Impulse);
+                    direction * Force, ForceMode2D.Impulse);
 
                 rigidBody.angularVelocity = 30f;
                 Destroy(item, 5f);
@@ -114,22 +114,22 @@ namespace Minigames.Bomber
                 Blocks = new List<GameObject>()
             };
 
-            holder.Holder.transform.SetParent(this.transform);
+            holder.Holder.transform.SetParent(transform);
             var start = Instantiate(
-                this.StartPart, 
-                this.transform.position,
+                StartPart, 
+                transform.position,
                 Quaternion.identity,
                 holder.Holder.transform);
             
             holder.Blocks.Add(start);
 
             var randomLength = Random.Range(
-                this.PlatformLengthMinMax.x, this.PlatformLengthMinMax.y);
+                PlatformLengthMinMax.x, PlatformLengthMinMax.y);
 
             float lastXOffset = 0;
             for (var i = 1; i < randomLength; i++)
             {
-                var temp = Instantiate(this.MiddlePart, holder.Holder.transform);
+                var temp = Instantiate(MiddlePart, holder.Holder.transform);
                 temp.transform.position = new Vector3(
                     start.transform.position.x + temp.transform.localScale.x * i,
                     start.transform.position.y);
@@ -138,7 +138,7 @@ namespace Minigames.Bomber
                 holder.Blocks.Add(temp);
             }
             
-            var end = Instantiate(this.EndPart, holder.Holder.transform);
+            var end = Instantiate(EndPart, holder.Holder.transform);
             
             end.transform.position = new Vector3(
                 lastXOffset + end.transform.localScale.x,

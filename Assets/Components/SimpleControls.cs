@@ -1,5 +1,4 @@
-﻿using Components.UnityComponents;
-using UnityEngine.InputSystem;
+﻿using UnityEngine.InputSystem;
 
 namespace Components
 {
@@ -17,12 +16,12 @@ namespace Components
 
         public void HandleHorizontalStateChange(InputValue inputValue)
         {
-            this.HorizontalState = (AxisState)inputValue.Get<float>();
+            HorizontalState = (AxisState)inputValue.Get<float>();
         }
 
         public void HandleVerticalStateChange(InputValue inputValue)
         {
-            this.VerticalState = (AxisState)inputValue.Get<float>();
+            VerticalState = (AxisState)inputValue.Get<float>();
         }
     }
 }

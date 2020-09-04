@@ -1,8 +1,5 @@
-﻿using System;
-using Components.UnityComponents;
-using Unity.Mathematics;
+﻿using Components.UnityComponents;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Minigames.RoadDodger
 {
@@ -17,33 +14,33 @@ namespace Minigames.RoadDodger
 
         private void Start()
         {
-            this.rigidbody2d = this.GetComponent<Rigidbody2D>();
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChange;
+            rigidbody2d = GetComponent<Rigidbody2D>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChange;
         }
 
         private void OnDisable()
         {
-            this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChange;
+            gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChange;
         }
 
         private void FixedUpdate()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
-            this.movePlayer();
+            movePlayer();
         }
         
         private void movePlayer()
         {
-            var movement = (float) this.HorizontalState * Time.fixedDeltaTime * this.MoveSpeed;
+            var movement = (float) HorizontalState * Time.fixedDeltaTime * MoveSpeed;
 
-            var newPosition = this.rigidbody2d.position + Vector2.right * movement;
+            var newPosition = rigidbody2d.position + Vector2.right * movement;
 
-            var bodyOffset = this.transform.localScale.x;
+            var bodyOffset = transform.localScale.x;
             var maxX = MaxXOffset.position;
             
             newPosition.x = Mathf.Clamp(
@@ -51,7 +48,7 @@ namespace Minigames.RoadDodger
                 -maxX.x + bodyOffset, 
                 maxX.x - bodyOffset);
             
-            this.rigidbody2d.MovePosition(newPosition);
+            rigidbody2d.MovePosition(newPosition);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -59,11 +56,11 @@ namespace Minigames.RoadDodger
             if (other.gameObject.CompareTag("deadzone"))
             {
                 Destroy(
-                    Instantiate(this.Explosion, other.transform.position, Quaternion.identity),
+                    Instantiate(Explosion, other.transform.position, Quaternion.identity),
                     5f);
                 
                 Destroy(other.gameObject);
-                this.gameManager.Events.EventHit(); 
+                gameManager.Events.EventHit(); 
             }
         }
     }

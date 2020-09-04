@@ -12,13 +12,13 @@ namespace Minigames.DroneFly
 
         private void Start()
         {
-            this.gameManager = GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
         }
 
         private void OnEnable()
         {
-            this.CountdownText = GetComponent<Text>();
-            this.CountdownText.text = "3";
+            CountdownText = GetComponent<Text>();
+            CountdownText.text = "3";
             StartCoroutine(Countdown());
         }
 
@@ -26,11 +26,11 @@ namespace Minigames.DroneFly
         {
             for (int i = 2; i > 0; i--)
             {
-                this.CountdownText.text = i.ToString();
+                CountdownText.text = i.ToString();
                 yield return new WaitForSeconds(1);
             }
 
-            this.gameManager.DroneEvents.EventCountdownFinished();
+            gameManager.DroneEvents.EventCountdownFinished();
         }
     }
 }

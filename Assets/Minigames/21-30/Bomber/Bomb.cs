@@ -9,7 +9,7 @@ namespace Minigames.Bomber
 
         private void Start()
         { 
-            this.gameManager = GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -18,17 +18,17 @@ namespace Minigames.Bomber
             pe.transform.position = other.transform.position;
                 
             Destroy(pe, 3f);
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             
             if (other.CompareTag("scorezone"))
             {
                 gameManager.PlatformHit(other.gameObject);
 
-                this.gameManager.Events.EventScored();
+                gameManager.Events.EventScored();
             }
             else if(other.CompareTag("deadzone"))
             {
-                this.gameManager.Events.EventHit();
+                gameManager.Events.EventHit();
             }
         }
     }

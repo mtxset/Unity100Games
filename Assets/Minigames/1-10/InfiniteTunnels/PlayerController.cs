@@ -25,15 +25,15 @@ namespace Minigames.InfiniteTunnels
 
         private void Start()
         {
-            this.lifes = new List<GameObject>(this.Lifes);
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            lifes = new List<GameObject>(Lifes);
+            gameManager = GetComponentInParent<MinigameManager>();
 
-            this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChanged;
+            gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalStateChanged;
         }
 
         private void OnDisable()
         {
-            this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChanged;
+            gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalStateChanged;
         }
 
         private void HandleHorizontalStateChanged(InputValue inputValue)
@@ -54,32 +54,32 @@ namespace Minigames.InfiniteTunnels
 
         private void FixedUpdate()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             { 
                 return; 
             }
 
-            this.transform.RotateAround(
-                this.CenterObject.position, 
+            transform.RotateAround(
+                CenterObject.position, 
                 Vector3.forward,
-                this.MovementSpeed * Time.deltaTime * -(int)this.playerMovement);
+                MovementSpeed * Time.deltaTime * -(int)playerMovement);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("deadzone"))
             {
-                var lastEntry = this.lifes.Last();
+                var lastEntry = lifes.Last();
                 Destroy(lastEntry);
-                this.lifes.Remove(lastEntry);
+                lifes.Remove(lastEntry);
 
                 collision.gameObject.SetActive(false);
-                this.gameManager.SoundCrash.Play();
+                gameManager.SoundCrash.Play();
 
-                if (this.lifes.Count == 0)
+                if (lifes.Count == 0)
                 {
-                    this.gameManager.SoundDeath.Play();
-                    this.gameManager.Events.EventDeath();
+                    gameManager.SoundDeath.Play();
+                    gameManager.Events.EventDeath();
                 }
             }
         }

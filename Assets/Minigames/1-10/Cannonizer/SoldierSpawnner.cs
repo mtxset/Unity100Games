@@ -26,38 +26,38 @@ namespace Minigames.Cannonizer
         private float timePassed;
         public void Start()
         {
-            this.gameManager = this.GetComponentInParent<CannonizerManager>();
-            this.SetParentTo = this.gameManager.transform;
+            gameManager = GetComponentInParent<CannonizerManager>();
+            SetParentTo = gameManager.transform;
 
-            this.enemySpawnner = new EnemySpawnner(
-                this.SpawnPoints,
-                this.DirectionsForEnemiesToGo,
-                this.PrefabsToSpawn,
-                this.SetParentTo,
-                this.SpawnFrequencyInSeconds,
-                this.MovementSpeed);
+            enemySpawnner = new EnemySpawnner(
+                SpawnPoints,
+                DirectionsForEnemiesToGo,
+                PrefabsToSpawn,
+                SetParentTo,
+                SpawnFrequencyInSeconds,
+                MovementSpeed);
 
-            this.gameManager.EnemySpawnnerReference = this.enemySpawnner;
+            gameManager.EnemySpawnnerReference = enemySpawnner;
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver) return;
+            if (gameManager.GameOver) return;
 
-            this.timePassed += Time.deltaTime;
-            if (this.timePassed >= this.IncreaseSpawnEachSeconds)
+            timePassed += Time.deltaTime;
+            if (timePassed >= IncreaseSpawnEachSeconds)
             {
-                if (this.SpawnFrequencyInSeconds >= 0.5f)
+                if (SpawnFrequencyInSeconds >= 0.5f)
                 {
-                    this.SpawnFrequencyInSeconds -= this.DeacreseSpawnRate;
-                    this.SpeedIncreasedAudio.Play();
-                    this.SpeedText.text = $"SPAWN RATE: {this.SpawnFrequencyInSeconds}";
-                    this.timePassed = 0;
+                    SpawnFrequencyInSeconds -= DeacreseSpawnRate;
+                    SpeedIncreasedAudio.Play();
+                    SpeedText.text = $"SPAWN RATE: {SpawnFrequencyInSeconds}";
+                    timePassed = 0;
                 }
             }
-            this.enemySpawnner.MovementSpeed = this.MovementSpeed;
-            this.enemySpawnner.SpawnFrequencyInSeconds = this.SpawnFrequencyInSeconds;
-            this.enemySpawnner.UpdateRoutine();
+            enemySpawnner.MovementSpeed = MovementSpeed;
+            enemySpawnner.SpawnFrequencyInSeconds = SpawnFrequencyInSeconds;
+            enemySpawnner.UpdateRoutine();
         }
     }
 }

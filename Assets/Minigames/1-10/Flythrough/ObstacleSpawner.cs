@@ -18,37 +18,37 @@ namespace Minigames.Flythrough
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.SpeedText.text = $"SPEED: {this.ObstacleSpeed}";
+            gameManager = GetComponentInParent<MinigameManager>();
+            SpeedText.text = $"SPEED: {ObstacleSpeed}";
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
                 return;
 
-            this.time += Time.deltaTime;
+            time += Time.deltaTime;
 
-            if (this.time >= this.SpawnPeriod)
+            if (time >= SpawnPeriod)
             {
-                this.SpawnPeriod -= DecreaseSpawnPeriodBy;
-                var randomIndex = Random.Range(0, this.ObstaclesPrefab.Length);
-                var obstacle = Instantiate(this.ObstaclesPrefab[randomIndex], this.transform);
+                SpawnPeriod -= DecreaseSpawnPeriodBy;
+                var randomIndex = Random.Range(0, ObstaclesPrefab.Length);
+                var obstacle = Instantiate(ObstaclesPrefab[randomIndex], transform);
 
                 var rigidBodies = obstacle.GetComponentsInChildren<Rigidbody2D>();
 
-                this.ObstacleSpeed += this.IncreaseObstacleSpeedBy;
+                ObstacleSpeed += IncreaseObstacleSpeedBy;
 
                 foreach (var item in rigidBodies)
                 {
-                    item.GetComponent<Rigidbody2D>().AddForce(Vector2.down * this.ObstacleSpeed);
+                    item.GetComponent<Rigidbody2D>().AddForce(Vector2.down * ObstacleSpeed);
                 }
 
-                this.SpeedText.text = $"SPEED: {this.ObstacleSpeed}";
+                SpeedText.text = $"SPEED: {ObstacleSpeed}";
                 
                 Destroy(obstacle, 5.0f);
 
-                this.time = 0;
+                time = 0;
             }
         }
 

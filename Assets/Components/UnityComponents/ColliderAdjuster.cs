@@ -13,9 +13,9 @@ namespace Components.UnityComponents
         private SpriteRenderer spriteRenderer;
         private void Awake()
         {
-            this.spriteRenderer = this.GetComponent<SpriteRenderer>();
-            this.currentCollider = this.GetComponent<PolygonCollider2D>();
-            this.spriteColliderVectors = new Dictionary<Sprite, Vector2[]>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            currentCollider = GetComponent<PolygonCollider2D>();
+            spriteColliderVectors = new Dictionary<Sprite, Vector2[]>();
             
             foreach (var item in Resources.LoadAll<Sprite>(PathToSprites))
             {
@@ -27,7 +27,7 @@ namespace Components.UnityComponents
         }
         private void Update()
         {
-            this.currentCollider.points = this.spriteColliderVectors[this.spriteRenderer.sprite];
+            currentCollider.points = spriteColliderVectors[spriteRenderer.sprite];
         }
     }
 }

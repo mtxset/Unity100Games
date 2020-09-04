@@ -10,8 +10,8 @@ namespace Minigames.DroneFly
 
         private void OnEnable()
         {
-            this.gameManager = GetComponentInParent<MinigameManager>();
-            GetComponent<Text>().text = $"Score: {this.gameManager.Score}";
+            gameManager = GetComponentInParent<MinigameManager>();
+            GetComponent<Text>().text = $"Score: {gameManager.Score}";
         }
     }
 }

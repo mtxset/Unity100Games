@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Components;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,7 +56,7 @@ namespace GameManager
         public GameObject InitialPage;
         public GameObject IntermissionPage;
 
-        public bool intermission = false;
+        public bool Intermission;
 
         public string GetCurrentGameName()
         {
@@ -65,12 +65,12 @@ namespace GameManager
 
         public int GetCurrentPlayersCount()
         {
-            return this.currentPlayerCount;
+            return currentPlayerCount;
         }
 
         public Dictionary<int, Player> GetPlayersData()
         {
-            return this.playersData;
+            return playersData;
         }
 
         /// <summary>
@@ -80,46 +80,46 @@ namespace GameManager
         /// <returns>button events reference</returns>
         public ButtonEvents AddNewPlayer(GameObject newPlayerPrefab)
         {
-            this.MainText.text += "\nNew Player joined";
-            return this.addFirstTimePlayer(newPlayerPrefab);
+            MainText.text += "\nNew Player joined";
+            return addFirstTimePlayer(newPlayerPrefab);
         }
 
-        private async void countdown(int from, int to)
+        private IEnumerator countdown(int from, int to)
         {
             for (var i = from; i >= to; i--)
             {
-                this.TimerText.text = i.ToString();
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                TimerText.text = i.ToString();
+                yield return new WaitForSeconds(1);
             }
-            this.startTheGame();
+            startTheGame();
         }
 
         private void startTheGame()
         {
-            this.InitialPage.SetActive(false);
-            for (var i = 0; i < this.currentPlayerCount; i++)
+            InitialPage.SetActive(false);
+            for (var i = 0; i < currentPlayerCount; i++)
             {
-                this.playersData[i].CurrentGamePrefab.SetActive(true);
+                playersData[i].CurrentGamePrefab.SetActive(true);
             }
         }
 
         private void Awake()
         {
-            this.TimerText.text = "";
-            this.MainText.text = "Waiting for players..";
+            TimerText.text = "";
+            MainText.text = "Waiting for players..";
 
-            this.countdown(3, 1);
+            StartCoroutine(countdown(3, 1));
             
-            this.initializeGameList();
-            this.initiateColors();
-            this.selectRandomGame();
+            initializeGameList();
+            initiateColors();
+            selectRandomGame();
             Instance = this;
 
-            this.playersData = new Dictionary<int, Player>();
+            playersData = new Dictionary<int, Player>();
 
             for (var i = 0; i < MAXPLAYERS; i++)
             {
-                this.playersData.Add(i, new Player()
+                playersData.Add(i, new Player()
                 {
                     PlayerNumber = i,
                     InjectionInstance = new Dictionary<Type, Component>(),
@@ -134,29 +134,29 @@ namespace GameManager
         {
             if (DebugGame >= 0)
             {
-                this.currentRandomGame = DebugGame;
+                currentRandomGame = DebugGame;
             }
             else if (DebugGame == -2)
             {
                 do
                 {
-                    this.currentRandomGame++;
-                } while (!this.gameList[this.currentRandomGame].Active);
+                    currentRandomGame++;
+                } while (!gameList[currentRandomGame].Active);
             }
             else if (DebugGame == -1)
             {
                 do
                 {
                     var rand = new System.Random();
-                    this.currentRandomGame = rand.Next(0, gameList.Count);
+                    currentRandomGame = rand.Next(0, gameList.Count);
                 }
-                while (!this.gameList[this.currentRandomGame].Active);
+                while (!gameList[currentRandomGame].Active);
             }
         }
 
         private void initiateColors()
         {
-            this.colors = new Queue<Color>();
+            colors = new Queue<Color>();
             colors.Enqueue(Color.green);
             colors.Enqueue(Color.yellow);
             colors.Enqueue(Color.blue);
@@ -176,7 +176,7 @@ namespace GameManager
             playersData[currentPlayerCount].PlayersPrefabReference = playerPrefab;
 
             // Creating a mini game
-            var randomGame = this.createNewMinigame();
+            var randomGame = createNewMinigame();
 
             // set new game as player instance's child
             randomGame.transform.SetParent(playerPrefab.transform);
@@ -187,7 +187,7 @@ namespace GameManager
             // adding interface for communication between mini game and singleton game manager
             var communicationBusReference = playerPrefab.AddComponent<PlayerToManagerCommunicationBus>();
             communicationBusReference.PlayerId = currentPlayerCount;
-            var color = this.colors.Dequeue();
+            var color = colors.Dequeue();
             communicationBusReference.PlayerColor = color;
             playersData[currentPlayerCount].PlayerColor = color;
 
@@ -200,14 +200,14 @@ namespace GameManager
             randomGame.transform.position = playerPrefab.transform.position;
 
             // adding reference to mini game manager
-            var comp = randomGame.GetComponentInChildren(gameList[this.currentRandomGame].MinigameManagerType);
+            var comp = randomGame.GetComponentInChildren(gameList[currentRandomGame].MinigameManagerType);
             playersData[currentPlayerCount].InjectionInstance
-                .Add(gameList[this.currentRandomGame].MinigameManagerType, comp);
+                .Add(gameList[currentRandomGame].MinigameManagerType, comp);
 
             playersData[currentPlayerCount].CurrentGamePrefab = randomGame;
 
             // setting game state
-            this.resetGameState(currentPlayerCount);
+            resetGameState(currentPlayerCount);
             playersData[currentPlayerCount].GameStateData.Alive = true;
             playersData[currentPlayerCount].GameStateData.CurrentGameScore = 0;
             playersData[currentPlayerCount].GameStateData.TotalScore = 0;
@@ -237,24 +237,25 @@ namespace GameManager
         private GameObject createNewMinigame()
         {
             // Creating game
-            var randomGame = Instantiate(gameList[this.currentRandomGame].MinigamePrefab);
+            var randomGame = Instantiate(gameList[currentRandomGame].MinigamePrefab);
 
             return randomGame;
         }
 
-        private async void intermissionStart()
+        private IEnumerator intermissionStart()
         {
-            this.intermission = true;
+            Intermission = true;
             // check if any player has total score over x
-            await Task.Delay(TimeSpan.FromSeconds(2));
+            //yield return new WaitForSeconds(); Task.Delay(TimeSpan.FromSeconds(2));
+            yield return new WaitForSeconds(2);
             // disable games for all players
             for (var i = 0; i < currentPlayerCount; i++)
             {
                 Destroy(playersData[i].CurrentGamePrefab);
             }
             // same game for everyone
-            this.selectRandomGame();
-            this.IntermissionPage.SetActive(true);
+            selectRandomGame();
+            IntermissionPage.SetActive(true);
         }
 
         private void setNewGameForEveryPlayer()
@@ -262,24 +263,24 @@ namespace GameManager
             // create new game for each player
             for (var i = 0; i < currentPlayerCount; i++)
             {
-                var randomGame = this.createNewMinigame();
+                var randomGame = createNewMinigame();
                 randomGame.transform.SetParent(playersData[i].PlayersPrefabReference.transform);
                 randomGame.transform.position = playersData[i].PlayersPrefabReference.transform.position;
 
                 var comp = randomGame
-                    .GetComponentInChildren(this.gameList[this.currentRandomGame].MinigameManagerType);
+                    .GetComponentInChildren(gameList[currentRandomGame].MinigameManagerType);
 
                 // check if type already exists
                 if (!playersData[i].InjectionInstance
-                        .ContainsKey(this.gameList[this.currentRandomGame].MinigameManagerType))
+                        .ContainsKey(gameList[currentRandomGame].MinigameManagerType))
                 {
                     playersData[i].InjectionInstance
-                       .Add(this.gameList[this.currentRandomGame].MinigameManagerType, comp);
+                       .Add(gameList[currentRandomGame].MinigameManagerType, comp);
                 }
 
                 // reset game state for each player
                 
-                this.playersData[i].GameStateData.Alive = true;
+                playersData[i].GameStateData.Alive = true;
 
                 playersData[i].CurrentGamePrefab = randomGame;
             }
@@ -295,7 +296,7 @@ namespace GameManager
                 playersData[i].CurrentGamePrefab.GetComponentInChildren<Camera>().rect = viewPorts[i];
             }
 
-            this.intermission = false;
+            Intermission = false;
         }
 
 
@@ -305,7 +306,7 @@ namespace GameManager
         /// <returns>true if all player have died</returns>
         private bool checkIfAllDied()
         {
-            for (var i = 0; i < this.currentPlayerCount; i++)
+            for (var i = 0; i < currentPlayerCount; i++)
             {
                 if (playersData[i].GameStateData.Alive)
                     return false;
@@ -316,8 +317,8 @@ namespace GameManager
 
         public void IntermissionDone()
         {
-            this.IntermissionPage.SetActive(false);
-            this.setNewGameForEveryPlayer();
+            IntermissionPage.SetActive(false);
+            setNewGameForEveryPlayer();
         }
     }
 }

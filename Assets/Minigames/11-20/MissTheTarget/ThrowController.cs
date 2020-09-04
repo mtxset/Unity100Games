@@ -11,42 +11,42 @@ namespace Minigames.MissTheTarget
         private MinigameManager gameManager;
         private void Start()
         {
-            this.rigidbody2d = GetComponent<Rigidbody2D>();
-            this.spawnPoint = this.transform.position;
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.subscribeToEvents();
+            rigidbody2d = GetComponent<Rigidbody2D>();
+            spawnPoint = transform.position;
+            gameManager = GetComponentInParent<MinigameManager>();
+            subscribeToEvents();
             rigidbody2d.simulated = false;
         }
         
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
         }
 
         private void HandleActionButtonPressed()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
             rigidbody2d.simulated = true;
-            rigidbody2d.AddForce(Vector2.up * this.ShootPower, ForceMode2D.Impulse);
+            rigidbody2d.AddForce(Vector2.up * ShootPower, ForceMode2D.Impulse);
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         private void resetPosition()
         {
-            this.transform.position = this.spawnPoint;
+            transform.position = spawnPoint;
             rigidbody2d.velocity = Vector2.zero;
             rigidbody2d.simulated = false;
         }
@@ -55,11 +55,11 @@ namespace Minigames.MissTheTarget
         {
             if (collision.CompareTag("scorezone"))
             {
-                this.gameManager.Events.EventScored();
+                gameManager.Events.EventScored();
             }
             else if (collision.CompareTag("deadzone"))
             {
-                this.gameManager.Events.EventHit();
+                gameManager.Events.EventHit();
             }
 
             resetPosition();

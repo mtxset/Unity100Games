@@ -10,14 +10,14 @@ namespace Components
 
         public Lifes(IEnumerable<GameObject> playerLifeObjects)
         {
-            this.lifes = new List<GameObject>(playerLifeObjects);
+            lifes = new List<GameObject>(playerLifeObjects);
             // making it so set life amount in inclusive (3 lives means 3 deaths and gg)
-            this.lifes.Remove(this.lifes.Last());
+            lifes.Remove(lifes.Last());
         }
 
         public void ResetLifes()
         {
-            foreach (var item in this.lifes)
+            foreach (var item in lifes)
             {
                 item.SetActive(true);
             }

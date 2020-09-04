@@ -42,112 +42,100 @@ namespace Minigames.RGBDestroyer
 
         private void Start()
         {
-            this.colorList = new List<Color>
+            colorList = new List<Color>
             {
                 Color.red, Color.green, Color.blue
             };
 
-            this.turretLeftOutline = this.TurretLeft.GetComponent<SpriteOutline>();
-            this.turretCenterOutline = this.TurretCenter.GetComponent<SpriteOutline>();
-            this.turretRightOutline = this.TurretRight.GetComponent<SpriteOutline>();
-            this.turretOutlines = new List<SpriteOutline>
+            turretLeftOutline = TurretLeft.GetComponent<SpriteOutline>();
+            turretCenterOutline = TurretCenter.GetComponent<SpriteOutline>();
+            turretRightOutline = TurretRight.GetComponent<SpriteOutline>();
+            turretOutlines = new List<SpriteOutline>
             {
-                this.turretLeftOutline, this.turretCenterOutline, this.turretRightOutline 
+                turretLeftOutline, turretCenterOutline, turretRightOutline 
             };
 
             foreach (var item in turretOutlines)
             {
-                item.color = this.OutlineColor;
+                item.color = OutlineColor;
                 item.outlineSize = 0;
             }
 
             turretOutlines[(int)TurretControl.Center].outlineSize = 9;
 
-            this.turrets = new List<GameObject>
+            turrets = new List<GameObject>
             {
-                this.TurretLeft, this.TurretCenter, this.TurretRight
+                TurretLeft, TurretCenter, TurretRight
             };
 
             foreach (var item in turrets)
             {
-                item.GetComponent<SpriteRenderer>().color = this.colorList[this.currentColorIndex];
+                item.GetComponent<SpriteRenderer>().color = colorList[currentColorIndex];
             }
 
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.subscribeToEvents();
+            gameManager = GetComponentInParent<MinigameManager>();
+            subscribeToEvents();
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
-            this.outlineTurret(this.turretControl);
+            outlineTurret(turretControl);
 
-            this.turrets[(int)this.turretControl].transform.Rotate(
-                0, 0, 1 * this.TurretRotationSpeed * Time.deltaTime);
+            turrets[(int)turretControl].transform.Rotate(
+                0, 0, 1 * TurretRotationSpeed * Time.deltaTime);
         }
 
         private void outlineTurret(TurretControl newTurretControl)
         {
-            for (var i = 0; i < this.turretOutlines.Count; i++)
+            for (var i = 0; i < turretOutlines.Count; i++)
             {
-                turretOutlines[i].outlineSize = i == (int)newTurretControl ? this.OutlineWidth : 0;
+                turretOutlines[i].outlineSize = i == (int)newTurretControl ? OutlineWidth : 0;
             }
 
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
         private void subscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnUpButtonPressed += HandleUpButtonPressed;
-            this.gameManager.ButtonEvents.OnDownButtonPressed += HandleDownButtonPressed;
-            this.gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
-            this.gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalPressed;
+            gameManager.ButtonEvents.OnUpButtonPressed += HandleUpButtonPressed;
+            gameManager.ButtonEvents.OnDownButtonPressed += HandleDownButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonPressed += HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnHorizontalPressed += HandleHorizontalPressed;
         }
         private void unsubscribeToEvents()
         {
-            this.gameManager.ButtonEvents.OnUpButtonPressed -= HandleUpButtonPressed;
-            this.gameManager.ButtonEvents.OnDownButtonPressed -= HandleDownButtonPressed;
-            this.gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
-            this.gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalPressed;
+            gameManager.ButtonEvents.OnUpButtonPressed -= HandleUpButtonPressed;
+            gameManager.ButtonEvents.OnDownButtonPressed -= HandleDownButtonPressed;
+            gameManager.ButtonEvents.OnActionButtonPressed -= HandleActionButtonPressed;
+            gameManager.ButtonEvents.OnHorizontalPressed -= HandleHorizontalPressed;
         }
-
-        private void HandleLeftButtonPressed()
-        {
-            this.turretControl = TurretControl.Left;
-        }
-
-        private void HandleRightButtonPressed()
-        {
-            this.turretControl = TurretControl.Right;
-            
-        }
-
         private void HandleUpButtonPressed()
         {
-            this.changeCurrentColor(1);
+            changeCurrentColor(1);
         }
 
         private void HandleDownButtonPressed()
         {
-            this.changeCurrentColor(-1);
+            changeCurrentColor(-1);
         }
 
         private void HandleActionButtonPressed()
         {
-            var laser = Instantiate(this.LaserPrefab, this.gameManager.transform);
-            laser.transform.position = this.turrets[(int)this.turretControl].transform.position;
+            var laser = Instantiate(LaserPrefab, gameManager.transform);
+            laser.transform.position = turrets[(int)turretControl].transform.position;
             laser.GetComponent<Rigidbody2D>().AddForce(
-                Vector2.up * this.LaserSpeed * Time.deltaTime);
+                Vector2.up * LaserSpeed * Time.deltaTime);
 
-            laser.GetComponent<LineRenderer>().startColor = this.colorList[this.currentColorIndex];
-            laser.GetComponent<LineRenderer>().endColor = this.colorList[this.currentColorIndex];
+            laser.GetComponent<LineRenderer>().startColor = colorList[currentColorIndex];
+            laser.GetComponent<LineRenderer>().endColor = colorList[currentColorIndex];
 
             Destroy(laser, 3.0f);
         }
@@ -162,21 +150,21 @@ namespace Minigames.RGBDestroyer
             {
                 case 1:
                 {
-                    var nextColorIndex = this.currentColorIndex + 1;
-                    this.currentColorIndex = nextColorIndex == this.colorList.Count ? 0 : nextColorIndex;
+                    var nextColorIndex = currentColorIndex + 1;
+                    currentColorIndex = nextColorIndex == colorList.Count ? 0 : nextColorIndex;
 
                     break;
                 }
                 case -1:
                 {
-                    var previousColorIndex = this.currentColorIndex - 1;
+                    var previousColorIndex = currentColorIndex - 1;
                     if (previousColorIndex < 0)
                     {
-                        this.currentColorIndex = this.colorList.Count - 1;
+                        currentColorIndex = colorList.Count - 1;
                     }
                     else
                     {
-                        this.currentColorIndex = previousColorIndex;
+                        currentColorIndex = previousColorIndex;
                     }
 
                     break;
@@ -185,7 +173,7 @@ namespace Minigames.RGBDestroyer
 
             foreach (var item in turrets)
             {
-                item.GetComponent<SpriteRenderer>().color = this.colorList[this.currentColorIndex];
+                item.GetComponent<SpriteRenderer>().color = colorList[currentColorIndex];
             }
         }
 
@@ -194,17 +182,17 @@ namespace Minigames.RGBDestroyer
             switch (inputValue.Get<float>())
             {
                 case -1:
-                    this.turretControl = TurretControl.Left;
+                    turretControl = TurretControl.Left;
                     break;
                 case 0:
-                    this.turretControl = TurretControl.Center;
+                    turretControl = TurretControl.Center;
                     break;
                 case 1:
-                    this.turretControl = TurretControl.Right;
+                    turretControl = TurretControl.Right;
                     break;
             }
 
-            this.outlineTurret(this.turretControl);
+            outlineTurret(turretControl);
         }
     }
 }

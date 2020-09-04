@@ -30,38 +30,38 @@ namespace Minigames.FallingRocks
         private void Start()
         {
             float orthographicSize;
-            this.screenHalfSizeWorldUnits = new Vector2(
-                this.CurrentCamera.aspect * (orthographicSize = this.CurrentCamera.orthographicSize),
+            screenHalfSizeWorldUnits = new Vector2(
+                CurrentCamera.aspect * (orthographicSize = CurrentCamera.orthographicSize),
                 orthographicSize);
 
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.liveRocks = new List<GameObject>();
-            this.deadRocks = new List<GameObject>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            liveRocks = new List<GameObject>();
+            deadRocks = new List<GameObject>();
 
-            this.SpeedText.text = $"SPAWN SPEED: {this.SpawnRate}";
+            SpeedText.text = $"SPAWN SPEED: {SpawnRate}";
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            this.spawnTimer += Time.deltaTime;
-            this.difficultyTimer += Time.deltaTime;
+            spawnTimer += Time.deltaTime;
+            difficultyTimer += Time.deltaTime;
 
-            if (this.difficultyTimer >= this.IncreaseRateAfter)
+            if (difficultyTimer >= IncreaseRateAfter)
             {
-                this.SpawnRate -= IncreaseRateBy;
-                this.SpeedText.text = $"SPAWN SPEED: {this.SpawnRate}";
-                this.difficultyTimer = 0;
+                SpawnRate -= IncreaseRateBy;
+                SpeedText.text = $"SPAWN SPEED: {SpawnRate}";
+                difficultyTimer = 0;
             }
 
-            if (spawnTimer >= this.SpawnRate)
+            if (spawnTimer >= SpawnRate)
             {
-                this.liveRocks.Add(this.spawnNewRock());
-                this.spawnTimer = 0;
+                liveRocks.Add(spawnNewRock());
+                spawnTimer = 0;
             }
 
             rockLifecycle();
@@ -71,46 +71,46 @@ namespace Minigames.FallingRocks
         {
             foreach (var rock in liveRocks)
             {
-                rock.transform.Translate(Vector2.down * (this.FallingSpeed * Time.deltaTime));
+                rock.transform.Translate(Vector2.down * (FallingSpeed * Time.deltaTime));
                 if (rock.transform.position.y <=
-                    - this.screenHalfSizeWorldUnits.y 
+                    - screenHalfSizeWorldUnits.y 
                     - rock.transform.localScale.y 
-                    + this.gameManager.transform.position.y)
+                    + gameManager.transform.position.y)
                 {
-                    this.deadRocks.Add(rock);
+                    deadRocks.Add(rock);
                 }
             }
 
             foreach (var rock in deadRocks)
             {
-                this.gameManager.Events.EventScored();
-                this.gameManager.SoundScored.Play();
-                this.liveRocks.Remove(rock);
+                gameManager.Events.EventScored();
+                gameManager.SoundScored.Play();
+                liveRocks.Remove(rock);
                 Destroy(rock);
             }
 
-            this.deadRocks.Clear();
+            deadRocks.Clear();
         }
 
         private GameObject spawnNewRock()
         {
-            var randomRockIndex = Random.Range(0, this.RockPrefabs.Length);
+            var randomRockIndex = Random.Range(0, RockPrefabs.Length);
             var newRock = Instantiate(
-                this.RockPrefabs[randomRockIndex], this.gameObject.transform);
+                RockPrefabs[randomRockIndex], gameObject.transform);
 
             newRock.transform.rotation = Quaternion.Euler(
-                0, 0, Random.Range(-this.RotationAngle, this.RotationAngle));
+                0, 0, Random.Range(-RotationAngle, RotationAngle));
 
             newRock.transform.localScale = 
-                Vector3.one * Random.Range(this.SpawnSizeMinMax.x, this.SpawnSizeMinMax.y);
+                Vector3.one * Random.Range(SpawnSizeMinMax.x, SpawnSizeMinMax.y);
 
             var spawnPosition = new Vector2(
-                Random.Range(-this.screenHalfSizeWorldUnits.x, this.screenHalfSizeWorldUnits.x),
-                this.screenHalfSizeWorldUnits.y 
+                Random.Range(-screenHalfSizeWorldUnits.x, screenHalfSizeWorldUnits.x),
+                screenHalfSizeWorldUnits.y 
                     + newRock.transform.localScale.y 
-                    + this.gameManager.transform.position.y);
+                    + gameManager.transform.position.y);
             newRock.transform.position = spawnPosition;
-            this.gameManager.SoundSpawnRock.Play();
+            gameManager.SoundSpawnRock.Play();
 
             return newRock;
         }

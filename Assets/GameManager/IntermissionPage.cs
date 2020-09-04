@@ -11,15 +11,15 @@ namespace GameManager
         public Text PlayersScoreText;
         private void OnEnable()
         {
-            this.TextNextGame.text = $"NEXT GAME: {GameManager.Instance.GetCurrentGameName()}";
+            TextNextGame.text = $"NEXT GAME: {GameManager.Instance.GetCurrentGameName()}";
             var playersData = GameManager.Instance.GetPlayersData();
 
-            this.PlayersScoreText.text = string.Empty;
+            PlayersScoreText.text = string.Empty;
 
             for (int i = 0; i < GameManager.Instance.GetCurrentPlayersCount(); i++)
             {
                 var color = ColorUtility.ToHtmlStringRGB(playersData[i].PlayerColor);
-                this.PlayersScoreText.text += $"<color=\"#{color}\">player {i} has {playersData[i].GameStateData.TotalScore} point(s)</color>\n";
+                PlayersScoreText.text += $"<color=\"#{color}\">player {i} has {playersData[i].GameStateData.TotalScore} point(s)</color>\n";
             }
 
             StartCoroutine(Countdown());
@@ -29,7 +29,7 @@ namespace GameManager
         {
             for (int i = 3; i > 0; i--)
             {
-                this.CountdownText.text = i.ToString();
+                CountdownText.text = i.ToString();
                 yield return new WaitForSeconds(1);
             }
 

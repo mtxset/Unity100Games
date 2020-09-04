@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7695077068050732632
+--- !u!1001 &8217404845641581689
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,15 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1655026259642180401, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_Color.r
-      value: 0.8396226
+      value: 0.28494135
       objectReference: {fileID: 0}
     - target: {fileID: 1655026259642180401, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_Color.g
-      value: 0.19547401
+      value: 0.26274508
       objectReference: {fileID: 0}
     - target: {fileID: 1655026259642180401, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_Color.b
-      value: 0.14653791
+      value: 0.972549
       objectReference: {fileID: 0}
     - target: {fileID: 1778261052427694014, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,11 +65,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5248558581806060566, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_Name
-      value: Platform
+      value: Platform Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7121122308224504226, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: SelectPlatformType
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121122308224504226, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
+      propertyPath: SlideForce
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}

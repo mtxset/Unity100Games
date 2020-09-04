@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8217404845641581689
+--- !u!1001 &8488222704441985869
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,16 +8,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1655026259642180401, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
-      propertyPath: m_Color.r
-      value: 0.26125845
-      objectReference: {fileID: 0}
-    - target: {fileID: 1655026259642180401, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_Color.g
-      value: 0.9716981
-      objectReference: {fileID: 0}
-    - target: {fileID: 1655026259642180401, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
-      propertyPath: m_Color.b
-      value: 0.33823985
+      value: 0.113
       objectReference: {fileID: 0}
     - target: {fileID: 1778261052427694014, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,11 +57,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5248558581806060566, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: m_Name
-      value: Platform Variant
+      value: RandomJump
       objectReference: {fileID: 0}
     - target: {fileID: 7121122308224504226, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
       propertyPath: SelectPlatformType
-      value: 1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121122308224504226, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
+      propertyPath: JumpPower
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121122308224504226, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}
+      propertyPath: RandomJumpXOffset
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c6bf96896e44199b6deea56fe750ce7, type: 3}

@@ -17,12 +17,12 @@ namespace Components.UnityComponents
 
         protected void HandleHorizontalStateChange(InputValue inputValue)
         {
-            this.HorizontalState = (AxisState)inputValue.Get<float>();
+            HorizontalState = (AxisState)inputValue.Get<float>();
         }
 
         protected void HandleVerticalStateChange(InputValue inputValue)
         {
-            this.VerticalState = (AxisState)inputValue.Get<float>();
+            VerticalState = (AxisState)inputValue.Get<float>();
         }
     }
 }

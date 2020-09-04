@@ -9,12 +9,12 @@ namespace Minigames.BubbleStruggle
 
         public void EventFired()
         {
-            this.OnFired?.Invoke();
+            OnFired?.Invoke();
         }
 
         public void EventHit()
         {
-            this.OnHit?.Invoke();
+            OnHit?.Invoke();
         }
     }
 }

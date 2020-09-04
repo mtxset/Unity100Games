@@ -18,66 +18,66 @@ namespace Minigames.Barreling
 
         public void AccelerateBarrelMovement(float accelerateBy)
         {
-            this.BarrelMoveSpeed += accelerateBy;
+            BarrelMoveSpeed += accelerateBy;
         }
         public void SetBarrelStatic()
         {
-            if (this.gameManager.GameOver) return;
+            if (gameManager.GameOver) return;
 
-            this.gameManager.FallingAudio.Play();
+            gameManager.FallingAudio.Play();
 
-            this.transform.SetParent(this.gameManager.transform);
-            this.canMove = false;
-            this.rigidbody2d.gravityScale = Random.Range(2, 4);
+            transform.SetParent(gameManager.transform);
+            canMove = false;
+            rigidbody2d.gravityScale = Random.Range(2, 4);
         }
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
 
-            this.canMove = true;
-            this.rigidbody2d = this.GetComponent<Rigidbody2D>();
+            canMove = true;
+            rigidbody2d = GetComponent<Rigidbody2D>();
 
-            this.rigidbody2d.gravityScale = 0;
+            rigidbody2d.gravityScale = 0;
             if (Random.Range(0, 2) > 0)
             {
-                this.BarrelMoveSpeed *= -1f;
+                BarrelMoveSpeed *= -1f;
             }
         }
 
         private void Update()
         {
-            if (!canMove || this.gameManager.GameOver)
+            if (!canMove || gameManager.GameOver)
             {
                 return;
             }
 
-            var newPostion = this.transform.position;
-            newPostion.x += this.BarrelMoveSpeed * Time.deltaTime;
+            var newPostion = transform.position;
+            newPostion.x += BarrelMoveSpeed * Time.deltaTime;
 
-            if (newPostion.x > this.RightOffset)
+            if (newPostion.x > RightOffset)
             {
-                this.BarrelMoveSpeed *= -1f;
+                BarrelMoveSpeed *= -1f;
             }
-            else if (newPostion.x < this.LeftOffset)
+            else if (newPostion.x < LeftOffset)
             {
-                this.BarrelMoveSpeed *= -1f;
+                BarrelMoveSpeed *= -1f;
             }
 
-            this.transform.position = newPostion;
+            transform.position = newPostion;
         }
         
         private void landed()
         {
-            this.ignoreCollision = true;
+            ignoreCollision = true;
 
-            this.gameManager.Events.EventScored(this.PointPerScore);
-            this.gameManager.Events.EventLanded();
+            gameManager.Events.EventScored(PointPerScore);
+            gameManager.Events.EventLanded();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (this.ignoreCollision)
+            if (ignoreCollision)
             {
                 return;
             }
@@ -85,7 +85,7 @@ namespace Minigames.Barreling
             if (collision.gameObject.CompareTag("scorezone") 
                 || collision.gameObject.CompareTag("Barrel"))
             {
-                this.landed();
+                landed();
             }
         }
 
@@ -93,7 +93,7 @@ namespace Minigames.Barreling
         {
             if (collision.gameObject.CompareTag("deadzone"))
             {
-                this.gameManager.Events.EventDeath(this.gameObject);
+                gameManager.Events.EventDeath(gameObject);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Components.UnityComponents
+namespace Components.UnityComponents.v1
 {
     public class PlayerLifesController : MonoBehaviour
     {
@@ -10,32 +10,32 @@ namespace Components.UnityComponents
         private MinigameManagerDefault gameManager;
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManagerDefault>();
-            this.lifes = new Lifes(this.Lifes);
+            gameManager = GetComponentInParent<MinigameManagerDefault>();
+            lifes = new Lifes(Lifes);
             
-            this.subscribeToEvents();
+            subscribeToEvents();
         }
 
         private void OnDisable()
         {
-            this.unsubscribeToEvents();
+            unsubscribeToEvents();
         }
 
         private void subscribeToEvents()
         {
-            this.gameManager.Events.OnHit += HandleHit;
+            gameManager.Events.OnHit += HandleHit;
         }
 
         private void unsubscribeToEvents()
         {
-            this.gameManager.Events.OnHit -= HandleHit;
+            gameManager.Events.OnHit -= HandleHit;
         }
 
         private void HandleHit()
         {
             if (lifes.LoseLife())
             {
-                this.gameManager.Events.EventDeath();
+                gameManager.Events.EventDeath();
             }
         }
     }

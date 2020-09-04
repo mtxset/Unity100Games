@@ -12,7 +12,7 @@ namespace Components
         }
 
         /**
-         * Returns vector with postion outside of camera
+         * Returns vector with position outside of camera
          */
         public static Vector2 PositionOutsideCamera(
             Camera currentCamera,

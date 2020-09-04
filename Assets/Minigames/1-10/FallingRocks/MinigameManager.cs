@@ -1,5 +1,4 @@
-﻿using Components;
-using Components.UnityComponents;
+﻿using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Minigames.FallingRocks

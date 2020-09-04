@@ -8,21 +8,21 @@ namespace Minigames.TrainRunner
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("deadzone"))
             {
-                this.gameManager.Events.EventHit();
+                gameManager.Events.EventHit();
             }
             else if (other.CompareTag("scorezone"))
             {
-                this.gameManager.Events.EventScored();
+                gameManager.Events.EventScored();
             }
             
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }

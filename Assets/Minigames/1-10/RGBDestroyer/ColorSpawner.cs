@@ -29,53 +29,53 @@ namespace Minigames.RGBDestroyer
                 Color.red, Color.green, Color.blue
             };
 
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
+            gameManager = GetComponentInParent<MinigameManager>();
 
-            this.SpeedText.text = $"SPEED: {this.FallingSpeed}";
+            SpeedText.text = $"SPEED: {FallingSpeed}";
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            this.spawnTimer += Time.deltaTime;
-            this.difficultyTimer += Time.deltaTime;
+            spawnTimer += Time.deltaTime;
+            difficultyTimer += Time.deltaTime;
 
-            if (this.difficultyTimer >= this.IncreaseRateAfter)
+            if (difficultyTimer >= IncreaseRateAfter)
             {
-                this.FallingSpeed += IncreaseRateBy;
-                this.SpeedText.text = $"SPEED: {this.FallingSpeed}";
-                this.difficultyTimer = 0;
+                FallingSpeed += IncreaseRateBy;
+                SpeedText.text = $"SPEED: {FallingSpeed}";
+                difficultyTimer = 0;
             }
 
-            if (spawnTimer >= this.SpawnRate)
+            if (spawnTimer >= SpawnRate)
             {
-                this.spawnNewEntity();
-                this.spawnTimer = 0;
+                spawnNewEntity();
+                spawnTimer = 0;
             }
         }
 
         private void spawnNewEntity()
         {
-            var randomIndex = Random.Range(0, this.ColorPrefabs.Length);
+            var randomIndex = Random.Range(0, ColorPrefabs.Length);
             var newEntity = Instantiate(
-                this.ColorPrefabs[randomIndex], this.gameObject.transform);
+                ColorPrefabs[randomIndex], gameObject.transform);
 
-            var spawnPositionIndex = Random.Range(0, this.SpawnPoints.Length);
-            var spawnPosition = this.SpawnPoints[spawnPositionIndex].position;
+            var spawnPositionIndex = Random.Range(0, SpawnPoints.Length);
+            var spawnPosition = SpawnPoints[spawnPositionIndex].position;
 
             newEntity.transform.position = spawnPosition;
             newEntity.GetComponent<Rigidbody2D>().AddForce(
-                Vector2.down * this.FallingSpeed * Time.deltaTime);
+                Vector2.down * (FallingSpeed * Time.deltaTime));
 
-            var randomColorIndex = Random.Range(0, this.colors.Length);
-            newEntity.GetComponent<SpriteRenderer>().color = this.colors[randomColorIndex];
+            var randomColorIndex = Random.Range(0, colors.Length);
+            newEntity.GetComponent<SpriteRenderer>().color = colors[randomColorIndex];
 
             Destroy(newEntity, 6.0f);
-            this.gameManager.SoundSpawn.Play();
+            gameManager.SoundSpawn.Play();
         }
     }
 }

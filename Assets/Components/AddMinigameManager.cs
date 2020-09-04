@@ -1,4 +1,4 @@
-﻿using Components.UnityComponents;
+﻿using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Components
@@ -10,7 +10,7 @@ namespace Components
 
         public void Awake()
         {
-            this.MinigameManager = this.GetComponentInParent<MinigameManagerDefault>();
+            MinigameManager = GetComponentInParent<MinigameManagerDefault>();
         }
     }
 }

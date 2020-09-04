@@ -30,10 +30,10 @@ namespace Minigames.MissTheTarget
         
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.gameManager.Events.OnHit += HandleHit;
+            gameManager = GetComponentInParent<MinigameManager>();
+            gameManager.Events.OnHit += HandleHit;
             
-            this.planetsData = new List<ZePlanet>();
+            planetsData = new List<ZePlanet>();
             
             foreach (var item in Planets)
             {
@@ -48,17 +48,17 @@ namespace Minigames.MissTheTarget
                 generateNewPoints(item);
             }
 
-            this.SpeedText.text = $"SPEED: {this.CurrentDifficulty * 100}";
+            SpeedText.text = $"SPEED: {CurrentDifficulty * 100}";
         }
         
         private void OnDisable()
         {
-            this.gameManager.Events.OnHit -= HandleHit;
+            gameManager.Events.OnHit -= HandleHit;
         }
         
         private void HandleHit()
         {
-            this.CurrentDifficulty = 0;
+            CurrentDifficulty = 0;
         }
 
         private void generateNewPoints(ZePlanet item)
@@ -66,11 +66,11 @@ namespace Minigames.MissTheTarget
 
             var data = Oscillator.Osccilate(
                 item.Planet.transform.position,
-                this.Sun.transform.position,
+                Sun.transform.position,
                 1,
                 new Vector2(AngleMinMax.y, AngleMinMax.x), 
                 RotationSpeedMinMax,
-                this.CurrentDifficulty);
+                CurrentDifficulty);
         
             item.CurrentPoints = new Queue<Vector2>(data.Points);
             item.TraverseSpeed = data.TraverseSpeed;
@@ -79,22 +79,22 @@ namespace Minigames.MissTheTarget
 
         private void checkDifficulty()
         {
-            if ((this.timer += Time.deltaTime) >= this.IncreaseAfter)
+            if ((timer += Time.deltaTime) >= IncreaseAfter)
             {
-                this.CurrentDifficulty += this.IncreaseBy;
-                this.SpeedText.text = $"SPEED: {this.CurrentDifficulty * 100}";
-                this.timer = 0;
+                CurrentDifficulty += IncreaseBy;
+                SpeedText.text = $"SPEED: {CurrentDifficulty * 100}";
+                timer = 0;
             }
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
             
-            this.checkDifficulty();
+            checkDifficulty();
             
             foreach (var item in planetsData)
             {
@@ -111,7 +111,7 @@ namespace Minigames.MissTheTarget
                     }
                     else
                     {
-                        this.generateNewPoints(item);
+                        generateNewPoints(item);
                     }
                 }
             }

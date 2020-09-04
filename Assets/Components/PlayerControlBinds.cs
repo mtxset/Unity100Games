@@ -8,7 +8,7 @@ namespace Components
         private ButtonEvents buttonEvents;
         private void Start()
         {
-            this.buttonEvents = GameManager.GameManager.Instance.AddNewPlayer(gameObject);
+            buttonEvents = GameManager.GameManager.Instance.AddNewPlayer(gameObject);
         }
         private void OnActionButton()
         {

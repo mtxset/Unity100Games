@@ -24,28 +24,28 @@ namespace Minigames.InfiniteTunnels
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.hexagons = new List<GameObject>();
-            this.markedForRemove = new List<GameObject>();
-            this.SpeedText.text = $"SPEED: {this.ShrinkSpeed}";
+            gameManager = GetComponentInParent<MinigameManager>();
+            hexagons = new List<GameObject>();
+            markedForRemove = new List<GameObject>();
+            SpeedText.text = $"SPEED: {ShrinkSpeed}";
         }
 
         private void Update()
         {
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            this.spawnTimer += Time.deltaTime;
-            this.difficultyTimer += Time.deltaTime;
+            spawnTimer += Time.deltaTime;
+            difficultyTimer += Time.deltaTime;
 
             checkDifficulty();
 
-            if (spawnTimer >= this.SpawnRate)
+            if (spawnTimer >= SpawnRate)
             {
-                this.hexagons.Add(this.spawnNewHexagon());
-                this.spawnTimer = 0;
+                hexagons.Add(spawnNewHexagon());
+                spawnTimer = 0;
             }
 
             hexagonLifecycle();
@@ -53,51 +53,51 @@ namespace Minigames.InfiniteTunnels
 
         private void checkDifficulty()
         {
-            if (!(this.difficultyTimer >= this.IncreaseRateAfter))
+            if (!(difficultyTimer >= IncreaseRateAfter))
             {
                 return;
             }
             
-            this.ShrinkSpeed += IncreaseRateBy;
-            this.SpawnRate -= IncreaseRateBy / 2;
-            this.SpeedText.text = $"SPEED: {this.ShrinkSpeed}";
-            this.difficultyTimer = 0;
+            ShrinkSpeed += IncreaseRateBy;
+            SpawnRate -= IncreaseRateBy / 2;
+            SpeedText.text = $"SPEED: {ShrinkSpeed}";
+            difficultyTimer = 0;
         }
 
         private void hexagonLifecycle()
         {
             foreach (var item in hexagons)
             {
-                item.transform.localScale -= Vector3.one * (this.ShrinkSpeed * Time.deltaTime);
+                item.transform.localScale -= Vector3.one * (ShrinkSpeed * Time.deltaTime);
 
                 var itemLineRenderer = item.GetComponent<LineRenderer>();
                 var traverseGradient = GradientRainbow.Next(itemLineRenderer.colorGradient,
-                    0.01f * this.GradientTraverseSpeed * Time.deltaTime);
+                    0.01f * GradientTraverseSpeed * Time.deltaTime);
                 item.GetComponent<LineRenderer>().colorGradient = traverseGradient;
 
                 if (item.transform.localScale.x <= 0.05f)
                 {
-                    this.markedForRemove.Add(item);
+                    markedForRemove.Add(item);
                 }
             }
 
             foreach (var item in markedForRemove)
             {
-                this.gameManager.Events.EventScored(1);
-                this.gameManager.SoundScored.Play();
-                this.hexagons.Remove(item);
+                gameManager.Events.EventScored();
+                gameManager.SoundScored.Play();
+                hexagons.Remove(item);
                 Destroy(item);
             }
 
-            this.markedForRemove.Clear();
+            markedForRemove.Clear();
         }
 
         private GameObject spawnNewHexagon()
         {
-            var hexagon = Instantiate(HexagonPrefab, this.gameManager.transform);
+            var hexagon = Instantiate(HexagonPrefab, gameManager.transform);
             hexagon.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 360f)));
-            hexagon.transform.localScale = Vector3.one * this.MaxScale;
-            this.gameManager.SoundSpawnHexagon.Play();
+            hexagon.transform.localScale = Vector3.one * MaxScale;
+            gameManager.SoundSpawnHexagon.Play();
             return hexagon;
         }
     }

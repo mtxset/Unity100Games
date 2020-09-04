@@ -12,24 +12,24 @@ namespace Minigames.TrainRunner
 
         public void EventNoEnemies()
         {
-            this.OnNoEnemies?.Invoke();
+            OnNoEnemies?.Invoke();
         }
         public void EventReloaded()
         {
-            this.OnReloaded?.Invoke();
+            OnReloaded?.Invoke();
         }
         public void EventSpeedChanged(float speed)
         {
-            this.OnSpeedChanged?.Invoke(speed);
+            OnSpeedChanged?.Invoke(speed);
         }
         public void EventStartShooting()
         {
-            this.OnStartShooting?.Invoke();
+            OnStartShooting?.Invoke();
         }
 
         public void EventEndShooting()
         {
-            this.OnEndShooting?.Invoke();
+            OnEndShooting?.Invoke();
         }
     }
 }

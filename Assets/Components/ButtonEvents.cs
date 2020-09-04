@@ -19,12 +19,12 @@ namespace Components
 
         public void VerticalButtonPressed(InputValue inputValue)
         {
-            this.OnVerticalPressed?.Invoke(inputValue);
+            OnVerticalPressed?.Invoke(inputValue);
         }
 
         public void HorizontalButtonPressed(InputValue inputValue)
         {
-            this.OnHorizontalPressed?.Invoke(inputValue);
+            OnHorizontalPressed?.Invoke(inputValue);
         }
 
         public void ActionButtonPressed()

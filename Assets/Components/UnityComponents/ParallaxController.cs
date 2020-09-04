@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Components.UnityComponents
@@ -15,20 +15,20 @@ namespace Components.UnityComponents
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManagerDefault>();
+            gameManager = GetComponentInParent<MinigameManagerDefault>();
             
-            this.parallaxer = new Parallaxer(
-                this.ObjectToParallax,
-                this.SelectMovementPostion,
-                this.ParallaxSpeed,
-                this.CurrentCamera,
-                this.gameManager.transform.position,
-                this.transform);
+            parallaxer = new Parallaxer(
+                ObjectToParallax,
+                SelectMovementPostion,
+                ParallaxSpeed,
+                CurrentCamera,
+                gameManager.transform.position,
+                transform);
         }
 
         private void FixedUpdate()
         {
-            this.parallaxer.FixedUpdateRoutine();
+            parallaxer.FixedUpdateRoutine();
         }
     }
 }

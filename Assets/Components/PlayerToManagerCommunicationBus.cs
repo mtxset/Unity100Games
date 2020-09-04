@@ -18,17 +18,17 @@ namespace Components
 
         public void IntermissionEnded()
         {
-            this.OnIntermissionEnded?.Invoke();
+            OnIntermissionEnded?.Invoke();
         }
 
         public void PlayerScored(int points)
         {
-            this.OnPlayerScored?.Invoke(this.PlayerId, points);
+            OnPlayerScored?.Invoke(PlayerId, points);
         }
 
         public void PlayerDied()
         {
-            this.OnPlayerDeath?.Invoke(this.PlayerId);
+            OnPlayerDeath?.Invoke(PlayerId);
         }
     }
 }

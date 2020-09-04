@@ -28,22 +28,22 @@ namespace Minigames.Dungeon
 
         private void Start()
         {
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.enemyLifes = new Lifes(this.EnemyLifes);
-            this.currentEnemy = this.spawnRandomEnemy();
+            gameManager = GetComponentInParent<MinigameManager>();
+            enemyLifes = new Lifes(EnemyLifes);
+            currentEnemy = spawnRandomEnemy();
             
-            this.gameManager.Events.OnDodged += HandleDodged;
+            gameManager.Events.OnDodged += HandleDodged;
         }
 
         private void HandleDodged()
         {
-            this.gameManager.Events.EventScored();
+            gameManager.Events.EventScored();
             // All lives are lost
-            if (this.enemyLifes.LoseLife())
+            if (enemyLifes.LoseLife())
             {
                 Destroy(currentEnemy);
-                this.currentEnemy = this.spawnRandomEnemy();
-                this.enemyLifes.ResetLifes();
+                currentEnemy = spawnRandomEnemy();
+                enemyLifes.ResetLifes();
             }
         }
 
@@ -63,18 +63,18 @@ namespace Minigames.Dungeon
                     break;
             }
 
-            this.InfoText.text = message;
+            InfoText.text = message;
         }
         
         private GameObject spawnRandomEnemy()
         {
             Sounds.SoundEnemySpawn.Play();
-            var randomEnemyIndex = Random.Range(0, this.Enemies.Length);
+            var randomEnemyIndex = Random.Range(0, Enemies.Length);
 
-            this.changeInfo(randomEnemyIndex);
+            changeInfo(randomEnemyIndex);
 
             var randomEnemy = Instantiate(
-                this.Enemies[randomEnemyIndex], this.transform);
+                Enemies[randomEnemyIndex], transform);
             
             int randomEnemySpawnPointIndex;
 
@@ -82,24 +82,24 @@ namespace Minigames.Dungeon
             if (randomEnemy.GetComponent<EnemyType>().SelectEnemyType == 
                 EnemyType.EnemyTypeEnum.Melee)
             {
-                randomEnemySpawnPointIndex = Random.Range(0, this.MeleeSpawnPoints.Length);
+                randomEnemySpawnPointIndex = Random.Range(0, MeleeSpawnPoints.Length);
                 randomEnemy.transform.position = 
-                    this.MeleeSpawnPoints[randomEnemySpawnPointIndex].position;
+                    MeleeSpawnPoints[randomEnemySpawnPointIndex].position;
             }
             else
             {
-                randomEnemySpawnPointIndex = Random.Range(0, this.RangedSpawnPoints.Length);
+                randomEnemySpawnPointIndex = Random.Range(0, RangedSpawnPoints.Length);
                 randomEnemy.transform.position = 
-                    this.RangedSpawnPoints[randomEnemySpawnPointIndex].position;
+                    RangedSpawnPoints[randomEnemySpawnPointIndex].position;
             }
             
             
             // Teleport effect
             Destroy(Instantiate(
-                this.SpawnEffect, 
+                SpawnEffect, 
                 randomEnemy.transform.position, 
                 Quaternion.identity,
-                this.transform), 1.1f);
+                transform), 1.1f);
 
             return randomEnemy;
         }

@@ -29,7 +29,7 @@ namespace Minigames.DroneFly
 
         private void Awake()
         {
-            this.DroneEvents = new DroneEvents();
+            DroneEvents = new DroneEvents();
         }
 
         private void setPageState(PageState state)
@@ -37,89 +37,89 @@ namespace Minigames.DroneFly
             switch (state)
             {
                 case PageState.None:
-                    this.StartPage.SetActive(false);
-                    this.GameOverPage.SetActive(false);
-                    this.CountDownPage.SetActive(false);
+                    StartPage.SetActive(false);
+                    GameOverPage.SetActive(false);
+                    CountDownPage.SetActive(false);
                     break;
                 case PageState.Start:
-                    this.StartPage.SetActive(true);
-                    this.GameOverPage.SetActive(false);
-                    this.CountDownPage.SetActive(false);
+                    StartPage.SetActive(true);
+                    GameOverPage.SetActive(false);
+                    CountDownPage.SetActive(false);
                     break;
                 case PageState.CountDown:
-                    this.StartPage.SetActive(false);
-                    this.GameOverPage.SetActive(false);
-                    this.CountDownPage.SetActive(true);
+                    StartPage.SetActive(false);
+                    GameOverPage.SetActive(false);
+                    CountDownPage.SetActive(true);
                     break;
                 case PageState.GameOver:
-                    this.StartPage.SetActive(false);
-                    this.GameOverPage.SetActive(true);
-                    this.CountDownPage.SetActive(false);
+                    StartPage.SetActive(false);
+                    GameOverPage.SetActive(true);
+                    CountDownPage.SetActive(false);
                     break;
             }
         }
 
         public void ConfirmGameOver()
         {
-            this.DroneEvents.EventGameConfirmed();
-            this.setScore(0);
-            this.setPageState(PageState.Start);
+            DroneEvents.EventGameConfirmed();
+            setScore(0);
+            setPageState(PageState.Start);
         }
 
         public void StartGame()
         {
-            this.setPageState(PageState.CountDown);
+            setPageState(PageState.CountDown);
         }
 
         private void setScore(uint newScore)
         {
-            this.ScoreText.text = newScore.ToString();
-            this.Score = newScore;
+            ScoreText.text = newScore.ToString();
+            Score = newScore;
         }
 
         private void Start()
         {
-            this.ButtonEvents = GetComponentInParent<ButtonEvents>();
-            this.CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
+            ButtonEvents = GetComponentInParent<ButtonEvents>();
+            CommunicationBus = GetComponentInParent<PlayerToManagerCommunicationBus>();
 
-            this.DroneEvents.OnScored += HandleScored;
-            this.DroneEvents.OnDroneDeath += HandleDroneDeath;
-            this.DroneEvents.OnCountdownFinished += HandleCountdownFinished;
+            DroneEvents.OnScored += HandleScored;
+            DroneEvents.OnDroneDeath += HandleDroneDeath;
+            DroneEvents.OnCountdownFinished += HandleCountdownFinished;
         }
 
 
         private void OnDisable()
         {
-            this.DroneEvents.OnScored -= HandleScored;
-            this.DroneEvents.OnDroneDeath -= HandleDroneDeath;
-            this.DroneEvents.OnCountdownFinished -= HandleCountdownFinished;
+            DroneEvents.OnScored -= HandleScored;
+            DroneEvents.OnDroneDeath -= HandleDroneDeath;
+            DroneEvents.OnCountdownFinished -= HandleCountdownFinished;
         }
 
         private void HandleScored()
         {
-            this.setScore(this.Score + 1);
-            this.CommunicationBus.PlayerScored(1);
+            setScore(Score + 1);
+            CommunicationBus.PlayerScored(1);
         }
 
         private void HandleCountdownFinished()
         {
-            this.setPageState(PageState.None);
-            this.DroneEvents.EventGameStarted();
-            this.setScore(0);
-            this.GameOver = false;
+            setPageState(PageState.None);
+            DroneEvents.EventGameStarted();
+            setScore(0);
+            GameOver = false;
         }
 
         private void HandleDroneDeath()
         {
-            this.GameOver = true;
+            GameOver = true;
             int savedScore = PlayerPrefs.GetInt("Highscore");
             if (Score > savedScore)
             {
                 PlayerPrefs.SetInt("Highscore", (int)Score);
             }
 
-            this.setPageState(PageState.GameOver);
-            this.CommunicationBus.PlayerDied();
+            setPageState(PageState.GameOver);
+            CommunicationBus.PlayerDied();
         }
     }
 }

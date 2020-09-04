@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Components.UnityComponents;
+using Components.UnityComponents.v1;
 using UnityEngine;
 
 namespace Minigames.BubbleStruggle
@@ -16,33 +16,33 @@ namespace Minigames.BubbleStruggle
         protected override void UnityStart()
         {
             base.UnityStart();
-            this.Balls = new List<GameObject>();
-            this.ChainEvents = new ChainEvents();
-            this.spawnFirstBall();
+            Balls = new List<GameObject>();
+            ChainEvents = new ChainEvents();
+            spawnFirstBall();
         }
 
         private void spawnFirstBall()
         {
-            if (this.GameOver)
+            if (GameOver)
             {
                 return;
             }
             
             var firstBall = Instantiate(
-                FirstBall, this.BallSpawnPosition.position, Quaternion.identity, this.transform);
+                FirstBall, BallSpawnPosition.position, Quaternion.identity, transform);
             
-            this.Balls.Add(firstBall);
+            Balls.Add(firstBall);
         }
 
         public void ResetBalls()
         {
-            foreach (var item in this.Balls)
+            foreach (var item in Balls)
             {
                 Destroy(item);
             }
             
-            this.Balls.Clear();
-            this.spawnFirstBall();
+            Balls.Clear();
+            spawnFirstBall();
         }
     }
 }

@@ -9,10 +9,10 @@ namespace Minigames.Dungeon.States
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo,
             int layerIndex)
         {
-            this.enemyController = animator.GetComponentInParent<EnemyController>();
+            enemyController = animator.GetComponentInParent<EnemyController>();
             
             var sword = Instantiate(
-                this.SwordPrefab, 
+                SwordPrefab, 
                 animator.transform.position, 
                 Quaternion.identity,
                 animator.transform);

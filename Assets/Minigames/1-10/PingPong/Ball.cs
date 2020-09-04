@@ -26,32 +26,32 @@ namespace Minigames.PingPong
         
         private void Start()
         {
-            this.liveBalls = new List<GameObject>();
-            this.gameManager = GetComponentInParent<MinigameManager>();
-            this.initialPosition = this.transform.position;
+            liveBalls = new List<GameObject>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            initialPosition = transform.position;
             launchFirstBall();
 
-            this.gameManager.Events.OnHit += HandleHit;
+            gameManager.Events.OnHit += HandleHit;
         }
 
         private void launchFirstBall()
         {
-            this.currentAcceleration = 1.0f;
-            this.transform.position = this.initialPosition;
-            this.rigidbody2d = this.GetComponent<Rigidbody2D>();
+            currentAcceleration = 1.0f;
+            transform.position = initialPosition;
+            rigidbody2d = GetComponent<Rigidbody2D>();
             float x = Random.Range(0, 2) == 0 ? -1 : 1;
             float y = Random.Range(0, 2) == 0 ? -1 : 1;
-            this.rigidbody2d.velocity = new Vector2(this.MovementSpeed * x, this.MovementSpeed * y);
+            rigidbody2d.velocity = new Vector2(MovementSpeed * x, MovementSpeed * y);
         }
 
         private void OnDisable()
         {
-            this.gameManager.Events.OnHit -= HandleHit;
+            gameManager.Events.OnHit -= HandleHit;
         }
 
         private void HandleHit()
         {
-            foreach (var item in this.liveBalls)
+            foreach (var item in liveBalls)
             {
                 Destroy(item);
             }
@@ -62,13 +62,13 @@ namespace Minigames.PingPong
 
         private void Update()
         {
-            this.splitTimer += Time.deltaTime;
-            if (this.splitTimer > this.SplitFrequencySeconds)
+            splitTimer += Time.deltaTime;
+            if (splitTimer > SplitFrequencySeconds)
             {
-                this.liveBalls.Add(Instantiate(this.gameObject, this.gameManager.transform));
-                this.splitTimer = 0;
+                liveBalls.Add(Instantiate(gameObject, gameManager.transform));
+                splitTimer = 0;
             }
-            this.increaseAcceleration();
+            increaseAcceleration();
         }
 
         private void increaseAcceleration()
@@ -76,16 +76,16 @@ namespace Minigames.PingPong
             t += Time.deltaTime;
             if (t > 2.0f)
             {
-                var velocity = this.rigidbody2d.velocity;
+                var velocity = rigidbody2d.velocity;
                 velocity = new Vector2(
-                    velocity.x * this.currentAcceleration,
-                    velocity.y * this.currentAcceleration);
-                this.rigidbody2d.velocity = velocity;
+                    velocity.x * currentAcceleration,
+                    velocity.y * currentAcceleration);
+                rigidbody2d.velocity = velocity;
 
-                this.currentAcceleration += this.AccelerationRate * Time.deltaTime;
-                if (this.SpeedText != null)
+                currentAcceleration += AccelerationRate * Time.deltaTime;
+                if (SpeedText != null)
                 {
-                    this.SpeedText.text = $"SPEED: {this.currentAcceleration}";
+                    SpeedText.text = $"SPEED: {currentAcceleration}";
                 }
                 t = 0.0f;
             }
@@ -96,7 +96,7 @@ namespace Minigames.PingPong
         {
             if (collision.gameObject.CompareTag("hit"))
             {
-                this.HitAudio.Play();
+                HitAudio.Play();
             }
         }
 
@@ -105,12 +105,12 @@ namespace Minigames.PingPong
             switch (collision.gameObject.tag)
             {
                 case "scorezone":
-                    this.gameManager.Events.EventScored();
-                    this.ScoreAudio.Play();
+                    gameManager.Events.EventScored();
+                    ScoreAudio.Play();
                     break;
                 case "deadzone":
-                    this.DieAudio.Play();
-                    this.gameManager.Events.EventHit();
+                    DieAudio.Play();
+                    gameManager.Events.EventHit();
                     break;
             }
         }

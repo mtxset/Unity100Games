@@ -47,29 +47,29 @@ namespace Minigames.ColorJumper
 
         private void Start()
         {
-            this.screenHeight = this.CurrentCamera.orthographicSize;
+            screenHeight = CurrentCamera.orthographicSize;
 
-            this.gameManager = this.GetComponentInParent<MinigameManager>();
-            this.colorList = new List<Color>(this.gameManager.ColorList);
-            this.liveEntities = new List<CircleEntity>();
-            this.deadEntities = new List<CircleEntity>();
+            gameManager = GetComponentInParent<MinigameManager>();
+            colorList = new List<Color>(gameManager.ColorList);
+            liveEntities = new List<CircleEntity>();
+            deadEntities = new List<CircleEntity>();
 
-            this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
+            SpeedText.text = $"DIFFICULTY: {currentDifficulty * 100}";
 
-            this.lastSpawnY = this.gameManager.transform.position.y + this.SpawnSpaceInBetweenMinMax.y;
+            lastSpawnY = gameManager.transform.position.y + SpawnSpaceInBetweenMinMax.y;
         }
 
         private void Update()
         {
 
-            if (this.gameManager.GameOver)
+            if (gameManager.GameOver)
             {
                 return;
             }
 
-            if (this.currentDifficulty < 1.0f)
+            if (currentDifficulty < 1.0f)
             {
-                this.difficultyTimer += Time.deltaTime;
+                difficultyTimer += Time.deltaTime;
             }
 
             checkDifficulty();
@@ -81,9 +81,9 @@ namespace Minigames.ColorJumper
 
         private void checkIfSpawnNew()
         {
-            if (this.lastSpawnY < this.CurrentCamera.transform.position.y + this.PrespawnYOffset)
+            if (lastSpawnY < CurrentCamera.transform.position.y + PrespawnYOffset)
             {
-                this.liveEntities.Add(this.spawnCirclePair());
+                liveEntities.Add(spawnCirclePair());
             }
         }
 
@@ -93,40 +93,40 @@ namespace Minigames.ColorJumper
             {
                 item.CircleGameObject.transform.Rotate(0, 0, item.RotationSpeed * Time.deltaTime);
 
-                if (this.CurrentCamera.transform.position.y - this.screenHeight * 1.5f >
+                if (CurrentCamera.transform.position.y - screenHeight * 1.5f >
                     item.CircleGameObject.transform.position.y)
                 {
-                    this.deadEntities.Add(item);
+                    deadEntities.Add(item);
                 }
             }
 
             foreach (var item in deadEntities)
             {
-                this.liveEntities.Remove(item);
+                liveEntities.Remove(item);
                 Destroy(item.CircleGameObject);
             }
 
-            this.deadEntities.Clear();
+            deadEntities.Clear();
         }
 
         private void checkDifficulty()
         {
-            if (!(this.difficultyTimer >= this.IncreaseRateAfter))
+            if (!(difficultyTimer >= IncreaseRateAfter))
             {
                 return;
             }
             
-            this.currentDifficulty += this.IncreaseRateBy;
-            this.SpeedText.text = $"DIFFICULTY: {this.currentDifficulty * 100}";
-            this.difficultyTimer = 0;
+            currentDifficulty += IncreaseRateBy;
+            SpeedText.text = $"DIFFICULTY: {currentDifficulty * 100}";
+            difficultyTimer = 0;
         }
         private CircleEntity spawnCirclePair()
         {
             var newEntity = new CircleEntity
             {
-                CircleGameObject = Instantiate(this.CirclePrefab, this.gameObject.transform)
+                CircleGameObject = Instantiate(CirclePrefab, gameObject.transform)
             };
-            newEntity.CircleGameObject.transform.position = new Vector2(0, this.lastSpawnY);
+            newEntity.CircleGameObject.transform.position = new Vector2(0, lastSpawnY);
 
             var difficulty = difficultySetup();
 
@@ -134,7 +134,7 @@ namespace Minigames.ColorJumper
             newEntity.CircleGameObject.transform.localScale =
                 Vector3.one * difficulty.Scale;
 
-            var colors = new List<Color>(this.colorList);
+            var colors = new List<Color>(colorList);
             colors.ShuffleList();
             // coloring
             var spriteRenderers = newEntity
@@ -148,13 +148,13 @@ namespace Minigames.ColorJumper
                 spriteRenderers[i].color = colors[i];
             }
 
-            this.lastSpawnY += newEntity.CircleGameObject.transform.localScale.y +
+            lastSpawnY += newEntity.CircleGameObject.transform.localScale.y +
                                AfterCircleOffset;
 
-            var newColorEntity = Instantiate(this.ColorSwitcherPrefab, this.gameObject.transform);
+            var newColorEntity = Instantiate(ColorSwitcherPrefab, gameObject.transform);
             newColorEntity.transform.position = new Vector2(0, lastSpawnY);
 
-            this.lastSpawnY += newColorEntity.transform.localScale.y +
+            lastSpawnY += newColorEntity.transform.localScale.y +
                                difficulty.SpaceInBetween;
 
             return newEntity;
@@ -165,14 +165,14 @@ namespace Minigames.ColorJumper
 
             var vectorList = new List<Vector2>
             {
-                this.RotationSpeedMinMax,
+                RotationSpeedMinMax,
                 // reverse scale because bigger is easier
-                new Vector2(this.SpawnSizeMinMax.y, this.SpawnSizeMinMax.x),
+                new Vector2(SpawnSizeMinMax.y, SpawnSizeMinMax.x),
                 // reverse space because bigger space is easier
-                new Vector2(this.SpawnSpaceInBetweenMinMax.y, this.SpawnSpaceInBetweenMinMax.x)
+                new Vector2(SpawnSpaceInBetweenMinMax.y, SpawnSpaceInBetweenMinMax.x)
             };
 
-            var unparsed = DifficultyAdjuster.SpreadDifficulty(this.currentDifficulty, vectorList);
+            var unparsed = DifficultyAdjuster.SpreadDifficulty(currentDifficulty, vectorList);
 
             var newDifficultySetup = new DifficultySetup
             {
