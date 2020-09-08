@@ -149,6 +149,12 @@ namespace GameManager
                     MinigamePrefab = Resources.Load("FallForever") as GameObject,
                     MinigameManagerType = typeof(Minigames.FallForever.MinigameManager),
                 },
+
+                new Minigame() // 23
+                {
+                    MinigamePrefab = Resources.Load("Snake") as GameObject,
+                    MinigameManagerType = typeof(Minigames.Snake.MinigameManager),
+                },
             };
 
         }
