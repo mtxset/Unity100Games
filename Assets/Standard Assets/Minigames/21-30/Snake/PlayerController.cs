@@ -12,7 +12,6 @@ namespace Minigames.Snake
         public GameObject Part;
         public SnakePart FollowPart;
         public Vector3 LastPosition;
-        public Rect Rectangle;
     }
 
     class PlayerController : AddMinigameManager2
@@ -28,21 +27,60 @@ namespace Minigames.Snake
         private SnakePart lastPart;
 
         private List<GameObject> deathBlocks;
+        private float squareSide;
+        private float initialMoveAfter;
 
         private void Start()
         {
-            subscribe();
-
+            initialMoveAfter = MoveAfter;
             snake = new List<SnakePart>();
+            deathBlocks = new List<GameObject>();
 
             var head = new SnakePart
             {
-                Part = Instantiate(SnakePartPrefab),
+                Part = Instantiate(SnakePartPrefab, transform),
                 Head = true
             };
-
             lastPart = head;
             snake.Add(head);
+
+            squareSide = SnakePartPrefab.transform.localScale.x;
+            head.Part.GetComponent<BoxCollider>().enabled = true;
+
+            subscribe();
+        }
+
+        private void HandleHeadCollision(Collision obj)
+        {
+            MinigameManager.Events.EventHit();
+            reset();
+        }
+
+        private void reset()
+        {
+            lastPart = snake[0];
+            MoveAfter = initialMoveAfter; 
+            removeAllParts();
+            removeAllDeathObjects();
+        }
+        
+        private void removeAllParts()
+        {
+            for (int i = 1; i < snake.Count; i++)
+            {
+                Destroy(snake[i].Part);
+            }
+
+            snake.RemoveRange(1, snake.Count - 1);
+        }
+        private void removeAllDeathObjects()
+        {
+            foreach (var item in deathBlocks)
+            {
+                Destroy(item);
+            }
+
+            deathBlocks.Clear();
         }
 
         private void subscribe()
@@ -52,6 +90,9 @@ namespace Minigames.Snake
             MinigameManager.ButtonEvents.OnUpButtonPressed += HandleUp;
             MinigameManager.ButtonEvents.OnDownButtonPressed += HandleDown;
             MinigameManager.ButtonEvents.OnActionButtonPressed += HandleAction;
+
+            snake[0].Part.GetComponent<CollisionEvents>().OnCollisionEnterEvent 
+                += HandleHeadCollision; 
         }
 
         private void unsubscribe()
@@ -61,13 +102,16 @@ namespace Minigames.Snake
             MinigameManager.ButtonEvents.OnUpButtonPressed -= HandleUp;
             MinigameManager.ButtonEvents.OnDownButtonPressed -= HandleDown;
             MinigameManager.ButtonEvents.OnActionButtonPressed -= HandleAction;
+
+            snake[0].Part.GetComponent<CollisionEvents>().OnCollisionEnterEvent 
+                -= HandleHeadCollision; 
         }
 
         private void HandleAction() => growSnake();
-        private void HandleRight() => Direction = Vector3.right;
-        private void HandleLeft() => Direction = Vector3.left;
-        private void HandleUp() => Direction = Vector3.up;
-        private void HandleDown() => Direction = Vector3.down;
+        private void HandleRight() => tryApplyDirection(Vector3.right);
+        private void HandleLeft() => tryApplyDirection(Vector3.left);
+        private void HandleUp() => tryApplyDirection(Vector3.up);
+        private void HandleDown() => tryApplyDirection(Vector3.down);
 
         private void OnDisable()
         {
@@ -84,6 +128,12 @@ namespace Minigames.Snake
             }
         }
 
+        private void tryApplyDirection(Vector3 direction)
+        {
+            if (Direction * -1 != direction)
+                Direction = direction;
+        }
+
         private void growSnake()
         {
             MoveAfter -= IncreaseSpeedBy;
@@ -98,17 +148,11 @@ namespace Minigames.Snake
                 ActiveAfter = 1,
             };
 
-            newBody.Rectangle = new Rect(
-                new Vector2(
-                    newBody.Part.transform.position.x - squareSide/2,
-                    newBody.Part.transform.position.y - squareSide/2), 
-                new Vector2(squareSide, squareSide));
-            
-
             lastPart = newBody;
-            spawnDeathBlock();
-
             snake.Add(newBody);
+
+            spawnDeathBlock();
+            MinigameManager.Events.EventScored();
         }
 
         private void moveSnakeHeadForward()
@@ -119,7 +163,8 @@ namespace Minigames.Snake
 
             snake[0].LastPosition = snake[0].Part.transform.position;
 
-            snake[0].Part.transform.position += snake[0].Part.transform.forward * snake[0].Part.transform.localScale.x;
+            snake[0].Part.transform.position += 
+                snake[0].Part.transform.forward * snake[0].Part.transform.localScale.x;
         }
 
         private void moveSnakeBody()
@@ -130,12 +175,14 @@ namespace Minigames.Snake
 
                 if (item.ActiveAfter == 0)
                 {
+                    item.Part.GetComponent<BoxCollider>().enabled = true;
                     item.LastPosition = item.Part.transform.position;
                     item.Part.transform.position = item.FollowPart.LastPosition;
                 }
                 else
                 {
-                    item.ActiveAfter--;
+                    if (item.FollowPart.ActiveAfter == 0)
+                        item.ActiveAfter--;
                 }
             }
         }
@@ -147,13 +194,19 @@ namespace Minigames.Snake
                 * MinigameManager.CurrentCamera.aspect;
             var maxY = MinigameManager.CurrentCamera.orthographicSize;
 
+            Rect rect;
             do
             {
-                var x = Random.Range(-maxX, maxX);
-                var y = Random.Range(-maxY, maxY);
-                randomPos.x = x;
-                randomPos.y = y;
-            } while (checkIfPointInsideRect(randomPos));
+                randomPos.x = Random.Range(-maxX, maxX);
+                randomPos.y = Random.Range(-maxY, maxY);
+
+                rect = new Rect(
+                    randomPos.x - squareSide/2,
+                    randomPos.y - squareSide/2,
+                    squareSide,
+                    squareSide);
+
+            } while (checkIfRectOverlaps(rect));
 
             var newBlock = Instantiate(
                 DeathBlockPrefab, 
@@ -161,17 +214,24 @@ namespace Minigames.Snake
                 Quaternion.identity,
                 transform);
 
+            newBlock.GetComponent<BoxCollider>().enabled = true;
+
             deathBlocks.Add(newBlock);
         }
 
-        private bool checkIfPointInsideRect(Vector2 point)
-        {
+        private bool checkIfRectOverlaps(Rect rect)
+        { 
             foreach (var item in snake)
             {
-                if (item.Rectangle.Contains(point))
+                var tempRect = new Rect(
+                    new Vector2(
+                        item.Part.transform.position.x - squareSide/2,
+                        item.Part.transform.position.y - squareSide/2), 
+                    new Vector2(squareSide, squareSide));
+
+                if (tempRect.Overlaps(rect))
                     return true;
             }
-
             return false;
         }
     }

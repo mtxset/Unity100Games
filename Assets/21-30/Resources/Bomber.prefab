@@ -910,6 +910,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LifeSoundsUI
       objectReference: {fileID: 0}
+    - target: {fileID: 4223803493044011989, guid: 39ea1f8fe8111604099fdecb25cffff2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39ea1f8fe8111604099fdecb25cffff2, type: 3}
 --- !u!4 &6668912355320342678 stripped
