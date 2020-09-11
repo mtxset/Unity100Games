@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Minigames.Tetris
 {
     public class MinigameManager : MinigameManager2 {
+        public AudioSource SoundBlockDropped;
         public GameObject Background;
 
         public TetrisEvents TetrisEvents;

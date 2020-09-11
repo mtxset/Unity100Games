@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Minigames.Tetris {
 public class TetrisBlockController : MonoBehaviour {
+    
     public Vector3 RotationPoint; 
     public float FallRate = 1;
     public bool Remnant;
@@ -12,10 +13,12 @@ public class TetrisBlockController : MonoBehaviour {
 
     private Vector2 maxMoveOffset;
     private MinigameManager minigameManager;
+    private float spawnPointY;
 
     // if true means it's piece which is left after row destruction
 
     private void Start() {
+        spawnPointY = transform.position.y;
         moveOffset = transform.localScale.x*2;
         minigameManager = GetComponentInParent<MinigameManager>();
         maxMoveOffset.x = minigameManager.MaxBlocksWidth;
@@ -43,6 +46,8 @@ public class TetrisBlockController : MonoBehaviour {
     private void HandleRotation() => Rotate();
 
     public void MoveCurrentBlock(int leftRight) {
+        if (minigameManager.GameOver) return;
+
         transform.position += new Vector3(leftRight * moveOffset, 0, 0);
         if (!valideMove()) {
             transform.position -= new Vector3(leftRight * moveOffset, 0, 0);
@@ -54,6 +59,8 @@ public class TetrisBlockController : MonoBehaviour {
     }
 
     public void Rotate() {
+        if (minigameManager.GameOver) return;
+
         transform.RotateAround(
             transform.TransformPoint(RotationPoint), Vector3.forward, 90);
         if (!valideMove()) {
@@ -63,10 +70,16 @@ public class TetrisBlockController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (minigameManager.GameOver) return;
+
         moveTetrisPiece();
     }
 
     private void moveTetrisPiece() {
+
+        if (Remnant)
+            FallRate = 0;
+
         if ((fallTimer += Time.fixedDeltaTime) > FallRate)
         {
             transform.position += new Vector3(0, -1 * moveOffset, 0);
@@ -84,16 +97,22 @@ public class TetrisBlockController : MonoBehaviour {
     }
 
     private void addToGrid() {
+
         foreach (Transform item in transform) {
             
             var x = item.transform.position.x;
             var y = item.transform.position.y;
 
             var indexX = Mathf.RoundToInt((x + maxMoveOffset.x-1)/2);
-            var indexY = Mathf.RoundToInt((y + maxMoveOffset.y-1)/2);
+            var indexY = Mathf.RoundToInt((y + maxMoveOffset.y - minigameManager.transform.position.y -1)/2);
 
             minigameManager.Grid[indexX, indexY] = item;
+
+            if (y >= spawnPointY)
+                minigameManager.Events.EventHit();
         }
+
+        minigameManager.SoundBlockDropped.Play();
     }
 
     private bool hasFullLine(int line) {
@@ -105,30 +124,22 @@ public class TetrisBlockController : MonoBehaviour {
         return true;
     }
 
-    private void letFloatingFall(int line) {
-        var parents = new HashSet<TetrisBlockController>();
-
-        for (int y = line; y < minigameManager.MaxBlocksHeight; y++) {
-            for (int x = 0; x < minigameManager.MaxBlocksWidth; x++) {
-                if (minigameManager.Grid[x, y] != null) {
-                    parents.Add(minigameManager.Grid[x, y].GetComponentInParent<TetrisBlockController>());
-                }
+    private void letFloatingFall() {
+        for (var x = 0; x < minigameManager.MaxBlocksWidth; x++) {
+            for (var y = 1; y < minigameManager.MaxBlocksHeight; y++) {
+                // TODO: should search for conntected segments, check if there it's floating drop it down
             }
-        }
-
-        foreach (var item in parents) {
-            item.Remnant = true;
-            item.enabled = true;
         }
     }
 
     private void deleteLine(int line) {
         for (int i = 0; i < minigameManager.MaxBlocksWidth; i++) {
             Destroy(minigameManager.Grid[i, line].gameObject);
+            minigameManager.Events.EventScored();
             minigameManager.Grid[i, line] = null;
         }
 
-        letFloatingFall(line);
+        
     }
 
     private void rowDown(int line) {
@@ -147,9 +158,12 @@ public class TetrisBlockController : MonoBehaviour {
         for (var i = minigameManager.MaxBlocksHeight - 1; i >=0; i--) {
             if (hasFullLine(i)) {
                 deleteLine(i);
-                // rowDown(i);
+                rowDown(i);
+                
             }
         }
+
+        letFloatingFall();
     }
 
     private bool valideMove() {
@@ -159,10 +173,10 @@ public class TetrisBlockController : MonoBehaviour {
             var y = item.transform.position.y;
 
             var indexX = Mathf.RoundToInt((x + maxMoveOffset.x-1)/2);
-            var indexY = Mathf.RoundToInt((y + maxMoveOffset.y-1)/2);
+            var indexY = Mathf.RoundToInt((y + maxMoveOffset.y - minigameManager.transform.position.y -1)/2);
 
             if (x < -maxMoveOffset.x || x >= maxMoveOffset.x 
-                || y <= -maxMoveOffset.y) {
+                || y <= -maxMoveOffset.y + minigameManager.transform.position.y) {
                 return false;
             }
 

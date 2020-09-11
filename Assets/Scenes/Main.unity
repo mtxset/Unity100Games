@@ -130,13 +130,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6457023830990415268, guid: a093b536fd5de9743ae18735e689d694, type: 3}
+      propertyPath: SoundBlockDropped
+      value: 
+      objectReference: {fileID: 1780375975}
     - target: {fileID: 6457023830990415274, guid: a093b536fd5de9743ae18735e689d694, type: 3}
       propertyPath: m_Name
       value: Tetris
-      objectReference: {fileID: 0}
-    - target: {fileID: 6457023830990415274, guid: a093b536fd5de9743ae18735e689d694, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6457023830990415275, guid: a093b536fd5de9743ae18735e689d694, type: 3}
       propertyPath: m_LocalPosition.x
@@ -298,3 +298,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b031ea3f890f9d4fbd0f108c3b54bfb, type: 3}
+--- !u!82 &1780375975 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 429717435994117385, guid: a093b536fd5de9743ae18735e689d694, type: 3}
+  m_PrefabInstance: {fileID: 60715320}
+  m_PrefabAsset: {fileID: 0}

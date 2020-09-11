@@ -19,6 +19,9 @@ namespace Minigames.Tetris {
         private void HandleTetrisDropped() => SpawnNewPiece();
 
         public void SpawnNewPiece() {
+
+            if (gameManager.GameOver) return;
+
             Instantiate(
                 TetrisParts[Random.Range(0, TetrisParts.Length)], 
                 transform.position,
