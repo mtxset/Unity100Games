@@ -161,6 +161,12 @@ namespace GameManager
                     MinigamePrefab = Resources.Load("Tetris") as GameObject,
                     MinigameManagerType = typeof(Minigames.Tetris.MinigameManager),
                 },
+
+                new Minigame() // 25
+                {
+                    MinigamePrefab = Resources.Load("Minigolf") as GameObject,
+                    MinigameManagerType = typeof(Minigames.Minigolf.MinigameManager),
+                },
             };
 
         }

@@ -38,7 +38,8 @@ namespace GameManager
     public partial class GameManager : MonoBehaviour
     {
         /// <summary>
-        /// If -1 will random game, else will only launch game by index from <see cref="gameList"/>
+        /// If -1 will random game, if -2 will start games one after another, 
+        /// else will only launch game by index from <see cref="gameList"/>
         /// </summary>
         public int DebugGame = 10;
         

@@ -34,3 +34,4 @@ general:
 	5. ONGOING coords problems because are there some spawns out from parent?
 	    5. 1. Update: offsets are incorrect in some cases 
 	6. ONGOING use Update() for reading input FixedUpdate for physics
+	7. issue with aspect ratio when more than 4 players, camera should increase to maintain aspect 16:9
