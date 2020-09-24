@@ -1516,9 +1516,9 @@ GameObject:
   - component: {fileID: 7842624990222775659}
   - component: {fileID: 8739792428091798226}
   - component: {fileID: 4021432212669512693}
-  - component: {fileID: 1028359041}
   - component: {fileID: 2506065131798662580}
   - component: {fileID: 239902865616298264}
+  - component: {fileID: 8386261033074671109}
   m_Layer: 0
   m_Name: cannon
   m_TagString: deadzone
@@ -1618,20 +1618,6 @@ MonoBehaviour:
   BallSpawnPoint: {fileID: 1191700015569524520}
   AngleApproximation: 5
   ShootCooldown: 1
---- !u!114 &1028359041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8123427303535077204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c64ae87bacbdf498dd1f105b9967e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0.5188679, g: 0.28635636, b: 0.28635636, a: 1}
-  outlineSize: 0
 --- !u!61 &2506065131798662580
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1679,6 +1665,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8386261033074671109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123427303535077204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701a49dd585786e40ac0ae4ef629e13c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
+  outlineSize: 1
 --- !u!1 &8352057952901344535
 GameObject:
   m_ObjectHideFlags: 0

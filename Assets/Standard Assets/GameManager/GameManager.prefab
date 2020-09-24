@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125ff7eb5da10ee43bf8720f750522ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugGame: -2
+  DebugGame: 26
   TimerText: {fileID: 9127332510607011607}
   MainText: {fileID: 9127332510703666331}
   InitialPage: {fileID: 9127332510650679036}

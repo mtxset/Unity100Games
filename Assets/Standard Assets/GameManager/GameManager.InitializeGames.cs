@@ -124,6 +124,7 @@ namespace GameManager
                 {
                     MinigamePrefab = Resources.Load("RoadDodger") as GameObject,
                     MinigameManagerType = typeof(Minigames.RoadDodger.MinigameManager),
+                    Active = false
                 },
                 
                 new Minigame() // 19
@@ -166,6 +167,11 @@ namespace GameManager
                 {
                     MinigamePrefab = Resources.Load("Minigolf") as GameObject,
                     MinigameManagerType = typeof(Minigames.Minigolf.MinigameManager),
+                },
+
+                new Minigame() { // 26 
+                    MinigamePrefab = Resources.Load("CountObjects") as GameObject,
+                    MinigameManagerType = typeof(Minigames.CountObjects.MinigameManager),
                 },
             };
 
