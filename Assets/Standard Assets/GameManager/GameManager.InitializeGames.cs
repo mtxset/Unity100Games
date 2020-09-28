@@ -173,6 +173,12 @@ namespace GameManager
                     MinigamePrefab = Resources.Load("CountObjects") as GameObject,
                     MinigameManagerType = typeof(Minigames.CountObjects.MinigameManager),
                 },
+
+                new Minigame() { // 27 Preparation game
+                    MinigamePrefab = Resources.Load("Preparation") as GameObject,
+                    MinigameManagerType = typeof(Minigames.Preparation.MinigameManager),
+                    Active = false
+                },
             };
 
         }

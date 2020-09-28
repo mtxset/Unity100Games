@@ -42,13 +42,8 @@ namespace GameManager
         /// else will only launch game by index from <see cref="gameList"/>
         /// </summary>
         public int DebugGame = 10;
-        
-        private const uint MAXPLAYERS = 6;
-        private List<Minigame> gameList;
-        private Dictionary<int, Player> playersData;
-        private int currentPlayerCount;
-        private Queue<Color> colors;
-        private int currentRandomGame = -1;
+
+        public bool SkipPreparationRoom = false;
 
         public static GameManager Instance;
 
@@ -58,6 +53,14 @@ namespace GameManager
         public GameObject IntermissionPage;
 
         public bool Intermission;
+
+        private const uint MAXPLAYERS = 6;
+        private const int PREPARATIONROOM = 27;
+        private List<Minigame> gameList;
+        private Dictionary<int, Player> playersData;
+        private int currentPlayerCount;
+        private Queue<Color> colors;
+        private int currentRandomGame = -1;
 
         public string GetCurrentGameName()
         {
@@ -135,10 +138,12 @@ namespace GameManager
         {
             if (DebugGame >= 0)
             {
+                // preselected game
                 currentRandomGame = DebugGame;
             }
             else if (DebugGame == -2)
             {
+                // all games in a row
                 do
                 {
                     currentRandomGame++;
@@ -146,6 +151,7 @@ namespace GameManager
             }
             else if (DebugGame == -1)
             {
+                // games in random
                 do
                 {
                     var rand = new System.Random();
@@ -177,7 +183,7 @@ namespace GameManager
             playersData[currentPlayerCount].PlayersPrefabReference = playerPrefab;
 
             // Creating a mini game
-            var randomGame = createNewMinigame();
+            var randomGame = createNewMinigame(true);
 
             // set new game as player instance's child
             randomGame.transform.SetParent(playerPrefab.transform);
@@ -235,19 +241,25 @@ namespace GameManager
             playersData[playerId].GameStateData.TotalScore = 0;
         }
 
-        private GameObject createNewMinigame()
+        /// <summary>
+        /// Creates a minigame; if preparationRoom true sets to preparation room, used
+        /// for letting know each player where he's located
+        /// </summary>
+        /// <param name="preparationRoom">if true sets to preparation room, used
+        /// for letting know each player where he's located</param>
+        /// <returns>Minigame prefab</returns>
+        private GameObject createNewMinigame(bool preparationRoom = false)
         {
+            if (preparationRoom && !SkipPreparationRoom)
+                currentRandomGame = PREPARATIONROOM;
             // Creating game
-            var randomGame = Instantiate(gameList[currentRandomGame].MinigamePrefab);
-
-            return randomGame;
+            return Instantiate(gameList[currentRandomGame].MinigamePrefab);
         }
 
         private IEnumerator intermissionStart()
         {
             Intermission = true;
             // check if any player has total score over x
-            //yield return new WaitForSeconds(); Task.Delay(TimeSpan.FromSeconds(2));
             yield return new WaitForSeconds(2);
             // disable games for all players
             for (var i = 0; i < currentPlayerCount; i++)

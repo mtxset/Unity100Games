@@ -6,11 +6,11 @@ using Utils;
 
 namespace Minigames.CountObjects { 
 public class ObjectMover : AddMinigameManager2 {
-
     public Camera CurrentCamera;
     public GameObject[] ObjectsToSpawn;
     public Text Information;
     public Text Difficulty;
+    public Text TextCountdownTimer;
     public Vector2 FlightSpeedMinMax;
     public Vector2 SpawnAmountMinMax;
 
@@ -19,6 +19,8 @@ public class ObjectMover : AddMinigameManager2 {
 
     public float IncreaseBy = 0.05f;
 
+    private const float SecondsToCount = 3f;
+    
     private List<GameObject> liveObjects;
     private float gameManagerYOffset;
     private float flightOverOffsetX;
@@ -57,6 +59,7 @@ public class ObjectMover : AddMinigameManager2 {
     }
 
     private void startState() {
+        removeAllLiveObjects();
         Information.text = "";
         counting = false;
         playersCount = 0;
@@ -130,12 +133,6 @@ public class ObjectMover : AddMinigameManager2 {
             if (liveObjects[liveObjects.Count-1].transform.position.x 
                 > flightOverOffsetX) {
                 flight = false;
-
-                foreach (var item in liveObjects) {
-                    Destroy(item);
-                }
-
-                liveObjects.Clear();
                 countingState();
             }
         }
@@ -144,14 +141,35 @@ public class ObjectMover : AddMinigameManager2 {
     // 4. It gives 3 seconds to count, you press that many times with visual indication
     private void countingState() {
         counting = true;
-        Information.text = "Press ACTIVE for each object!";
+        Information.text = "Press ACTION button for each object!";
 
         StartCoroutine(
-            Components.Delay.StartDelay(3f, checkState, null));  
+            Components.Delay.StartDelay(SecondsToCount, checkState, updateCountClock, 1.0f));  
+    }
+
+    private void removeAllLiveObjects() {
+        foreach (var item in liveObjects) {
+            Destroy(item);
+        }
+
+        liveObjects.Clear();
+    }
+
+    private void showAllObjects() {
+        foreach (var item in liveObjects) {
+            item.transform.position = new Vector3(
+                0, item.transform.position.y, 0);
+        }
+    }
+
+    private void updateCountClock(float obj) {
+        TextCountdownTimer.text = $"{SecondsToCount-obj}";
     }
 
     // 5. If you guess correctly difficulty goes up, if no you lose life, repeat cycle
     private void checkState() {
+        showAllObjects();
+        TextCountdownTimer.text = "";
         CurrentDifficulty += IncreaseBy;
 
         counting = false;

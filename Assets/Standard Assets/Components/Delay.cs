@@ -11,12 +11,12 @@ namespace Components
         public static IEnumerator StartDelay(
             float seconds, 
             Action callbackWhenDone,
-            [CanBeNull] Action callbackAfterStep,
+            [CanBeNull] Action<float> callbackAfterStep,
             float step = 0.1f)
         {
             for (float i = 0; i < seconds; i += step)    
             {
-                callbackAfterStep?.Invoke();
+                callbackAfterStep?.Invoke(i);
                 yield return new WaitForSeconds(step);
             }
 

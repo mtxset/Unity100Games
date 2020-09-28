@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugGame: 26
+  SkipPreparationRoom: 1
   TimerText: {fileID: 9127332510607011607}
   MainText: {fileID: 9127332510703666331}
   InitialPage: {fileID: 9127332510650679036}
