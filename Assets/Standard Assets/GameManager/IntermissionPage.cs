@@ -9,6 +9,7 @@ namespace GameManager
         public Text TextNextGame;
         public Text CountdownText;
         public Text PlayersScoreText;
+
         private void OnEnable()
         {
             TextNextGame.text = $"NEXT GAME: {GameManager.Instance.GetCurrentGameName()}";
