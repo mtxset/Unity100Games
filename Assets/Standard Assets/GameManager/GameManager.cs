@@ -22,6 +22,7 @@ namespace GameManager
         public Dictionary<Type, Component> InjectionInstance;
         public GameObject CurrentGamePrefab;
         public GameObject PlayersPrefabReference;
+        public PlayerToManagerCommunicationBus PlayerToManagerCommunicationBusReference; 
         public GameStateData GameStateData;
     }
 
@@ -32,6 +33,7 @@ namespace GameManager
     {
         public int TotalScore;
         public int CurrentGameScore;
+        public string LastVote;
         public bool Alive;
     }
 
@@ -62,8 +64,21 @@ namespace GameManager
         private Queue<Color> colors;
         private int currentRandomGame = -1;
 
-        public string GetCurrentGameName()
-        {
+        // Intermission voting
+        private enum VotingStages {
+            SelectNextReplayVote,
+            VoteParams,
+            VoteAdjustment
+        }
+        private VotingStages currentVotingtage = VotingStages.SelectNextReplayVote;
+
+        private string[] initialMenu = new string[] {
+            "Next Random Game",
+            "Replay",
+            "Vote Params"
+        };
+
+        public string GetCurrentGameName() {
             return gameList[currentRandomGame].MinigamePrefab.name;
         }
 
@@ -103,6 +118,7 @@ namespace GameManager
             InitialPage.SetActive(false);
             for (var i = 0; i < currentPlayerCount; i++)
             {
+                playersData[i].PlayerToManagerCommunicationBusReference.MenuEntries = initialMenu;
                 playersData[i].CurrentGamePrefab.SetActive(true);
             }
         }
@@ -129,6 +145,7 @@ namespace GameManager
                     InjectionInstance = new Dictionary<Type, Component>(),
                     PlayersPrefabReference = null,
                     CurrentGamePrefab = null,
+                    PlayerToManagerCommunicationBusReference = null,
                     GameStateData = new GameStateData()
                 });
             }
@@ -143,11 +160,10 @@ namespace GameManager
             }
             else if (DebugGame == -2)
             {
+                if (currentRandomGame < 0)
+                    currentRandomGame = 0;
                 // all games in a row
-                do
-                {
-                    currentRandomGame++;
-                } while (!gameList[currentRandomGame].Active);
+                while (!gameList[currentRandomGame++].Active);
             }
             else if (DebugGame == -1)
             {
@@ -193,6 +209,8 @@ namespace GameManager
 
             // adding interface for communication between mini game and singleton game manager
             var communicationBusReference = playerPrefab.AddComponent<PlayerToManagerCommunicationBus>();
+            playersData[currentPlayerCount].PlayerToManagerCommunicationBusReference = communicationBusReference;
+
             communicationBusReference.PlayerId = currentPlayerCount;
             var color = colors.Dequeue();
             communicationBusReference.PlayerColor = color;
@@ -201,6 +219,7 @@ namespace GameManager
             // sub to events
             communicationBusReference.OnPlayerScored += OnPlayerScored;
             communicationBusReference.OnPlayerDeath += OnPlayerDeath;
+            communicationBusReference.OnPlayerVoted += OnPlayerVoted;
 
             // offsetting scene for player
             playerPrefab.transform.position = new Vector3(0, -300 * currentPlayerCount, 0);
@@ -215,16 +234,12 @@ namespace GameManager
 
             // setting game state
             resetGameState(currentPlayerCount);
-            playersData[currentPlayerCount].GameStateData.Alive = true;
-            playersData[currentPlayerCount].GameStateData.CurrentGameScore = 0;
-            playersData[currentPlayerCount].GameStateData.TotalScore = 0;
 
             // getting static viewports
             var viewPorts = Viewports.GetViewports(currentPlayerCount + 1);
 
             // setting cameras for each player
-            for (var i = 0; i < currentPlayerCount + 1; i++)
-            {
+            for (var i = 0; i < currentPlayerCount + 1; i++) {
                 playersData[i].CurrentGamePrefab.GetComponentInChildren<Camera>().rect = viewPorts[i];
             }
 
@@ -234,11 +249,11 @@ namespace GameManager
             return buttonEventsReference;
         }
 
-        private void resetGameState(int playerId)
-        {
+        private void resetGameState(int playerId) {
             playersData[playerId].GameStateData.Alive = true;
             playersData[playerId].GameStateData.CurrentGameScore = 0;
             playersData[playerId].GameStateData.TotalScore = 0;
+            playersData[playerId].GameStateData.LastVote = "";
         }
 
         /// <summary>
@@ -248,16 +263,14 @@ namespace GameManager
         /// <param name="preparationRoom">if true sets to preparation room, used
         /// for letting know each player where he's located</param>
         /// <returns>Minigame prefab</returns>
-        private GameObject createNewMinigame(bool preparationRoom = false)
-        {
+        private GameObject createNewMinigame(bool preparationRoom = false) {
             if (preparationRoom && !SkipPreparationRoom)
                 currentRandomGame = PREPARATIONROOM;
             // Creating game
             return Instantiate(gameList[currentRandomGame].MinigamePrefab);
         }
 
-        private IEnumerator intermissionStart()
-        {
+        private IEnumerator intermissionStart() {
             Intermission = true;
             // check if any player has total score over x
             yield return new WaitForSeconds(2);
@@ -312,15 +325,13 @@ namespace GameManager
             Intermission = false;
         }
 
-
         /// <summary>
         /// Checks if all players are dead
         /// </summary>
         /// <returns>true if all player have died</returns>
         private bool checkIfAllDied()
         {
-            for (var i = 0; i < currentPlayerCount; i++)
-            {
+            for (var i = 0; i < currentPlayerCount; i++) {
                 if (playersData[i].GameStateData.Alive)
                     return false;
             }
@@ -332,6 +343,17 @@ namespace GameManager
         {
             IntermissionPage.SetActive(false);
             setNewGameForEveryPlayer();
+        }
+
+        private void calculateVotes(string[] votes) {
+            if (currentVotingtage == VotingStages.SelectNextReplayVote) {
+
+            }
+            
+        }
+
+        private string getMostVoted(string[] votes) {
+            
         }
     }
 }

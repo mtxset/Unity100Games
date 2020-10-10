@@ -372,10 +372,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f937680a10324c243bcc4acd1d523d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentCamera: {fileID: 0}
+  CurrentCamera: {fileID: 672188329}
   Canvas: {fileID: 7933998930598853262}
   TextObject: {fileID: 1938781032}
-  EntriesPerPage: 5
+  PagesText: {fileID: 1938781033}
+  EntriesPerPage: 8
 --- !u!4 &981608746
 Transform:
   m_ObjectHideFlags: 0
@@ -409,7 +410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1938781033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,7 +433,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e13f4ca03db453446ace5e3278166753, type: 3}
-    m_FontSize: 30
+    m_FontSize: 5
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 1
@@ -443,7 +444,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: COUNT OBJECTS
+  m_Text: 'Current: 1; Pages: 5 '
 --- !u!222 &1938781034
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -466,10 +467,10 @@ RectTransform:
   m_Father: {fileID: 7933998930598853265}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.08518864, y: 0.82}
-  m_AnchorMax: {x: 0.9091261, y: 0.94}
-  m_AnchoredPosition: {x: -0.0009765625, y: 7}
-  m_SizeDelta: {x: -0.0018920898, y: 0.00038146973}
+  m_AnchorMin: {x: 0.08518864, y: 0.016666668}
+  m_AnchorMax: {x: 0.9073068, y: 0.10333334}
+  m_AnchoredPosition: {x: 0, y: -15.799988}
+  m_SizeDelta: {x: 0.000061035156, y: -9.687782}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &228214143993526096
 PrefabInstance:

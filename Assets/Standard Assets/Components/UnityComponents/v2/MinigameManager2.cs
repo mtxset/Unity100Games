@@ -63,6 +63,7 @@ namespace Components.UnityComponents.v2
         {
             Events.OnDeath += HandleDeath;
             Events.OnScored += HandleScored;
+            
             ButtonEvents.OnHorizontalPressed += Controls.HandleHorizontalStateChange;
             ButtonEvents.OnVerticalPressed += Controls.HandleVerticalStateChange;
         }
