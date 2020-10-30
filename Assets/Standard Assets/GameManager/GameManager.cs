@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Components;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,13 +71,14 @@ namespace GameManager
             VoteParams,
             VoteAdjustment
         }
-        private VotingStages currentVotingtage = VotingStages.SelectNextReplayVote;
 
-        private string[] initialMenu = new string[] {
-            "Next Random Game",
-            "Replay",
-            "Vote Params"
-        };
+        private enum InitialVotingMenu {
+            NextRandomGame,
+            Replay,
+            VoteParams
+        }
+
+        private VotingStages currentVotingStage = VotingStages.SelectNextReplayVote;
 
         public string GetCurrentGameName() {
             return gameList[currentRandomGame].MinigamePrefab.name;
@@ -115,6 +117,7 @@ namespace GameManager
 
         private void startTheGame()
         {
+            var initialMenu = Enum.GetNames(typeof(InitialVotingMenu));
             InitialPage.SetActive(false);
             for (var i = 0; i < currentPlayerCount; i++)
             {
@@ -168,12 +171,10 @@ namespace GameManager
             else if (DebugGame == -1)
             {
                 // games in random
-                do
-                {
-                    var rand = new System.Random();
-                    currentRandomGame = rand.Next(0, gameList.Count);
-                }
-                while (!gameList[currentRandomGame].Active);
+                var rand = new System.Random();
+
+                do currentRandomGame = rand.Next(0, gameList.Count);
+                    while (!gameList[currentRandomGame].Active);
             }
         }
 
@@ -325,20 +326,6 @@ namespace GameManager
             Intermission = false;
         }
 
-        /// <summary>
-        /// Checks if all players are dead
-        /// </summary>
-        /// <returns>true if all player have died</returns>
-        private bool checkIfAllDied()
-        {
-            for (var i = 0; i < currentPlayerCount; i++) {
-                if (playersData[i].GameStateData.Alive)
-                    return false;
-            }
-
-            return true;
-        }
-
         public void IntermissionDone()
         {
             IntermissionPage.SetActive(false);
@@ -346,14 +333,31 @@ namespace GameManager
         }
 
         private void calculateVotes(string[] votes) {
-            if (currentVotingtage == VotingStages.SelectNextReplayVote) {
+            if (currentVotingStage == VotingStages.SelectNextReplayVote) {
+                var mostVoted = 
+                    (InitialVotingMenu) Enum.Parse(typeof(InitialVotingMenu), getMostVoted(votes));
 
+                switch (mostVoted) {
+                    case InitialVotingMenu.NextRandomGame:
+                        StartCoroutine(intermissionStart());
+                    break;
+                }
             }
             
         }
 
+        // quick select is faster, but our max is MAX_PLAYERS (which is max 6 for now) values
         private string getMostVoted(string[] votes) {
-            
+            var voteMap = new Dictionary<string, int>();
+            for (var i = 0; i < votes.Length; i++) {
+                if (!voteMap.ContainsKey(votes[i]))
+                    voteMap.Add(votes[i], 1);
+                else
+                    voteMap[votes[i]]++; 
+            }
+
+            // linq magic
+            return voteMap.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
         }
     }
 }

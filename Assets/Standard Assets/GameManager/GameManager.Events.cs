@@ -16,14 +16,17 @@ namespace GameManager
         private void OnPlayerDeath(int playerId)
         {
             if (Intermission)
-            {
                 return;
-            }
             
             playersData[playerId].GameStateData.Alive = false;
 
-            if (checkIfAllDied())
-                StartCoroutine(intermissionStart());
+            // check if all died
+            for (var i = 0; i < currentPlayerCount; i++) {
+                if (playersData[i].GameStateData.Alive)
+                    return;
+            }
+            
+            StartCoroutine(intermissionStart());
         }
 
         private void OnPlayerVoted(int playerId, string vote) {
@@ -35,10 +38,11 @@ namespace GameManager
                 if (playersData[i].GameStateData.LastVote == string.Empty)
                     return;
                 else
+                    // populate votes
                     votes[i] = playersData[i].GameStateData.LastVote;
-                    
             }
-            // sends new vote
+            // everyone voted if we get here
+            calculateVotes(votes);
         }
 
     }
