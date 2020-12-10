@@ -8,6 +8,7 @@ namespace Components
     public static class Delay
     {
         public delegate void CallbackMethod();
+        
         public static IEnumerator StartDelay(
             float seconds, 
             Action callbackWhenDone,

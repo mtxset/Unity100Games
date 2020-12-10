@@ -38,7 +38,7 @@ namespace Minigames.FallingRocks
             liveRocks = new List<GameObject>();
             deadRocks = new List<GameObject>();
 
-            SpeedText.text = $"SPAWN SPEED: {SpawnRate}";
+            SpeedText.text = $"SPAWN RATE: {SpawnRate}";
         }
 
         private void Update()
@@ -54,7 +54,7 @@ namespace Minigames.FallingRocks
             if (difficultyTimer >= IncreaseRateAfter)
             {
                 SpawnRate -= IncreaseRateBy;
-                SpeedText.text = $"SPAWN SPEED: {SpawnRate}";
+                SpeedText.text = $"SPAWN RATE: {SpawnRate}";
                 difficultyTimer = 0;
             }
 

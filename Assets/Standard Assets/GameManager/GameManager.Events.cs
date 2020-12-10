@@ -26,7 +26,11 @@ namespace GameManager
                     return;
             }
             
-            StartCoroutine(intermissionStart());
+            if (PreviousGameId == -1) {
+                StartCoroutine(intermissionStart(false, true));
+            } else {
+                StartCoroutine(intermissionStart(true, false));
+            }
         }
 
         private void OnPlayerVoted(int playerId, string vote) {

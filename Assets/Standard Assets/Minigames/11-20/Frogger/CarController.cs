@@ -24,8 +24,6 @@ namespace Minigames.Frogger
                 });
 
             currentSpeed = difficulty[0];
-            Debug.Log(gameManager.Difficulty);
-            Debug.Log(currentSpeed);
         }
 
         private void FixedUpdate()

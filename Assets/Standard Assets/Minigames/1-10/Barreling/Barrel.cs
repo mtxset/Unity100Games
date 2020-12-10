@@ -45,7 +45,7 @@ namespace Minigames.Barreling
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (!canMove || gameManager.GameOver)
             {
@@ -53,7 +53,7 @@ namespace Minigames.Barreling
             }
 
             var newPostion = transform.position;
-            newPostion.x += BarrelMoveSpeed * Time.deltaTime;
+            newPostion.x += BarrelMoveSpeed * Time.fixedDeltaTime;
 
             if (newPostion.x > RightOffset)
             {

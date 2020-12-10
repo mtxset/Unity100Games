@@ -36,6 +36,10 @@ public class Menu {
 
     public void UpdateMenuEntries(string[] newMenuEntries) {
         menuEntries = newMenuEntries;
+    }
+
+    public void CreateMenuEntries(string[] newMenuEntries) {
+        menuEntries = newMenuEntries;
 
         init();
     }
@@ -94,8 +98,7 @@ public class Menu {
         var offset = (menuParams.CurrentCamera.orthographicSize - 1) * 2 / (menuParams.EntriesPerPage - 1);
         float lastPosition = menuParams.CurrentCamera.orthographicSize - 0.5f;
 
-        int i;
-        for (i = 0; i < menuParams.EntriesPerPage; i++) {
+        for (var i = 0; i < menuParams.EntriesPerPage; i++) {
             var position = new Vector2(0, lastPosition);
             lastPosition -= offset;
             textObjects[i] = createText(position);
@@ -135,7 +138,7 @@ public class Menu {
 
         currentlyShownItemCount = textIndex;
 
-        menuParams.PagesText.text = $"Page: {currentPage + 1} out of {totalPages}. Total entries: {menuEntries.Length}";
+        menuParams.PagesText.text = $"Page: {currentPage + 1} out of {totalPages}. Total: {menuEntries.Length}";
     }
 
     private GameObject createText(Vector3 position) {

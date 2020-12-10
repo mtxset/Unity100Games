@@ -53,17 +53,19 @@ namespace GameManager
         public Text TimerText;
         public Text MainText;
         public GameObject InitialPage;
-        public GameObject IntermissionPage;
+        public int PreviousGameId = -1;
+        public int CurrentRandomGame = -1;
 
+        [HideInInspector]
         public bool Intermission;
 
         private const uint MAXPLAYERS = 6;
         private const int PREPARATIONROOM = 27;
+        private const int INTERMISSIONROOM = 28;
         private List<Minigame> gameList;
         private Dictionary<int, Player> playersData;
         private int currentPlayerCount;
         private Queue<Color> colors;
-        private int currentRandomGame = -1;
 
         // Intermission voting
         private enum VotingStages {
@@ -75,13 +77,13 @@ namespace GameManager
         private enum InitialVotingMenu {
             NextRandomGame,
             Replay,
-            VoteParams
+            // VoteParams
         }
 
         private VotingStages currentVotingStage = VotingStages.SelectNextReplayVote;
 
         public string GetCurrentGameName() {
-            return gameList[currentRandomGame].MinigamePrefab.name;
+            return gameList[CurrentRandomGame].MinigamePrefab.name;
         }
 
         public int GetCurrentPlayersCount()
@@ -154,27 +156,36 @@ namespace GameManager
             }
         }
 
-        private void selectRandomGame()
-        {
+        private void selectRandomGame(int specificGame = -1) {
+            PreviousGameId = CurrentRandomGame;
+            if (specificGame >= 0) {
+                CurrentRandomGame = specificGame;
+                return;
+            }
+
             if (DebugGame >= 0)
             {
                 // preselected game
-                currentRandomGame = DebugGame;
+                CurrentRandomGame = DebugGame;
             }
             else if (DebugGame == -2)
             {
-                if (currentRandomGame < 0)
-                    currentRandomGame = 0;
                 // all games in a row
-                while (!gameList[currentRandomGame++].Active);
+                do {
+                    CurrentRandomGame++;
+
+                    if (CurrentRandomGame < 0 || CurrentRandomGame >= gameList.Count)
+                    CurrentRandomGame = 0;
+                }
+                while (!gameList[CurrentRandomGame++].Active);
             }
             else if (DebugGame == -1)
             {
                 // games in random
                 var rand = new System.Random();
 
-                do currentRandomGame = rand.Next(0, gameList.Count);
-                    while (!gameList[currentRandomGame].Active);
+                do CurrentRandomGame = rand.Next(0, gameList.Count);
+                    while (!gameList[CurrentRandomGame].Active);
             }
         }
 
@@ -227,9 +238,9 @@ namespace GameManager
             randomGame.transform.position = playerPrefab.transform.position;
 
             // adding reference to mini game manager
-            var comp = randomGame.GetComponentInChildren(gameList[currentRandomGame].MinigameManagerType);
+            var comp = randomGame.GetComponentInChildren(gameList[CurrentRandomGame].MinigameManagerType);
             playersData[currentPlayerCount].InjectionInstance
-                .Add(gameList[currentRandomGame].MinigameManagerType, comp);
+                .Add(gameList[CurrentRandomGame].MinigameManagerType, comp);
 
             playersData[currentPlayerCount].CurrentGamePrefab = randomGame;
 
@@ -266,23 +277,32 @@ namespace GameManager
         /// <returns>Minigame prefab</returns>
         private GameObject createNewMinigame(bool preparationRoom = false) {
             if (preparationRoom && !SkipPreparationRoom)
-                currentRandomGame = PREPARATIONROOM;
+                CurrentRandomGame = PREPARATIONROOM;
             // Creating game
-            return Instantiate(gameList[currentRandomGame].MinigamePrefab);
+            return Instantiate(gameList[CurrentRandomGame].MinigamePrefab);
         }
 
-        private IEnumerator intermissionStart() {
+        private IEnumerator intermissionStart(bool startIntermission, bool newRandomGame) {
             Intermission = true;
-            // check if any player has total score over x
+            // TODO: check if any player has total score over x
             yield return new WaitForSeconds(2);
             // disable games for all players
             for (var i = 0; i < currentPlayerCount; i++)
             {
                 Destroy(playersData[i].CurrentGamePrefab);
             }
-            // same game for everyone
-            selectRandomGame();
-            IntermissionPage.SetActive(true);
+            
+            // select intermission game
+            if (startIntermission)
+                selectRandomGame(INTERMISSIONROOM);
+            else {
+                if (newRandomGame)
+                    selectRandomGame();
+                else
+                    selectRandomGame(PreviousGameId);
+            }
+            
+            setNewGameForEveryPlayer();
         }
 
         private void setNewGameForEveryPlayer()
@@ -295,14 +315,14 @@ namespace GameManager
                 randomGame.transform.position = playersData[i].PlayersPrefabReference.transform.position;
 
                 var comp = randomGame
-                    .GetComponentInChildren(gameList[currentRandomGame].MinigameManagerType);
+                    .GetComponentInChildren(gameList[CurrentRandomGame].MinigameManagerType);
 
                 // check if type already exists
                 if (!playersData[i].InjectionInstance
-                        .ContainsKey(gameList[currentRandomGame].MinigameManagerType))
+                        .ContainsKey(gameList[CurrentRandomGame].MinigameManagerType))
                 {
                     playersData[i].InjectionInstance
-                       .Add(gameList[currentRandomGame].MinigameManagerType, comp);
+                       .Add(gameList[CurrentRandomGame].MinigameManagerType, comp);
                 }
 
                 // reset game state for each player
@@ -326,12 +346,6 @@ namespace GameManager
             Intermission = false;
         }
 
-        public void IntermissionDone()
-        {
-            IntermissionPage.SetActive(false);
-            setNewGameForEveryPlayer();
-        }
-
         private void calculateVotes(string[] votes) {
             if (currentVotingStage == VotingStages.SelectNextReplayVote) {
                 var mostVoted = 
@@ -339,14 +353,23 @@ namespace GameManager
 
                 switch (mostVoted) {
                     case InitialVotingMenu.NextRandomGame:
-                        StartCoroutine(intermissionStart());
-                    break;
+                        StartCoroutine(intermissionStart(false, true));
+                        break;
+                    case InitialVotingMenu.Replay:
+                        StartCoroutine(intermissionStart(false, false));
+                        break;
+                    // case InitialVotingMenu.VoteParams:
+                    //     for (var i = 0; i < currentPlayerCount; i++) {
+                    //         playersData[i].PlayerToManagerCommunicationBusReference.MenuEntries = 
+                    //         playersData[i].PlayerToManagerCommunicationBusReference.NewVote();
+                    //     }
+                    //     break;
                 }
             }
             
         }
 
-        // quick select is faster, but our max is MAX_PLAYERS (which is max 6 for now) values
+        // quick select is faster, but our max is MAX_PLAYERS (which is 6 for now)
         private string getMostVoted(string[] votes) {
             var voteMap = new Dictionary<string, int>();
             for (var i = 0; i < votes.Length; i++) {
