@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minigames.Dungeon
 {
-    public class Player : AddMinigameManager
+    public class Player : AddMinigameManager2
     {
         public float ActionCooldown = 1f;
         public Sounds Sounds;

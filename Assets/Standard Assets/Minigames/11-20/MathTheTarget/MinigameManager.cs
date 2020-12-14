@@ -1,8 +1,8 @@
-﻿using Components.UnityComponents.v1;
+﻿using Components.UnityComponents.v2;
 
 namespace Minigames.MathTheTarget
 {
-    public class MinigameManager : MinigameManagerDefault
+    public class MinigameManager : MinigameManager2
     {
         public Events DartEvents;
 

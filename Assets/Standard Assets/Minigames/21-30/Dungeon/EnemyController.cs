@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Minigames.Dungeon
 {
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : AddMinigameManager2
     {
         public GameObject[] EnemyLifes;
         public Text InfoText;
@@ -24,20 +24,18 @@ namespace Minigames.Dungeon
         
         private GameObject currentEnemy;
         private Lifes enemyLifes;
-        private MinigameManager gameManager;
 
         private void Start()
         {
-            gameManager = GetComponentInParent<MinigameManager>();
             enemyLifes = new Lifes(EnemyLifes);
             currentEnemy = spawnRandomEnemy();
             
-            gameManager.Events.OnDodged += HandleDodged;
+            MinigameManager.Events.OnDodged += HandleDodged;
         }
 
         private void HandleDodged()
         {
-            gameManager.Events.EventScored();
+            MinigameManager.Events.EventScored();
             // All lives are lost
             if (enemyLifes.LoseLife())
             {

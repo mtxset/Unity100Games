@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Minigames.Bomber
 {
-    public class BombController : AddMinigameManager
+    public class BombController : AddMinigameManager2
     {
         public GameObject BombPrefab;
         public float DropCooldown = 1f;

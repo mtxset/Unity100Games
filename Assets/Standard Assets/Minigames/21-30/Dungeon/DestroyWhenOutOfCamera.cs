@@ -1,16 +1,15 @@
-﻿using UnityEngine;
+﻿using Components;
+using UnityEngine;
 
 namespace Minigames.Dungeon
 {
-    public class DestroyWhenOutOfCamera : MonoBehaviour
+    public class DestroyWhenOutOfCamera : AddMinigameManager2
     {
-        private MinigameManager gameManager;
         private Camera currentCamera;
 
         private void Start()
         {
-            gameManager = GetComponentInParent<MinigameManager>();
-            currentCamera = gameManager.CurrentCamera;
+            currentCamera = MinigameManager.CurrentCamera;
         }
 
         private void FixedUpdate()
@@ -26,7 +25,7 @@ namespace Minigames.Dungeon
                 return;
             }
             
-            gameManager.Events.EventDodged();
+            MinigameManager.Events.EventDodged();
             Destroy(gameObject);
         }
     }

@@ -1,10 +1,6 @@
-﻿using Components.UnityComponents.v1;
-using UnityEngine;
+﻿using Components.UnityComponents.v2;
 
 namespace Minigames.Dungeon
 {
-    public class MinigameManager : MinigameManagerDefault
-    {
-        public Camera CurrentCamera;
-    }
+    public class MinigameManager : MinigameManager2 { }
 }

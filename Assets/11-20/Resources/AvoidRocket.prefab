@@ -2108,7 +2108,7 @@ MonoBehaviour:
   - {fileID: 2135052672043049826}
   Target: {fileID: 2135052672363414683}
   SpeedText: {fileID: 1399247131}
-  RotationSpeedMinMax: {x: 200, y: 400}
+  RotationSpeedMinMax: {x: 100, y: 300}
   FlySpeedMinMax: {x: 1, y: 25}
   IncreaseRateAfter: 2
   IncreaseRateBy: 0.01

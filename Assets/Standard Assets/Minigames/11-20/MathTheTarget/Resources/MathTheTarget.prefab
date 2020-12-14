@@ -333,6 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverPage: {fileID: 4465627936181686729}
   ScoreText: {fileID: 4465627937130972962}
+  CurrentCamera: {fileID: 532812439166610867}
 --- !u!1 &532812439338547654
 GameObject:
   m_ObjectHideFlags: 0

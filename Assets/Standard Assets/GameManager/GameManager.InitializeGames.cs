@@ -61,7 +61,8 @@ namespace GameManager
                 new Minigame // 8
                 {
                     MinigameManagerType = typeof(Minigames.RGBDestroyer.MinigameManager),
-                    MinigamePrefab = Resources.Load("RGBDestroyer") as GameObject
+                    MinigamePrefab = Resources.Load("RGBDestroyer") as GameObject,
+                    Active = false
                 },
 
                 new Minigame // 9
