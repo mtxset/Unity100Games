@@ -354,7 +354,7 @@ Transform:
   m_GameObject: {fileID: 8292080566030873085}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 8292080564999507698}
   - {fileID: 8292080565866677338}
@@ -377,4 +377,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationPoint: {x: 0, y: 0, z: 0}
   FallRate: 1
-  blockSide: 0.3
+  Remnant: 0

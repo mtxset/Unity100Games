@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Minigames.Tetris {
@@ -6,28 +5,29 @@ public class TetrisBlockController : MonoBehaviour {
     
     public Vector3 RotationPoint; 
     public float FallRate = 1;
-    public bool Remnant;
 
     private float fallTimer;
     private float moveOffset;
-
-    private Vector2 maxMoveOffset;
+    
     private MinigameManager minigameManager;
     private float spawnPointY;
 
     // if true means it's piece which is left after row destruction
 
     private void Start() {
+
         spawnPointY = transform.position.y;
-        moveOffset = transform.localScale.x*2;
+        moveOffset = 1.0f;
         minigameManager = GetComponentInParent<MinigameManager>();
-        maxMoveOffset.x = minigameManager.MaxBlocksWidth;
-        maxMoveOffset.y = minigameManager.MaxBlocksHeight;
 
         minigameManager.ButtonEvents.OnLeftButtonPressed += HandleLeftButton;
         minigameManager.ButtonEvents.OnRightButtonPressed += HandleRightButton;
         minigameManager.ButtonEvents.OnUpButtonPressed += HandleRotation;
         minigameManager.ButtonEvents.OnDownButtonPressed += HandleDown;
+
+        if (!valid_move()) {
+            // TODO: manage loss
+        }
     }
 
     private void OnDisable() {
@@ -49,7 +49,8 @@ public class TetrisBlockController : MonoBehaviour {
         if (minigameManager.GameOver) return;
 
         transform.position += new Vector3(leftRight * moveOffset, 0, 0);
-        if (!valideMove()) {
+        
+        if (!valid_move()) {
             transform.position -= new Vector3(leftRight * moveOffset, 0, 0);
         }
     }
@@ -63,7 +64,8 @@ public class TetrisBlockController : MonoBehaviour {
 
         transform.RotateAround(
             transform.TransformPoint(RotationPoint), Vector3.forward, 90);
-        if (!valideMove()) {
+
+        if (!valid_move()) {
             transform.RotateAround(
                 transform.TransformPoint(RotationPoint), Vector3.forward, -90);
         }
@@ -72,115 +74,105 @@ public class TetrisBlockController : MonoBehaviour {
     private void FixedUpdate() {
         if (minigameManager.GameOver) return;
 
-        moveTetrisPiece();
+
+
+        move_tetromino_down();
     }
 
-    private void moveTetrisPiece() {
+    public Vector2 round_vec2(Vector2 v) {
+        return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y));
+    }
 
-        if (Remnant)
-            FallRate = 0;
+    private void move_tetromino_down() {
 
-        if ((fallTimer += Time.fixedDeltaTime) > FallRate)
-        {
+        if ((fallTimer += Time.fixedDeltaTime) > FallRate) {
+            fallTimer = 0;
             transform.position += new Vector3(0, -1 * moveOffset, 0);
-            if (!valideMove())
-            {                
-                if (!Remnant)
-                    minigameManager.TetrisEvents.TetrisBlockDroppedEvent();
+            if (!valid_move()) {                
                 transform.position -= new Vector3(0, -1 * moveOffset, 0);
-                addToGrid();
-                checkLines();
+                minigameManager.TetrisEvents.TetrisBlockDroppedEvent();
+                update_grid();
+                delete_full_rows();
                 this.enabled = false;
             }
-            fallTimer = 0;
         }
     }
 
-    private void addToGrid() {
+    void update_grid() {
+        for (var row = 0; row < minigameManager.MaxBlocksHeight; ++row)
+            for (var col = 0; col < minigameManager.MaxBlocksWidth; ++col)
+                if (minigameManager.Grid[col, row] != null)
+                    if (minigameManager.Grid[col, row].parent == transform)
+                        minigameManager.Grid[col, row] = null;
 
-        foreach (Transform item in transform) {
-            
-            var x = item.transform.position.x;
-            var y = item.transform.position.y;
-
-            var indexX = Mathf.RoundToInt((x + maxMoveOffset.x-1)/2);
-            var indexY = Mathf.RoundToInt((y + maxMoveOffset.y - minigameManager.transform.position.y -1)/2);
-
-            minigameManager.Grid[indexX, indexY] = item;
-
-            if (y >= spawnPointY)
-                minigameManager.Events.EventHit();
+        // Add new children to grid
+        foreach (Transform child in transform) {
+            int x, y;
+            vec2_to_index(child.position, out x, out y);
+            minigameManager.Grid[x, y] = child;
         }
-
-        minigameManager.SoundBlockDropped.Play();
     }
 
-    private bool hasFullLine(int line) {
-        for (int i = 0; i < minigameManager.MaxBlocksWidth; i++) {
-            if (minigameManager.Grid[i, line] == null)
+    private void vec2_to_index(Vector2 position, out int x, out int y) {
+        x = Mathf.RoundToInt(position.x);
+        y = Mathf.RoundToInt(position.y - minigameManager.transform.position.y);
+    }
+
+    private bool has_full_row(int row) {
+        for (int col = 0; col < minigameManager.MaxBlocksWidth; ++col) {
+            if (minigameManager.Grid[col, row] == null)
                 return false;
         }
 
         return true;
     }
 
-    private void letFloatingFall() {
-        for (var x = 0; x < minigameManager.MaxBlocksWidth; x++) {
-            for (var y = 1; y < minigameManager.MaxBlocksHeight; y++) {
-                // TODO: should search for conntected segments, check if there it's floating drop it down
+    private void delete_full_rows() {
+        for (int row = 0; row < minigameManager.MaxBlocksHeight; ++row) {
+            if (has_full_row(row)) {
+                delete_row(row);
+                drop_rows_above(row+1);
+                --row;
             }
         }
     }
 
-    private void deleteLine(int line) {
-        for (int i = 0; i < minigameManager.MaxBlocksWidth; i++) {
-            Destroy(minigameManager.Grid[i, line].gameObject);
+    private void delete_row(int row) {
+        for (int col = 0; col < minigameManager.MaxBlocksWidth; ++col) {
+            Destroy(minigameManager.Grid[col, row].gameObject);
+            minigameManager.Grid[col, row] = null;
             minigameManager.Events.EventScored();
-            minigameManager.Grid[i, line] = null;
-        }
-
-        
-    }
-
-    private void rowDown(int line) {
-        for (var i = line; i < minigameManager.MaxBlocksHeight; i++) {
-            for (var c = 0; c < minigameManager.MaxBlocksWidth; c++) {
-                if (minigameManager.Grid[c, i] != null) {
-                    minigameManager.Grid[c, i - 1] = minigameManager.Grid[c, i];
-                    minigameManager.Grid[c, i - 1].transform.position += Vector3.down * 2;
-                    minigameManager.Grid[c, i] = null;
-                }
-            }
         }
     }
 
-    private void checkLines() {
-        for (var i = minigameManager.MaxBlocksHeight - 1; i >=0; i--) {
-            if (hasFullLine(i)) {
-                deleteLine(i);
-                rowDown(i);
-                
-            }
-        }
-
-        letFloatingFall();
+    private void drop_rows_above(int row) {
+        for (int i = row; i < minigameManager.MaxBlocksHeight; ++i)
+            drop_row(i);
     }
 
-    private bool valideMove() {
-        foreach (Transform item in transform)
-        {
-            var x = item.transform.position.x;
-            var y = item.transform.position.y;
+    private void drop_row(int row) {
+        for (var col = 0; col < minigameManager.MaxBlocksWidth; ++col) {
+            if (minigameManager.Grid[col, row] == null)
+                continue;
+            
+            minigameManager.Grid[col, row - 1] = minigameManager.Grid[col, row];    
+            minigameManager.Grid[col, row] = null;
+            minigameManager.Grid[col, row - 1].position += Vector3.down * moveOffset; 
+        }
+    }
 
-            var indexX = Mathf.RoundToInt((x + maxMoveOffset.x-1)/2);
-            var indexY = Mathf.RoundToInt((y + maxMoveOffset.y - minigameManager.transform.position.y -1)/2);
+    private bool valid_move() {
+        foreach (Transform item in transform) {
+            int x, y;
+            vec2_to_index(item.position, out x, out y);
 
-            if (x < -maxMoveOffset.x || x >= maxMoveOffset.x 
-                || y <= -maxMoveOffset.y + minigameManager.transform.position.y) {
+            if ((int)item.transform.position.x < 0 || 
+                (int)item.transform.position.x >= minigameManager.MaxBlocksWidth ||
+                (int)item.transform.position.y <= minigameManager.transform.position.y)
                 return false;
-            }
 
-            if (minigameManager.Grid[indexX, indexY] != null)
+            if (minigameManager.Grid[x, y] != null 
+                && minigameManager.Grid[x, y].parent != transform)
                 return false;
         }
 
