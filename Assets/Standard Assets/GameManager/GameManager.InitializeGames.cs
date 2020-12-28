@@ -186,6 +186,11 @@ namespace GameManager
                     MinigameManagerType = typeof(Minigames.Intermission.MinigameManager),
                     Active = false
                 },
+
+                new Minigame { // 29 HitClowd
+                    MinigamePrefab = Resources.Load("HitClowd") as GameObject,
+                    MinigameManagerType = typeof(Minigames.HitClowd.MinigameManager),
+                },
             };
 
         }
