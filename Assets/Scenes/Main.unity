@@ -187,10 +187,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1123699203662209557, guid: edaa806cc9142d14fa4d3dd0e09c09e2, type: 3}
-      propertyPath: ParallaxSpeed
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3937622177099026648, guid: edaa806cc9142d14fa4d3dd0e09c09e2, type: 3}
       propertyPath: m_Name
       value: HitClowd
@@ -239,9 +235,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4196304703777397649, guid: edaa806cc9142d14fa4d3dd0e09c09e2, type: 3}
-      propertyPath: ParallaxSpeed
+    - target: {fileID: 4322634296232467718, guid: edaa806cc9142d14fa4d3dd0e09c09e2, type: 3}
+      propertyPath: m_GravityScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165303147647455003, guid: edaa806cc9142d14fa4d3dd0e09c09e2, type: 3}
+      propertyPath: CloudMoveSpeedMinMax.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165303147647455003, guid: edaa806cc9142d14fa4d3dd0e09c09e2, type: 3}
+      propertyPath: CloudMoveSpeedMinMax.y
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edaa806cc9142d14fa4d3dd0e09c09e2, type: 3}
