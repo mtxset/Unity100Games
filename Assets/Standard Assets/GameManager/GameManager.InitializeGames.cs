@@ -191,6 +191,11 @@ namespace GameManager
                     MinigamePrefab = Resources.Load("HitClowd") as GameObject,
                     MinigameManagerType = typeof(Minigames.HitClowd.MinigameManager),
                 },
+
+                new Minigame { // 30 Rex
+                    MinigamePrefab = Resources.Load("Rex") as GameObject,
+                    MinigameManagerType = typeof(Minigames.Rex.MinigameManager)
+                }
             };
 
         }

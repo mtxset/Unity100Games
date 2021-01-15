@@ -3,8 +3,7 @@ using UnityEditor;
 using Minigames.Rex;
 
 [CustomEditor(typeof(PlayerController))]
-public class RexControllerEditor : Editor
-{
+public class RexControllerEditor : Editor {
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
 

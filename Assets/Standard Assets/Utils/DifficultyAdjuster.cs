@@ -6,7 +6,7 @@ namespace Utils
     public static class DifficultyAdjuster
     {
         /// <summary>
-        /// Returns random values based on difficultly
+        /// Returns spread values based on difficultly in same order as provided vector list 
         /// </summary>
         /// <param name="difficulty">0 - 1f</param>
         /// <param name="minMax">difficulty variables</param>
