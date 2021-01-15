@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using Minigames.Rex;
@@ -12,3 +13,4 @@ public class RexControllerEditor : Editor {
             myScript.Jump();
     }
 }
+#endif

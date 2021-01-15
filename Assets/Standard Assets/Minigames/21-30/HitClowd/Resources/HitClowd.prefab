@@ -344,7 +344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3937622177099026650
 Transform:
   m_ObjectHideFlags: 0
@@ -798,9 +798,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: LifeSoundsUI (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4223803492520624710, guid: 39ea1f8fe8111604099fdecb25cffff2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4223803493044011989, guid: 39ea1f8fe8111604099fdecb25cffff2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -8.5
+      value: -8.5000305
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8871826283052831513, guid: 39ea1f8fe8111604099fdecb25cffff2, type: 3}
