@@ -16,6 +16,7 @@ public struct MenuParams {
 
 public class Menu {
     
+    /// string - selected menu item
     public event Action<string> OnSelected;
 
     private string[] menuEntries;
@@ -28,7 +29,6 @@ public class Menu {
     private int hoveredMenuItem;
     private int currentlyShownItemCount;
     private int selectedMenuItem = -1;
-
 
     public Menu(MenuParams menuParams) {
         this.menuParams = menuParams;
