@@ -308,7 +308,8 @@ MonoBehaviour:
   TicketText: {fileID: 1964736059780928238, guid: 7bea522333b1af7458fa3ecc12c3c0b1, type: 3}
   TicketBackground: {fileID: 1435961113709692687, guid: b14e6b172af56554ba0e5fbfee5bbba4, type: 3}
   ActiveColor: {r: 0, g: 0, b: 0, a: 0}
-  RowsColumns: {x: 8, y: 5}
+  Rows: 0
+  Columns: 0
   Canvas: {fileID: 8481248769891050359}
   CurrentCamera: {fileID: 89074204}
 --- !u!4 &2930993344761275466 stripped
