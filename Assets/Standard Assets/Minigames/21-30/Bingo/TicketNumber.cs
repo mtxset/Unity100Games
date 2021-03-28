@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Bingo {
+namespace Minigames.Bingo {
     public class TicketNumber: MonoBehaviour {
         public SpriteRenderer Background;
         public Text Text;

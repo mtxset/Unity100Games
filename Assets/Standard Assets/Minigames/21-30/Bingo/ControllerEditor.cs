@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using Bingo;
+using Minigames.Bingo;
 
 [CustomEditor(typeof(BingoTable))]
 public class ControllerEditor : Editor
@@ -18,6 +18,10 @@ public class ControllerEditor : Editor
             myScript.Traverse(1, 0);
         else if (GUILayout.Button("DOWN"))
             myScript.Traverse(-1, 0);
+        else if (GUILayout.Button("Spawn"))
+            myScript.SpawnNewFallingNumber();
+        else if (GUILayout.Button("Select"))
+            myScript.Select();
     }
 }
 #endif
