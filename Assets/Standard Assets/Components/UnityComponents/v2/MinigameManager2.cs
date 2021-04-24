@@ -10,6 +10,11 @@ namespace Components.UnityComponents.v2
         public Text ScoreText;
         public Camera CurrentCamera;
 
+        public float DiffCurrent;
+        public float DiffIncreaseBy;
+        public float DiffIncreaseRate;
+        public float DiffTimer;
+
         public int Score { get; set; }
         public bool GameOver { get; set; }
         public ButtonEvents ButtonEvents { get; set; }
@@ -19,6 +24,7 @@ namespace Components.UnityComponents.v2
 
         protected virtual void UnityStart() { }
         protected virtual void UnityAwake() { }
+        protected virtual void UnityUpdate() { }
 
         protected virtual void UnityOnDisable() { }
 
@@ -37,6 +43,20 @@ namespace Components.UnityComponents.v2
 
             SubscribeToEvents();
             UnityStart();
+        }
+
+        private void Update() {
+            
+            if ((DiffTimer += Time.deltaTime) > DiffIncreaseRate) {
+                DiffTimer = 0;
+
+                DiffCurrent += DiffIncreaseBy;
+
+                if (DiffCurrent > 1f)
+                    DiffCurrent = 1;
+            }
+
+            UnityUpdate();
         }
 
         public void HandleDeath()

@@ -175,5 +175,16 @@ namespace Utils.Curves
 
             return points;
         }
+
+        public static List<Vector2> SinWave(Vector2 starting_point, Vector2 limit_from_to, float step) {
+            var points = new List<Vector2>();
+
+            for (var i = limit_from_to.x; i < limit_from_to.y; i += step) {
+                var p = new Vector2(i + starting_point.x, Mathf.Sin(i) + starting_point.y);
+                points.Add(p);
+            }
+
+            return points;
+        }
     }
 }

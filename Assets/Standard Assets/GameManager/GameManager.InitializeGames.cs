@@ -201,6 +201,11 @@ namespace GameManager
                     MinigamePrefab = Resources.Load("Bingo") as GameObject,
                     MinigameManagerType = typeof(Minigames.Bingo.MinigameManager),
                     Active = false // terrible idea and boring game
+                },
+
+                new Minigame { // 32 DoubleTrouble
+                    MinigamePrefab = Resources.Load("DoubleTrouble") as GameObject,
+                    MinigameManagerType = typeof(Minigames.DoubleTrouble.MinigameManager)
                 }
             };
 

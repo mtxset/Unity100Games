@@ -7,7 +7,7 @@ namespace Shaders
     {
         public Color color = Color.white;
 
-        [Range(0, 16)]
+        [Range(0, 32)]
         public int outlineSize = 1;
 
         private SpriteRenderer spriteRenderer;
