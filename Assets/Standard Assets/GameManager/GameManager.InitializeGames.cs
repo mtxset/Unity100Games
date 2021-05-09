@@ -75,77 +75,77 @@ namespace GameManager
                 {
                     MinigameManagerType = typeof(Minigames.AAReplica.MinigameManager),
                     MinigamePrefab = Resources.Load("AAReplica") as GameObject
-                },              
-                
+                },
+
                 new Minigame // 11
                 {
                     MinigameManagerType = typeof(Minigames.AvoidRocket.MinigameManager),
                     MinigamePrefab = Resources.Load("AvoidRocket") as GameObject,
                     Active = false
                 },
-                
+
                 new Minigame // 12
                 {
                     MinigamePrefab = Resources.Load("FallingBlocks") as GameObject,
                     MinigameManagerType = typeof(Minigames.FallingBlocks.MinigameManager)
-                },               
-                
+                },
+
                 new Minigame // 13
                 {
                     MinigamePrefab = Resources.Load("TrainRunner") as GameObject,
                     MinigameManagerType = typeof(Minigames.TrainRunner.MinigameManager),
                     Active = false
                 },
-                
+
                 new Minigame // 14
                 {
                     MinigamePrefab = Resources.Load("Frogger") as GameObject,
                     MinigameManagerType = typeof(Minigames.Frogger.MinigameManager),
                 },
-                
+
                 new Minigame // 15
                 {
                     MinigamePrefab = Resources.Load("BubbleStruggle") as GameObject,
                     MinigameManagerType = typeof(Minigames.BubbleStruggle.MinigameManager),
                 },
-                
+
                 new Minigame // 16
                 {
                     MinigamePrefab = Resources.Load("MissTheTarget") as GameObject,
                     MinigameManagerType = typeof(Minigames.MissTheTarget.MinigameManager),
                 },
-                
+
                 new Minigame // 17
                 {
                     MinigamePrefab = Resources.Load("CatchApple") as GameObject,
                     MinigameManagerType = typeof(Minigames.CatchApple.MinigameManager),
                 },
-                
+
                 new Minigame // 18
                 {
                     MinigamePrefab = Resources.Load("RoadDodger") as GameObject,
                     MinigameManagerType = typeof(Minigames.RoadDodger.MinigameManager),
                     Active = false
                 },
-                
+
                 new Minigame // 19
                 {
                     MinigamePrefab = Resources.Load("MathTheTarget") as GameObject,
                     MinigameManagerType = typeof(Minigames.MathTheTarget.MinigameManager),
                 },
-                
+
                 new Minigame // 20
                 {
                     MinigamePrefab = Resources.Load("Bomber") as GameObject,
                     MinigameManagerType = typeof(Minigames.Bomber.MinigameManager),
                 },
-                
+
                 new Minigame // 21
                 {
                     MinigamePrefab = Resources.Load("Dungeon") as GameObject,
                     MinigameManagerType = typeof(Minigames.Dungeon.MinigameManager),
                 },
-                
+
                 new Minigame // 22
                 {
                     MinigamePrefab = Resources.Load("FallForever") as GameObject,
@@ -170,7 +170,7 @@ namespace GameManager
                     MinigameManagerType = typeof(Minigames.Minigolf.MinigameManager),
                 },
 
-                new Minigame { // 26 
+                new Minigame { // 26
                     MinigamePrefab = Resources.Load("CountObjects") as GameObject,
                     MinigameManagerType = typeof(Minigames.CountObjects.MinigameManager),
                 },
@@ -206,7 +206,12 @@ namespace GameManager
                 new Minigame { // 32 DoubleTrouble
                     MinigamePrefab = Resources.Load("DoubleTrouble") as GameObject,
                     MinigameManagerType = typeof(Minigames.DoubleTrouble.MinigameManager)
-                }
+                },
+
+								new Minigame { // 33 RepeatColors
+										MinigamePrefab = Resources.Load("RepeatColors") as GameObject,
+                    MinigameManagerType = typeof(Minigames.RepeatColors.MinigameManager)
+								}
             };
 
         }
