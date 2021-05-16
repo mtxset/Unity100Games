@@ -211,7 +211,12 @@ namespace GameManager
 								new Minigame { // 33 RepeatColors
 										MinigamePrefab = Resources.Load("RepeatColors") as GameObject,
                     MinigameManagerType = typeof(Minigames.RepeatColors.MinigameManager)
-								}
+								},
+
+								new Minigame { // 34 Breakout
+										MinigamePrefab = Resources.Load("Breakout") as GameObject,
+                    MinigameManagerType = typeof(Minigames.Breakout.MinigameManager)
+								},
             };
 
         }
