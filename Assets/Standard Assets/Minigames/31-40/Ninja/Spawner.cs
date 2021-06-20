@@ -1,15 +1,19 @@
 using System.Collections.Generic;
-using Components;
 using UnityEngine;
 
-namespace Minigames.Ninja
-{
-  public class Spawner : AddMinigameManager2 {
+namespace Minigames.Ninja {
+  public class Spawner : MonoBehaviour {
+		public AudioClip[] SpawnSounds;
+		public AudioClip[] MeteorDeathSounds;
+
 		public GameObject MeteorPrefab;
 		public GameObject MeteorTrailPrefab;
 		public float SpawnMeteorRate;
-		public float MeteorMoveBy;
+		public Vector2 MoveByMinMax;
 		public float SpawnEffectsRate;
+
+		public float DimScreenRate;
+		public SpriteRenderer DimmerBox;
 
 		private Vector2 screenSize;
 
@@ -17,16 +21,30 @@ namespace Minigames.Ninja
 		private List<GameObject> deadEntities = new List<GameObject>();
 		private float currentEffectsTimer;
 		private float meteorSpawnTimer;
+		private float dimmerTimer;
+
+		private MinigameManager gameManager;
 
 		private void Start() {
-			var camera = MinigameManager.CurrentCamera;
+			gameManager = GetComponentInParent<MinigameManager>();
+
+			var camera = gameManager.CurrentCamera;
 			screenSize.y = camera.orthographicSize * 2;
 			screenSize.x = camera.orthographicSize * camera.aspect * 2;
+
+			gameManager.OnPlayerLightAction += HandlePlayerLightAction;
 
 			spawnMeteor();
 		}
 
+		private void HandlePlayerLightAction() {
+			dimmerTimer = 0;
+		}
+
 		private void FixedUpdate() {
+
+			if (gameManager.GameOver) return;
+
 			var spawnEffect = false;
 			if ((currentEffectsTimer += Time.fixedDeltaTime) >= SpawnEffectsRate) {
 				currentEffectsTimer = 0;
@@ -38,13 +56,26 @@ namespace Minigames.Ninja
 				spawnMeteor();
 			}
 
+			// DimScreenRate - 100
+			// dimmerTimer - x
+			dimmerTimer += Time.fixedDeltaTime;
+			DimmerBox.color = new Color(DimmerBox.color.r, DimmerBox.color.g, DimmerBox.color.b, dimmerTimer/DimScreenRate);
+
+			var moveSpeed = Utils.DifficultyAdjuster.SpreadDifficulty(gameManager.DiffCurrent, new List<Vector2> { MoveByMinMax });
+
 			foreach (var item in liveEntities) {
+
+				if (item.gameObject == null) {
+					deadEntities.Add(item);
+					continue;
+				}
+
 				if (spawnEffect) {
 					var effects = Instantiate(MeteorTrailPrefab, item.transform.position, Quaternion.identity);
 					Destroy(effects, 2);
 				}
 
-				item.transform.position -= new Vector3(0, MeteorMoveBy * Time.fixedDeltaTime, 0);
+				item.transform.position -= new Vector3(0, moveSpeed[0] * Time.fixedDeltaTime, 0);
 
 				if (item.transform.position.y <= -screenSize.y / 2 + 3f) {
 					deadEntities.Add(item);
@@ -52,7 +83,9 @@ namespace Minigames.Ninja
 			}
 
 			foreach (var item in deadEntities) {
+				gameManager.Events.EventScored();
 				liveEntities.Remove(item);
+				gameManager.AudioSource.PlayOneShot(MeteorDeathSounds[Random.Range(0, MeteorDeathSounds.Length - 1)], 0.5f);
 				Destroy(item);
 			}
 
@@ -64,11 +97,10 @@ namespace Minigames.Ninja
 				x = Random.Range(-screenSize.x / 2, screenSize.x / 2),
 				y = screenSize.y / 2
 			};
-			var meteor = Instantiate(MeteorPrefab, pos, Quaternion.identity);
+			var meteor = Instantiate(MeteorPrefab, pos, Quaternion.identity, transform);
 			liveEntities.Add(meteor);
+			gameManager.AudioSource.PlayOneShot(SpawnSounds[Random.Range(0, SpawnSounds.Length - 1)]);
 		}
 
 	}
 }
-
-// TODO: enemies spawn from both sides randomly and you have to kill them, sometimes screen darkens and you need to use down/up to light it up

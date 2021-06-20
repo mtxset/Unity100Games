@@ -4,9 +4,9 @@ using UnityEngine;
 using Utils;
 
 namespace Minigames.DoubleTrouble {
-    
-    public class Guitar: AddMinigameManager2 { 
-        // Order is important
+
+    public class Guitar: AddMinigameManager2 {
+        // Order is Sounds important (low E, A, D, G, B, high E)
         public AudioClip[] Sounds;
         public GameObject[] Strings;
         public Camera CurrentCamera;
@@ -64,7 +64,7 @@ namespace Minigames.DoubleTrouble {
                 jumpNextString = 0f;
                 if (++pickPositionIndex == Strings.Length)
                     pickPositionIndex = 0;
-                
+
                 Pick.transform.position = new Vector3(Pick.transform.position.x, strings[pickPositionIndex].transform.position.y, 0);
             }
 
@@ -84,7 +84,7 @@ namespace Minigames.DoubleTrouble {
             audioSource.PlayOneShot(Sounds[randomClipIndex]);
             strings[pickPositionIndex].Play();
         }
-        
+
         public void PlayString(int index) {
             checkPickVsAttacker();
             var randomClipIndex = Random.Range(0, Sounds.Length - 1);
@@ -105,7 +105,7 @@ namespace Minigames.DoubleTrouble {
 
         private void attackerJump() {
             var oldPos = attackerPositionIndex;
-            
+
             do {
                 attackerPositionIndex = Random.Range(0, Strings.Length);
             } while (attackerPositionIndex == oldPos);

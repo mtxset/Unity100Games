@@ -21,6 +21,7 @@ namespace Components.UnityComponents.v2
         public PlayerToManagerCommunicationBus CommunicationBus { get; set; }
         public SimpleControls Controls { get; private set; }
         public EventsDefault Events { get; private set; }
+				public AudioSource AudioSource;
 
         protected virtual void UnityStart() { }
         protected virtual void UnityAwake() { }
@@ -30,6 +31,7 @@ namespace Components.UnityComponents.v2
 
         private void Awake()
         {
+						AudioSource = gameObject.AddComponent<AudioSource>() as AudioSource;
             Controls = new SimpleControls();
             Events = new EventsDefault();
             UnityAwake();
@@ -46,7 +48,7 @@ namespace Components.UnityComponents.v2
         }
 
         private void Update() {
-            
+
             if ((DiffTimer += Time.deltaTime) > DiffIncreaseRate) {
                 DiffTimer = 0;
 
@@ -83,7 +85,7 @@ namespace Components.UnityComponents.v2
         {
             Events.OnDeath += HandleDeath;
             Events.OnScored += HandleScored;
-            
+
             ButtonEvents.OnHorizontalPressed += Controls.HandleHorizontalStateChange;
             ButtonEvents.OnVerticalPressed += Controls.HandleVerticalStateChange;
         }
@@ -92,7 +94,7 @@ namespace Components.UnityComponents.v2
         {
             Events.OnDeath -= HandleDeath;
             Events.OnScored -= HandleScored;
-            
+
             ButtonEvents.OnHorizontalPressed -= Controls.HandleHorizontalStateChange;
             ButtonEvents.OnVerticalPressed -= Controls.HandleVerticalStateChange;
         }

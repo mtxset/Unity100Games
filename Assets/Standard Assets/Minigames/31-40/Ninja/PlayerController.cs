@@ -1,3 +1,4 @@
+using System.Collections;
 using Components.UnityComponents;
 using Components.UnityComponents.v2;
 using UnityEngine;
@@ -5,9 +6,14 @@ using UnityEngine;
 namespace Minigames.Ninja
 {
   public class PlayerController : BasicControls {
+		public AudioClip LightSound;
+		public AudioClip[] MeteorDeathSounds;
+		public AudioClip[] HitSounds;
+		public BoxCollider2D LeftHit;
+		public BoxCollider2D RightHit;
 		public float MovementSpeed = 1f;
 
-		private MinigameManager2 gameManager;
+		private MinigameManager gameManager;
 		private Animator animator;
 		private SpriteRenderer spriteRenderer;
 		private Rigidbody2D rigidbody2d;
@@ -23,16 +29,21 @@ namespace Minigames.Ninja
 
 		private Vector2 screenSize;
 		private int currentAnimationId;
+		private BoxCollider2D currentHit;
+		private AudioSource audioSource;
 
 		private void Start() {
 			rigidbody2d = GetComponent<Rigidbody2D>();
 			spriteRenderer = GetComponent<SpriteRenderer>();
 			animator = GetComponent<Animator>();
-			gameManager = GetComponentInParent<MinigameManager2>();
+			gameManager = GetComponentInParent<MinigameManager>();
 			boxCollider2d = GetComponent<BoxCollider2D>();
+			audioSource = gameManager.AudioSource;
 
 			screenSize.y = gameManager.CurrentCamera.orthographicSize * 2;
 			screenSize.x = gameManager.CurrentCamera.orthographicSize * gameManager.CurrentCamera.aspect * 2;
+
+			currentHit = LeftHit;
 			subscribeToEvents();
 		}
 
@@ -43,19 +54,32 @@ namespace Minigames.Ninja
 		private void Update() {
 			if (gameManager.GameOver) return;
 
+			// hit
+			currentHit.enabled = (currentAnimationId == playerAttack);
+
 			currentAnimationId = animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
 			animator.SetBool(playerRunning, HorizontalState != AxisState.Idle);
 
 			if (currentAnimationId == playerAttack || currentAnimationId == playerDodge) return;
 
+			// move
 			if (HorizontalState == AxisState.Negative) {
 				spriteRenderer.flipX = true;
+				currentHit = LeftHit;
 			} else if (HorizontalState == AxisState.Positive) {
 				spriteRenderer.flipX = false;
+				currentHit = RightHit;
 			}
 
-			if (VerticalState != AxisState.Idle && (currentAnimationId == playerRunState || currentAnimationId == playerIdle))
+			// light up
+			if (VerticalState != AxisState.Idle && (currentAnimationId == playerRunState || currentAnimationId == playerIdle)) {
 				animator.SetTrigger(playerDodge);
+			}
+		}
+
+		private void lightAnimationEnd() {
+			audioSource.PlayOneShot(LightSound);
+			gameManager.PlayerLightAction();
 		}
 
 		private void FixedUpdate() {
@@ -88,8 +112,24 @@ namespace Minigames.Ninja
 		}
 
 		private void HandleAction() {
-			if (currentAnimationId == playerRunState || currentAnimationId == playerIdle)
+			if (currentAnimationId == playerRunState || currentAnimationId == playerIdle) {
 				animator.SetTrigger(playerAttack);
+				audioSource.PlayOneShot(HitSounds[Random.Range(0, HitSounds.Length - 1)]);
+				StartCoroutine(playSoundWithDelay(HitSounds[Random.Range(0, HitSounds.Length - 1)], 0.3f));
+			}
+		}
+
+		private void OnCollisionEnter2D(Collision2D other) {
+			var tag = other.collider.gameObject.tag;
+			if (tag == "deadzone" || tag == "hit") {
+				gameManager.Events.EventHit();
+				Destroy(other.gameObject);
+			}
+		}
+
+		IEnumerator playSoundWithDelay(AudioClip clip, float delay) {
+			yield return new WaitForSeconds(delay);
+			audioSource.PlayOneShot(clip);
 		}
   }
 }
