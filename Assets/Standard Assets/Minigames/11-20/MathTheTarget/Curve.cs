@@ -14,28 +14,28 @@ namespace Minigames.MathTheTarget
         public float TargetRotationSpeed = 10f;
         public float DistanceThreshold = 0.3f;
         public float TargetScale = 1.0f;
-        
+
         private List<Vector2> points;
         private Vector2 targetPosition;
         private int currentPoint;
-        
+
         private List<Vector2> targetPoints;
         private Vector2 targetTargetPosition;
         private int targetCurrentPoint;
-        
+
         private float lastA;
         private MinigameManager gameManager;
         private void Start()
         {
             gameManager = GetComponentInParent<MinigameManager>();
-            
+
             points = newPoints();
             targetPoints = newTargetPoints();
 
             lastA = A;
             targetPosition = points[0];
             targetTargetPosition = targetPoints[0];
-            
+
             ObjectToMove.transform.position = targetPosition;
             Target.transform.position = targetTargetPosition;
 
@@ -68,13 +68,13 @@ namespace Minigames.MathTheTarget
                 Mathf.PI * 2,
                 A);
         }
-        
+
         private List<Vector2> newTargetPoints()
         {
             return Curves.LemniscateOfBernoulli(
-                gameManager.transform.position, 
+                gameManager.transform.position,
                 0.01f,
-                0, 
+                0,
                 Mathf.PI*2,
                 6, 1, 3);
         }
@@ -85,7 +85,7 @@ namespace Minigames.MathTheTarget
             {
                 return;
             }
-            
+
             moveCrosshair();
             moveTarget();
 
@@ -100,13 +100,10 @@ namespace Minigames.MathTheTarget
                 Target.transform.position,
                 targetTargetPosition,
                 TargetMovementSpeed * Time.fixedDeltaTime);
-            
-            Target.transform.Rotate(
-                0,0, TargetRotationSpeed * Time.fixedDeltaTime);
-            
-            if (Vector2.Distance(
-                Target.transform.position,
-                targetTargetPosition) <= DistanceThreshold)
+
+            Target.transform.Rotate(0, 0, TargetRotationSpeed * Time.fixedDeltaTime);
+
+            if (Vector2.Distance(Target.transform.position, targetTargetPosition) <= DistanceThreshold)
             {
                 targetCurrentPoint++;
 
