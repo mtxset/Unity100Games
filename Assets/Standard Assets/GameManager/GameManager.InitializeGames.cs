@@ -222,6 +222,11 @@ namespace GameManager
 										MinigamePrefab = Resources.Load("Ninja") as GameObject,
                     MinigameManagerType = typeof(Minigames.Ninja.MinigameManager)
 								},
+
+								new Minigame { // 36 Eater
+										MinigamePrefab = Resources.Load("Eater") as GameObject,
+                    MinigameManagerType = typeof(Minigames.Eater.MinigameManager)
+								},
             };
 
         }

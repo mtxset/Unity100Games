@@ -12,7 +12,7 @@ namespace GameManager
         /// <returns></returns>
         public static List<Rect> GetViewports(int players)
         {
-            const float third = 0.3333f;
+            const float third = 1.0f / 3.0f;
             var viewports = new List<Rect>();
             switch (players)
             {

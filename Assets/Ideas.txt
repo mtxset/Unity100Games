@@ -1,4 +1,4 @@
 ﻿Add voting upon new game whether to replay or go next;
 Add game explanation before game starts;
 Think about system where players can manimulate settings for game;
-Make difficulty logarithmic or something;
+Make difficulty log or something;

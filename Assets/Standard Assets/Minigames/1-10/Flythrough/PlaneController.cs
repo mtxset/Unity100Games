@@ -12,8 +12,7 @@ namespace Minigames.Flythrough
         public Transform PlaneTransform;
         public float MoveSpeed;
 
-
-        public GameObject ExolosionEffect; 
+        public GameObject ExplosionEffect;
 
         private MinigameManager gameManager;
         private Animator animator;
@@ -58,7 +57,7 @@ namespace Minigames.Flythrough
 
         private void movePlane()
         {
-            
+
             if (HorizontalState == AxisState.Negative)
             {
                 gameManager.SoundMove.Play();
@@ -82,7 +81,7 @@ namespace Minigames.Flythrough
                     targetPosition.y);
             }
         }
-        
+
         private void Update()
         {
             if (gameManager.GameOver) return;
@@ -102,7 +101,7 @@ namespace Minigames.Flythrough
                 lifes.Remove(lastEntry);
 
                 var explosion = Instantiate(
-                    ExolosionEffect, collision.transform.position, Quaternion.identity);
+                    ExplosionEffect, collision.transform.position, Quaternion.identity);
                 Destroy(collision.gameObject);
                 Destroy(explosion, 5.0f);
                 gameManager.SoundExplosion.Play();
