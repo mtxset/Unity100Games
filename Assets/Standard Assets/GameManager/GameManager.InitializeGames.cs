@@ -223,9 +223,10 @@ namespace GameManager
                     MinigameManagerType = typeof(Minigames.Ninja.MinigameManager)
 								},
 
-								new Minigame { // 36 Eater
+								new Minigame { // 36 Ethereum guide
 										MinigamePrefab = Resources.Load("Eater") as GameObject,
-                    MinigameManagerType = typeof(Minigames.Eater.MinigameManager)
+                    MinigameManagerType = typeof(Minigames.Eater.MinigameManager),
+                    Active = false
 								},
             };
 

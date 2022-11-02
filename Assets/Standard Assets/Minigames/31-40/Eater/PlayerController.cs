@@ -8,7 +8,7 @@ namespace Minigames.Eater
 {
   public class PlayerController : BasicControls
   {
-    private const int max_levels = 6;
+    private const int max_levels = 7;
 
     [Range(1, max_levels)]
     public int StartFromLevel = 1;
@@ -24,6 +24,7 @@ namespace Minigames.Eater
     public string[] Commands_Level_4;
     public string[] Commands_Level_5;
     public string[] Commands_Level_6;
+    public string[] Commands_Level_7;
 
     public GameObject StorageHolder;
     public GameObject CalldataHolder;
@@ -37,6 +38,8 @@ namespace Minigames.Eater
     public Text text_desc;
     public Text text_storage;
     public Text text_calldata;
+    public Text text_storage_label;
+    public Text text_memory_label;
 
     private Vector2 acceleration_dd;
     private Vector2 velocity_d;
@@ -60,7 +63,18 @@ namespace Minigames.Eater
 
     private void Start()
     {
-      current_level = this.StartFromLevel;
+      string start_level_key = "StartLevel";
+      if (!PlayerPrefs.HasKey(start_level_key))
+      {
+        PlayerPrefs.SetInt(start_level_key, 0);
+      }
+
+      var value = PlayerPrefs.GetInt(start_level_key);
+      if (value == 0)
+        current_level = this.StartFromLevel;
+      else
+        current_level = value;
+
       gameManager = GetComponentInParent<MinigameManager>();
       audioSource = GetComponent<AudioSource>();
 
@@ -76,17 +90,6 @@ namespace Minigames.Eater
       this.text_main.text = get_next_command();
       this.text_parse_label.text = "";
 
-      if (current_level > 3)
-      {
-        StorageHolder.SetActive(true);
-        CalldataHolder.SetActive(true);
-      }
-      else
-      {
-        StorageHolder.SetActive(false);
-        CalldataHolder.SetActive(false);
-      }
-
       update_stack_output();
 
       parse_functions[1] = level_1_parse;
@@ -94,7 +97,8 @@ namespace Minigames.Eater
       parse_functions[3] = level_3_4_parse;
       parse_functions[4] = level_3_4_parse;
       parse_functions[5] = level_5_parse;
-      parse_functions[6] = level_6_parse;
+      parse_functions[6] = level_6_7_parse;
+      parse_functions[7] = level_6_7_parse;
     }
 
     private string get_next_command()
@@ -126,6 +130,33 @@ namespace Minigames.Eater
         this.calldata.Push(UnityEngine.Random.Range(5, 100));
       }
 
+      if (current_level > 3)
+      {
+        StorageHolder.SetActive(true);
+        CalldataHolder.SetActive(true);
+      }
+      else
+      {
+        StorageHolder.SetActive(false);
+        CalldataHolder.SetActive(false);
+      }
+
+      if (current_level > 6)
+      {
+        this.memory.Clear();
+        this.storage.Clear();
+        this.calldata.Clear();
+        this.calldata.Push(UnityEngine.Random.Range(1, 5));
+
+        this.text_storage_label.text = "STORAGE (Jim's Balance)";
+        this.text_memory_label.text = "MEMORY (Bob's Balance)";
+      }
+      else
+      {
+        this.text_storage_label.text = "STORAGE";
+        this.text_memory_label.text = "MEMORY";
+      }
+
       return commands[command_index++];
     }
 
@@ -139,6 +170,7 @@ namespace Minigames.Eater
         case 4: return Commands_Level_4;
         case 5: return Commands_Level_5;
         case 6: return Commands_Level_6;
+        case 7: return Commands_Level_7;
       }
 
       throw new System.Exception($"{current_level} Level is not implemented");
@@ -159,7 +191,8 @@ namespace Minigames.Eater
         return;
       }
 
-      this.memory.Clear();
+      if (current_level <= 6)
+        this.memory.Clear();
 
       if (this.text_parse.text.Length == 0)
       {
@@ -172,7 +205,6 @@ namespace Minigames.Eater
         parse(text_parse.text, true);
       }
 
-      this.velocity_d += this.velocity_d;
       audioSource.PlayOneShot(this.ParseSounds[UnityEngine.Random.Range(0, this.ParseSounds.Length - 1)]);
     }
 
@@ -200,6 +232,17 @@ namespace Minigames.Eater
           str += $"{c}: {array[i]}\n";
       }
       this.text_memory.text = str;
+
+      str = "";
+      array = storage.ToArray();
+      for (int i = 0, c = array.Length; i < array.Length; i++, c--)
+      {
+        if (current_level >= 5)
+          str += $"{c}: {array[i].ToString("X")} [{array[i]}]\n";
+        else
+          str += $"{c}: {array[i]}\n";
+      }
+      this.text_storage.text = str;
 
       str = "";
       array = calldata.ToArray();
@@ -241,6 +284,8 @@ namespace Minigames.Eater
           this.text_desc.text = "load value from stack";
         else if (label_text.ToLower().Contains("add"))
           this.text_desc.text = "add two last values from stack and pushes back result";
+        else if (label_text.ToLower().Contains("sub"))
+          this.text_desc.text = "subtracts two last values from stack and pushes back result";
         else if (label_text.ToLower().Contains("mul"))
           this.text_desc.text = "multiples two last values from stack and pushes back result";
         else if (label_text.ToLower().Contains("dup"))
@@ -249,6 +294,12 @@ namespace Minigames.Eater
           this.text_desc.text = "read parameters and push to stack";
         else if (label_text.ToLower().Contains("sstore"))
           this.text_desc.text = "pops value from stack and stores in storage";
+        else if (label_text.ToLower().Contains("mstore"))
+          this.text_desc.text = "pops value from stack and stores in memory";
+        else if (label_text.ToLower().Contains("sload"))
+          this.text_desc.text = "reads value from storage and pushes it to stack";
+        else if (label_text.ToLower().Contains("mload"))
+          this.text_desc.text = "reads value from memory and pushes it to stack";
       }
     }
 
@@ -257,7 +308,7 @@ namespace Minigames.Eater
       return buffer.Substring(pos, char_count);
     }
 
-    private void level_6_parse(string[] words, bool operate)
+    private void level_6_7_parse(string[] words, bool operate)
     {
       int pos = 0;
       string buffer = words[0];
@@ -295,11 +346,8 @@ namespace Minigames.Eater
         case "50": // pop
           {
             if (operate)
-            {
-              var stack_val_0 = stack.Pop();
+              stack.Pop();
 
-              memory.Push(stack_val_0);
-            }
             this.text_parse_label.text = $"POP";
           }
           break;
@@ -344,6 +392,20 @@ namespace Minigames.Eater
           }
           break;
 
+        case "03":
+          { // subtract
+            if (operate)
+            {
+              var stack_val_0 = stack.Pop();
+              var stack_val_1 = stack.Pop();
+
+              stack.Push(stack_val_0 - stack_val_1);
+
+            }
+            this.text_parse_label.text = $"SUB";
+          }
+          break;
+
         case "35": // calldataload
           {
             if (operate)
@@ -356,12 +418,49 @@ namespace Minigames.Eater
           }
           break;
 
+        case "51": // mload
+          {
+            if (operate)
+            {
+              var memory_value = memory.Peek();
+
+              stack.Push(memory_value);
+            }
+            this.text_parse_label.text = $"MLOAD";
+          }
+          break;
+
+        case "52": // mstore
+          {
+            if (operate)
+            {
+              var stack_val_0 = stack.Pop();
+
+              memory.Clear();
+              memory.Push(stack_val_0);
+            }
+            this.text_parse_label.text = $"MSTORE";
+          }
+          break;
+
+        case "54": // sload
+          {
+            if (operate)
+            {
+              var storage_value = storage.Peek();
+
+              stack.Push(storage_value);
+            }
+            this.text_parse_label.text = $"SLOAD";
+          }
+          break;
         case "55": // sstore
           {
             if (operate)
             {
               var stack_val_0 = stack.Pop();
 
+              storage.Clear();
               storage.Push(stack_val_0);
             }
             this.text_parse_label.text = $"SSTORE";
@@ -391,6 +490,7 @@ namespace Minigames.Eater
       switch (current_cmd)
       {
         // push
+        case "0a":
         case "0b":
         case "0c":
         case "0d":
@@ -402,7 +502,7 @@ namespace Minigames.Eater
         case "13":
           {
             var converted = Convert.ToInt32(current_cmd, 16);
-            var chars_to_read = converted - 10;
+            var chars_to_read = converted - 10 + 1;
             var args = read_chars(buffer, pos, chars_to_read);
             var converted_args = Convert.ToInt32(args, 16);
             pos += chars_to_read;
@@ -767,7 +867,17 @@ namespace Minigames.Eater
 
               stack.Push(stack_val_0 + stack_val_1);
             }
+          }
+          break;
+        case "mul":
+          {
+            if (operate)
+            {
+              var stack_val_0 = stack.Pop();
+              var stack_val_1 = stack.Pop();
 
+              stack.Push(stack_val_0 * stack_val_1);
+            }
           }
           break;
 
