@@ -2,7 +2,7 @@
 	1. spaceship losses axis
 	2. when game's over no sounds
 	3. FIXED asteroid's collision should be smaller
-	
+
 FIXED/DONE:
 ColorJumper #9:
 	1. FIXED other player coords incorrect
@@ -11,27 +11,28 @@ ColorJumper #9:
 
 Cannonizer #2:
 	1. FIXED Disable sounds for can't shoot
-	
+
 Barreling #3:
 	1. DONE When lost, everything should stop and camera zooms out
 	2. IGNORED show small camera for platform?
-	
+
 InfiniteTunnels #6:
 	1. FIXED Incorrect coords for other players
-	
+
 FallingRocks #7:
 	1. FIXED Incorrect coords for other players
-	
+
 AAReplica #10:
 	1. FIXED Too hard, slow initial speed and increase circle
 	2. FIXED Reset difficulty on loss
-	
+
 general:
 	1. FIXED random games don't work correctly
 	2. IGNORED player should stop moving if game's over
 	3. FIXED add binds to horizontal and vertical for gamepads
 	4. DONE redesign life loss (added to component)
 	5. ONGOING coords problems because are there some spawns out from parent?
-	    5. 1. Update: offsets are incorrect in some cases 
+	    5. 1. Update: offsets are incorrect in some cases
 	6. ONGOING use Update() for reading input FixedUpdate for physics
 	7. issue with aspect ratio when more than 4 players, camera should increase to maintain aspect 16:9
+  8. don't allow to join new players when game started

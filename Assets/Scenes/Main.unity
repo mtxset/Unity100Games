@@ -268,8 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125ff7eb5da10ee43bf8720f750522ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugGame: 3
-  SkipPreparationRoom: 1
+  DebugGame: 30
+  SkipPreparationRoom: 0
   TimerText: {fileID: 9127332511505776612}
   MainText: {fileID: 9127332511417619560}
   InitialPage: {fileID: 9127332511427538447}

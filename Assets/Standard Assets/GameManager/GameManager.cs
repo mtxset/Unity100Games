@@ -66,6 +66,7 @@ namespace GameManager
     private Dictionary<int, Player> playersData;
     private int currentPlayerCount;
     private Queue<Color> colors;
+    private bool gameStarted = false;
 
     // Intermission voting
     private enum VotingStages
@@ -132,11 +133,11 @@ namespace GameManager
     }
 
     // TODO: need to put this somewhere before scene loads
-    private void disable_other_games()
+    private void disableOtherGames()
     {
-      var all_objects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+      var allObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
-      foreach (var obj in all_objects)
+      foreach (var obj in allObjects)
       {
 
         if (obj.name == "GameManager")
@@ -317,7 +318,7 @@ namespace GameManager
         Destroy(playersData[i].CurrentGamePrefab);
       }
 
-      // select intermission game
+      // select intermission
       if (startIntermission)
         selectRandomGame(INTERMISSIONROOM);
       else
@@ -334,39 +335,39 @@ namespace GameManager
     private void setNewGameForEveryPlayer()
     {
       // create new game for each player
-      for (var i = 0; i < currentPlayerCount; i++)
+      for (var playerId = 0; playerId < currentPlayerCount; playerId++)
       {
         var randomGame = createNewMinigame();
-        randomGame.transform.SetParent(playersData[i].PlayersPrefabReference.transform);
-        randomGame.transform.position = playersData[i].PlayersPrefabReference.transform.position;
+        randomGame.transform.SetParent(playersData[playerId].PlayersPrefabReference.transform);
+        randomGame.transform.position = playersData[playerId].PlayersPrefabReference.transform.position;
 
         var comp = randomGame
             .GetComponentInChildren(gameList[CurrentRandomGame].MinigameManagerType);
 
         // check if type already exists
-        if (!playersData[i].InjectionInstance
+        if (!playersData[playerId].InjectionInstance
                 .ContainsKey(gameList[CurrentRandomGame].MinigameManagerType))
         {
-          playersData[i].InjectionInstance
+          playersData[playerId].InjectionInstance
              .Add(gameList[CurrentRandomGame].MinigameManagerType, comp);
         }
 
         // reset game state for each player
 
-        playersData[i].GameStateData.Alive = true;
+        playersData[playerId].GameStateData.Alive = true;
 
-        playersData[i].CurrentGamePrefab = randomGame;
+        playersData[playerId].CurrentGamePrefab = randomGame;
       }
 
       // getting static viewports
       var viewPorts = Viewports.GetViewports(currentPlayerCount);
       // set active new game for each player
-      for (var i = 0; i < currentPlayerCount; i++)
+      for (var playerId = 0; playerId < currentPlayerCount; playerId++)
       {
-        playersData[i].CurrentGamePrefab.SetActive(true);
+        playersData[playerId].CurrentGamePrefab.SetActive(true);
 
         // setting cameras for each player
-        playersData[i].CurrentGamePrefab.GetComponentInChildren<Camera>().rect = viewPorts[i];
+        playersData[playerId].CurrentGamePrefab.GetComponentInChildren<Camera>().rect = viewPorts[playerId];
       }
 
       Intermission = false;
@@ -395,19 +396,18 @@ namespace GameManager
             //     break;
         }
       }
-
     }
 
     // quick select is faster, but our max is MAX_PLAYERS (which is 6 for now)
     private string getMostVoted(string[] votes)
     {
       var voteMap = new Dictionary<string, int>();
-      for (var i = 0; i < votes.Length; i++)
+      for (var voteId = 0; voteId < votes.Length; voteId++)
       {
-        if (!voteMap.ContainsKey(votes[i]))
-          voteMap.Add(votes[i], 1);
+        if (!voteMap.ContainsKey(votes[voteId]))
+          voteMap.Add(votes[voteId], 1);
         else
-          voteMap[votes[i]]++;
+          voteMap[votes[voteId]]++;
       }
 
       // linq magic
