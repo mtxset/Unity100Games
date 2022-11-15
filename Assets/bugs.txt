@@ -36,3 +36,34 @@ general:
 	6. ONGOING use Update() for reading input FixedUpdate for physics
 	7. issue with aspect ratio when more than 4 players, camera should increase to maintain aspect 16:9
   8. don't allow to join new players when game started
+
+11
+  change movement to smooth one add
+  add border
+14
+ add difficulty
+17
+ add difficulty
+18
+ boring
+20
+ boring
+32
+ broken
+23
+ broken
+24
+ game end is not working
+ when somone add block others get random trash at bottom
+25
+ some time limit?
+26
+ not all players see objects (x offset)
+30
+ difficulty
+35
+ broken 2 players (meteors)
+29
+ broken for other players (probably offset)
+
+maybe allow to play after death but disable score

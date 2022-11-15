@@ -5,16 +5,18 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-namespace Minigames.UDPServer {
-	public class UDPServer : MonoBehaviour {
+namespace Minigames.UDPServer
+{
+  public class UDPServer : MonoBehaviour
+  {
+    public int Port = 9050;
 
-		public int Port = 9050;
+    private Socket socket;
+    private EndPoint remoteEndPoint;
 
-		private Socket socket;
-		private EndPoint remoteEndPoint;
-
-		private void Start() {
-			int recv;
+    private void Start()
+    {
+      int recv;
       byte[] data = new byte[1024];
       var ipEndPoint = new IPEndPoint(IPAddress.Any, Port);
 
@@ -34,21 +36,23 @@ namespace Minigames.UDPServer {
       // data = Encoding.ASCII.GetBytes(welcome);
       // socket.SendTo(data, data.Length, SocketFlags.None, remoteEndPoint);
 
-			var recvThread = new Thread(new ThreadStart(receiveUDP));
-			recvThread.IsBackground = true;
-			recvThread.Start();
-		}
+      var recvThread = new Thread(new ThreadStart(receiveUDP));
+      recvThread.IsBackground = true;
+      recvThread.Start();
+    }
 
-		private void receiveUDP() {
-			while (true) {
-				Debug.Log("Waiting for a client...");
-				byte[] data = new byte[1024];
-				int recv = socket.ReceiveFrom(data, ref remoteEndPoint);
+    private void receiveUDP()
+    {
+      while (true)
+      {
+        Debug.Log("Waiting for a client...");
+        byte[] data = new byte[1024];
+        int recv = socket.ReceiveFrom(data, ref remoteEndPoint);
 
-				Debug.Log($"Message received from {remoteEndPoint.ToString()}:");
-				Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-				//socket.SendTo(data, recv, SocketFlags.None, remoteEndPoint);
-			}
-		}
-	}
+        Debug.Log($"Message received from {remoteEndPoint.ToString()}:");
+        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+        //socket.SendTo(data, recv, SocketFlags.None, remoteEndPoint);
+      }
+    }
+  }
 }
